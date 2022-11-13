@@ -8,6 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import MaterialCommunityIcons  from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import AntDesign from 'react-native-vector-icons/AntDesign'
+import WebView from 'react-native-webview';
 // import Swiper from 'react-native-swiper';
 
 import { Text } from 'react-native';
@@ -18,8 +19,8 @@ const HomeScreen = ({navigation}) => {
   const screenHeight = Dimensions.get('window').height;
   return(
     <View style = {styles.background}>
-      <Image  style={{borderWidth:1,width:screenWidth*0.8,height:screenHeight*0.1,marginTop:'10%'}}  source={require('./images/head_icon.png')}></Image>
-      <Input placeholder="请输入股票代码或者公司名称"height={screenHeight*0.08} width={screenWidth*0.9} borderRadius="24" mt={'6'} py="3" px="1" fontSize={screenWidth*0.04} 
+      <Image  style={{borderWidth:1,width:screenWidth*0.8,height:screenHeight*0.1,marginTop:'35%'}}  source={require('./images/head_icon.png')}></Image>
+      <Input placeholder="请输入股票代码或者公司名称"height={screenHeight*0.09} borderWidth={'2'} width={screenWidth*0.95} borderRadius="24"mt={'1/6'} py="3" px="1" fontSize={screenWidth*0.04} 
         InputLeftElement={<Icon m="2" ml="3" size={screenWidth*0.07} color="gray.400" as={<MaterialIcons name="search" />} />}>
       </Input>
       {/* <ScrollView  horizontal={false}>
@@ -35,7 +36,9 @@ const HomeScreen = ({navigation}) => {
       </Swiper>
 
       </ScrollView> */}
-      
+            {/* <View style={{width:screenWidth,height:screenHeight*0.4}}>
+        <WebView style={{}} source={{ uri: 'http://cxlzpblog.cn/' }} />
+      </View> */}
  
     
     </View>

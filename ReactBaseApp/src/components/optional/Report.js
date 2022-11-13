@@ -27,28 +27,7 @@ const Report = ({navigation}) => {
   },[]);
 
 
-function loginwx(){
-//   WeChat.sendAuthRequest('snsapi_userinfo').then((data) => {
-//     console.log('用户微信信息===',data)
-//     // this.getAccessToken(APP_ID, APP_SECRET, data.code,successCallback,errorCallback);
-// }).catch((err) => {
-//     console.log('授权失败', err);
-//     // errorCallback(err)
-// })
 
-
-WeChat.isWXAppInstalled().then((isInstalled)=>{
-  console.warn('isInstalled==',isInstalled)
-  WeChatLogin('wx5a01a8ac8e18289c','6c4d8f624c96c704d16a4c49edef0977',(userInfo)=>{
-      console.log('授权成功',userInfo)
-  },(err)=>{
-      console.log('授权失败',err)
-  })
-}).catch((err)=>{
-  console.log(err)
-})
-
-}
 function wxpay(){
   WeChat.isWXAppInstalled()
   .then((isInstalled) => {
@@ -95,70 +74,6 @@ function wxpay(){
 
 
 
-  function WeChatLogin(APP_ID, APP_SECRET, successCallback, errorCallback) {
-    console.log('APP_ID===',APP_ID)
-    WeChat.sendAuthRequest('snsapi_userinfo').then((data) => {
-        // console.log('用户微信信息===',data)
-    
-      getAccessToken(APP_ID, APP_SECRET, data.code,successCallback,errorCallback);
-    }).catch((err) => {
-        // console.log('授权失败', err);
-        errorCallback(err)
-    })
-  }
-  
-  
-  // 获取 access_token
-  function getAccessToken(APP_ID, APP_SECRET,code,successCallback,errorCallback) {
-    var AccessTokenUrl = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=' + APP_ID + '&secret=' + APP_SECRET + '&code=' + code + '&grant_type=authorization_code';
-    // console.log('AccessTokenUrl=',AccessTokenUrl);
-   WeChatGet(AccessTokenUrl,(datas)=>{
-        
-    getRefreshToken(APP_ID,datas.refresh_token,successCallback,errorCallback);
-    },(err)=>{
-        errorCallback(err)
-    })
-  }
-  
-  
-  // 获取 refresh_token
-  function getRefreshToken(APP_ID,refresh_token,successCallback,errorCallback) {
-    let getRefreshTokenUrl = 'https://api.weixin.qq.com/sns/oauth2/refresh_token?appid=' + APP_ID + '&grant_type=refresh_token&refresh_token=' + refresh_token;
-   WeChatGet(getRefreshTokenUrl,(datas)=>{
-        getUserInfo(datas,successCallback,errorCallback);
-    },(err)=>{
-        errorCallback(err)
-    })
-  }
-  
-  //获取用户信息
-  function getUserInfo(responseData,successCallback,errorCallback){
-    var getUserInfoUrl = 'https://api.weixin.qq.com/sns/userinfo?access_token=' + responseData.access_token + '&openid=' + responseData.openid;
-    WeChatGet(getUserInfoUrl,(datas)=>{
-        successCallback(datas)
-    },(err)=>{
-        errorCallback(err)
-    })
-  }
-  
-  function WeChatGet(url,successCallback,errorCallback){
-    fetch(url, {
-        method: 'GET',
-        timeout: 2000,
-        headers: {
-            'Content-Type': 'application/json; charset=utf-8',
-        },
-    })
-        .then((response) => response.json())
-        .then((responseData) => {
-            successCallback(responseData)
-        })
-        .catch((error) => {
-            if (error) {
-                errorCallback(error)
-            }
-        })
-  }
 
 
 
@@ -180,7 +95,7 @@ function wxpay(){
             </View>
             </CircleProgressView>
         </View>
-        <TouchableOpacity onPress={loginwx} style={{width:screenWidth*0.15,height:screenHeight*0.1,justifyContent:'center',alignItems:'center'}}>
+        <TouchableOpacity onPress={wx} style={{width:screenWidth*0.15,height:screenHeight*0.1,justifyContent:'center',alignItems:'center'}}>
           <Icon  as={<AntDesign name="wechat" />} size={screenWidth*0.07} ml="2" color="#81B337" />
         </TouchableOpacity>
         <TouchableOpacity onPress={download} style={{width:screenWidth*0.15,height:screenHeight*0.1,justifyContent:'center',alignItems:'center'}}>

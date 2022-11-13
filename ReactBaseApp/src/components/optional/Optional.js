@@ -24,33 +24,45 @@ const Optional = ({navigation}) => {
   //分段器选择下标
   const [selectedIndex, setSelectedIndex] = useState(0);
   //总数据
-  const [listData,setListData] = useState(TestData.testdata.optionData);
+  const [listData,setListData] = useState(null);
   //搜索内容
   const [inputText,setInputText] = useState('');
   //用户数据
-  const [user, setuser] = React.useState(null);
+  const [user, setuser] = React.useState( async ()=>{
+      let us = await AsyncStorage.getItem('user_info');
+      // console.log(us)
+      return JSON.parse(us)
+  });
 
-  // //自选列表名称
-  const [listNameData,setListNameData] = useState(null);
   //报告列表名称
-  const [listReportName,setListReportName] = useState(TestData.testdata.optionData[0].report);
+  // const [listReportName,setListReportName] = useState(TestData.testdata.optionData[0].report);
+  const [listReportName,setListReportName] = useState(null);
+
   //指向的报告列表组件
   let _titleList = null;
-
-
+  
   React.useEffect(() => {
-    setSelectedIndex(0);
-    setInputText('');
-    // user == null ? setListData(TestData1.testdata.optionData) : setListData(TestData.testdata.optionData);
-    setListData(TestData.testdata.optionData);
-    setListNameData(TestData.testdata.optionData);
-    // user == null ? setListReportName(TestData1.testdata.optionData[0].report) : setListReportName(TestData.testdata.optionData[0].report);
-    setListReportName(TestData.testdata.optionData[0].report);
-  },[]);
+    const focus=navigation.addListener('focus',()=>{
+      getUser().then(()=>{
+
+      })
+        setSelectedIndex(0);
+        setInputText('');
+        console.log(user)
+      user == null ? setListData(TestData1.testdata.optionData) : setListData(TestData.testdata.optionData);
+      user == null ? setListReportName(TestData1.testdata.optionData[0].report) : setListReportName(TestData.testdata.optionData[0].report);
+
+
+      console.log('刷新')
+    })
+    // setSelectedIndex(0);
+    // setInputText('');
+    // setListData(TestData.testdata.optionData);
+    // setListReportName(TestData.testdata.optionData[0].report);
+  });
 
   async function getUser(){
     try {
-
       let user_info = await AsyncStorage.getItem('user_info');
       setuser(user_info)
     } catch (error) {
@@ -59,6 +71,7 @@ const Optional = ({navigation}) => {
   }
   //按压测试
   function onPressTest(){
+    console.log(user)
     setModalVisible(!modalVisible);
   }
   //同步滚动方法
@@ -217,14 +230,12 @@ const Optional = ({navigation}) => {
     setInputText('');
     setSelectedIndex(0);
     setListData(TestData.testdata.optionData);
-    // setListNameData(TestData.testdata.optionData);
     setListReportName(TestData.testdata.optionData[0].report);
   }
   function select1(){
     setInputText('');
     setSelectedIndex(1);
     setListData(TestData.testdata.optionData1);
-    // setListNameData(TestData.testdata.optionData);
     setListReportName(TestData.testdata.optionData1[0].report);
   }
   function select2(){

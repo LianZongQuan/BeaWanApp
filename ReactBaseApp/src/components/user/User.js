@@ -90,8 +90,11 @@ const User = ({navigation}) => {
               <Image alt='TU'style={{borderRadius:50,width:screenWidth*0.2,height:screenWidth*0.2}} source={require('./images/heard.jpg')} ></Image>
             </Avatar>
           <View onPress={jumpLogin} style={{alignItems:'flex-start'}}>
-            <Text style={{fontSize:screenWidth*0.065,color:"#6C6C6C"}}>{JSON.parse(user).name}</Text>
-            <Text style={{fontSize:screenWidth*0.065,color:"#6C6C6C",marginTop:5}}>{JSON.parse(user).phone}</Text>
+            <Text style={{fontSize:screenWidth*0.065,color:"#6C6C6C"}}>{JSON.parse(user).name == undefined? JSON.parse(user).nickname:JSON.parse(user).name}</Text>
+
+            {/* <Text style={{fontSize:screenWidth*0.065,color:"#6C6C6C",marginTop:5}}>{JSON.parse(user).phone}</Text> */}
+            <Text style={{fontSize:screenWidth*0.065,color:"#6C6C6C",marginTop:5}}>{JSON.parse(user).name == undefined? JSON.parse(user).phone:''}</Text>
+
           </View>
         </HStack>
       )

@@ -21,6 +21,7 @@ import axios from 'axios'
 import qs from 'qs'
 import { Console } from 'console';
 import { set } from 'immer/dist/internal';
+import * as WeChat from 'react-native-wechat-lib';
 const MSGINIT = "发送验证码",
   MSGSCUCCESS = "${time}秒后重发",
   MSGTIME = 60;
@@ -171,13 +172,100 @@ const Login = ({navigation}) => {
       console.log(response.data.user_info);
     })
   }
+
+   function loginwx(){
+    WeChat.registerApp('wx5a01a8ac8e18289c', '').then(res => {
+      console.log("是否已经注册微信：" + res)
+    })
+     WeChat.isWXAppInstalled().then( (isInstalled)=>{
+      WeChatLogin('wx5a01a8ac8e18289c','6c4d8f624c96c704d16a4c49edef0977',(userInfo)=>{
+        let user_info = JSON.stringify(userInfo)
+        AsyncStorage.setItem('user_info',user_info)
+        navigation.navigate('我的')
+        // let us = AsyncStorage.getItem('user_info')
+        // console.log(JSON.parse(user).name)
+      },(err)=>{
+          console.log('授权失败',err)
+      })
+    }).catch((err)=>{
+      console.log(err)
+    })
+  
+  }
+  function WeChatLogin(APP_ID, APP_SECRET, successCallback, errorCallback) {
+    console.log('APP_ID===',APP_ID)
+    WeChat.sendAuthRequest('snsapi_userinfo').then((data) => {
+        // console.log('用户微信信息===',data)
+    
+      getAccessToken(APP_ID, APP_SECRET, data.code,successCallback,errorCallback);
+    }).catch((err) => {
+        // console.log('授权失败', err);
+        errorCallback(err)
+    })
+  }
+  
+  // 获取 access_token
+  function getAccessToken(APP_ID, APP_SECRET,code,successCallback,errorCallback) {
+    var AccessTokenUrl = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=' + APP_ID + '&secret=' + APP_SECRET + '&code=' + code + '&grant_type=authorization_code';
+    // console.log('AccessTokenUrl=',AccessTokenUrl);
+   WeChatGet(AccessTokenUrl,(datas)=>{
+        
+    getRefreshToken(APP_ID,datas.refresh_token,successCallback,errorCallback);
+    },(err)=>{
+        errorCallback(err)
+    })
+  }
+  
+  
+  // 获取 refresh_token
+  function getRefreshToken(APP_ID,refresh_token,successCallback,errorCallback) {
+    let getRefreshTokenUrl = 'https://api.weixin.qq.com/sns/oauth2/refresh_token?appid=' + APP_ID + '&grant_type=refresh_token&refresh_token=' + refresh_token;
+   WeChatGet(getRefreshTokenUrl,(datas)=>{
+        getUserInfo(datas,successCallback,errorCallback);
+    },(err)=>{
+        errorCallback(err)
+    })
+  }
+  
+  //获取用户信息
+  function getUserInfo(responseData,successCallback,errorCallback){
+    var getUserInfoUrl = 'https://api.weixin.qq.com/sns/userinfo?access_token=' + responseData.access_token + '&openid=' + responseData.openid;
+    WeChatGet(getUserInfoUrl,(datas)=>{
+        successCallback(datas)
+    },(err)=>{
+        errorCallback(err)
+    })
+  }
+  
+  function WeChatGet(url,successCallback,errorCallback){
+    fetch(url, {
+        method: 'GET',
+        timeout: 2000,
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+        },
+    })
+        .then((response) => response.json())
+        .then((responseData) => {
+            successCallback(responseData)
+        })
+        .catch((error) => {
+            if (error) {
+                errorCallback(error)
+            }
+        })
+  }
+  
   //跳转到注册页面
   function jumpRegister(){
       navigation.navigate('注册')
     }
   return(
     <Box  style = {styles.container}>
-      <Center mt={"1/6"}>
+      <TouchableOpacity  onPress={jumpRegister} style={{marginTop:15,marginRight:15}}>
+        <Text style={{alignSelf:'flex-end',fontSize:18}}>注册</Text>
+      </TouchableOpacity>
+      <Center style={{marginTop:screenHeight*0.05}}>
         {/* <Image  w={'32'} h={'32'} alt='登录图标' source={require('./images/login_icon.png') }>
         </Image> */}
          <Icon as={<FontAwesome5 name="user-circle" />} size={24}  color="muted.400" />
@@ -210,12 +298,12 @@ const Login = ({navigation}) => {
       <Center style = {{marginTop:"3%"}}>
       
       <Stack  alignItems={'center'} w={'full'} >
-
-          <Button _text={{fontSize:screenWidth*0.055} } onPress={loginMode=='验证码登录'? loginByUsername:loginByCode}  style={{ width:"80%", height:screenWidth*0.15 ,alignItems:'center'}} >
+          <Button _text={{fontSize:screenWidth*0.055} }  onPress={loginMode=='验证码登录'? loginByUsername:loginByCode}  style={{ width:"80%", height:screenWidth*0.15 ,alignItems:'center',borderRadius:30}} >
             登录
           </Button>
-          <Button  _text={{fontSize:screenWidth*0.055} } mt={screenHeight*0.018} variant="outline"  onPress={jumpRegister} style={{ fontSize:'100', width:"80%", height:screenWidth*0.15  ,alignItems:'center'}}>
-            注册
+
+        <Button  _text={{fontSize:screenWidth*0.055} } leftIcon={<Icon  as={<AntDesign name="wechat" />} size={screenWidth*0.07} ml="2" color="#81B337" />} mt={screenHeight*0.018} variant="outline"  onPress={loginwx} style={{ fontSize:'100', width:"80%", height:screenWidth*0.15 ,borderRadius:30 ,alignItems:'center'}}>
+            微信登录
           </Button>
         </Stack>
       </Center>

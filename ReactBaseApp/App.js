@@ -47,10 +47,12 @@ function App() {
           options={{
             header: ({ navigation }) => { },
             title: '',
+            
         }}>
           {() => (
             <Tab.Navigator
               initialRouteName="自选"
+              
               screenOptions={({ route }) => ({
                 tabBarIcon: ({ focused, color, size }) => {
                   let iconName;
