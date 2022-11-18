@@ -116,7 +116,7 @@ const Wallet = ({navigation}) => {
       <Text style={{fontSize:screenWidth*0.04,marginTop:10,marginLeft:20,color:"#6C6C6C",alignSelf:'flex-start'}}>关于碧湾币：</Text>
       <Text style={{fontSize:screenWidth*0.04,marginTop:10,marginLeft:20,color:"#6C6C6C",alignSelf:'flex-start'}}>1.碧湾币可以直接用户购买报告等虚拟服务</Text>
       <Button _text={{fontSize:screenWidth*0.055,color:"black"} } colorScheme='rgba(255, 191, 107, 1)' style={{ borderRadius:30,marginTop:"18%", width:"90%", height:screenHeight*0.08,alignItems:'center'}} >
-        确认充值
+        微信充值
       </Button>
 
 

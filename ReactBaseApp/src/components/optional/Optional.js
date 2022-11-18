@@ -51,8 +51,6 @@ const Optional = ({navigation}) => {
         console.log(user)
       user == null ? setListData(TestData1.testdata.optionData) : setListData(TestData.testdata.optionData);
       user == null ? setListReportName(TestData1.testdata.optionData[0].report) : setListReportName(TestData.testdata.optionData[0].report);
-
-
       console.log('刷新')
     })
     // setSelectedIndex(0);
@@ -60,7 +58,7 @@ const Optional = ({navigation}) => {
     // setListData(TestData.testdata.optionData);
     // setListReportName(TestData.testdata.optionData[0].report);
   });
-
+``
   async function getUser(){
     try {
       let user_info = await AsyncStorage.getItem('user_info');

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Pressable,
+import {Pressable,Modal,
   Link,Text,HStack,Center,Heading,Switch,useColorMode,NativeBaseProvider,VStack,Box,Button,AspectRatio,Image,Stagger,Stack,FormControl,isOpen,Select,CheckIcon,
   children,Actionsheet,WarningOutlineIcon,AlertDialog,Icon,ScrollView,Ionicons,Flex,Radio,Spacer,Input,AddIcon,Divider,Checkbox,sidebarItems,View, Container
 } from 'native-base';
@@ -49,6 +49,15 @@ const Login = ({navigation}) => {
   //验证码时间
   let codetime = MSGTIME;
   let idcode = '';
+  const [modalVisible, setModalVisible] = React.useState(false);
+  const initialRef = React.useRef(null);
+  const finalRef = React.useRef(null);
+
+
+    //按压测试
+    function onPressTest(){
+      setModalVisible(!modalVisible);
+    }
 
   //控制验证码登录组件或是密码登录组件
   function passwordOrCode(){
@@ -88,6 +97,21 @@ const Login = ({navigation}) => {
   function handleSend(){
     if (msgKey) return;
     let url = HttpUtil.localUrl+'admin/app/'+username;
+    let header = {};
+    HttpUtil.get(url,null,header,function(response){
+      if(response.status === 200){
+        setcode(response.data.msg)
+        timeCacl();
+      }
+      console.log(response)
+      
+    })
+  }
+  function sendCode(){
+    if (msgKey) return;
+    let url = HttpUtil.localUrl+'admin/user/getCode?phoneNumber='+mobile;
+
+
     let header = {};
     HttpUtil.get(url,null,header,function(response){
       if(response.status === 200){
@@ -142,7 +166,6 @@ const Login = ({navigation}) => {
       }
     })
   }
-
   //使用账号密码登录
   function loginByUsername(){
     let loginForm = {
@@ -173,23 +196,42 @@ const Login = ({navigation}) => {
     })
   }
 
-   function loginwx(){
+  function loginWx(){
     WeChat.registerApp('wx5a01a8ac8e18289c', '').then(res => {
       console.log("是否已经注册微信：" + res)
     })
-     WeChat.isWXAppInstalled().then( (isInstalled)=>{
-      WeChatLogin('wx5a01a8ac8e18289c','6c4d8f624c96c704d16a4c49edef0977',(userInfo)=>{
-        let user_info = JSON.stringify(userInfo)
-        AsyncStorage.setItem('user_info',user_info)
-        navigation.navigate('我的')
-        // let us = AsyncStorage.getItem('user_info')
-        // console.log(JSON.parse(user).name)
-      },(err)=>{
-          console.log('授权失败',err)
-      })
-    }).catch((err)=>{
-      console.log(err)
+    let username = '123'
+    let url = HttpUtil.localUrl+'admin/user/getByChat?weChatId='+username;
+    let header = {};
+    HttpUtil.get(url,null,header,function(response){
+      if(response.data.code === 0){
+          let user_info = JSON.stringify(response.data.data)
+          AsyncStorage.setItem('user_info',user_info)
+          navigation.navigate('我的')
+      }else if(response.data.code === 1){
+          setModalVisible(true)
+      }else{
+
+      }
+      // console.log(response.data)
+      
     })
+
+    // onPressTest();
+    //  WeChat.isWXAppInstalled().then( (isInstalled)=>{
+    //   WeChatLogin('wx5a01a8ac8e18289c','6c4d8f624c96c704d16a4c49edef0977',(userInfo)=>{
+    //     // let user_info = JSON.stringify(userInfo)
+    //     // AsyncStorage.setItem('user_info',user_info)
+    //     // navigation.navigate('我的')
+
+    //     // let us = AsyncStorage.getItem('user_info')
+    //     // console.log(JSON.parse(user).name)
+    //   },(err)=>{
+    //       console.log('授权失败',err)
+    //   })
+    // }).catch((err)=>{
+    //   console.log(err)
+    // })
   
   }
   function WeChatLogin(APP_ID, APP_SECRET, successCallback, errorCallback) {
@@ -216,7 +258,6 @@ const Login = ({navigation}) => {
     })
   }
   
-  
   // 获取 refresh_token
   function getRefreshToken(APP_ID,refresh_token,successCallback,errorCallback) {
     let getRefreshTokenUrl = 'https://api.weixin.qq.com/sns/oauth2/refresh_token?appid=' + APP_ID + '&grant_type=refresh_token&refresh_token=' + refresh_token;
@@ -226,7 +267,6 @@ const Login = ({navigation}) => {
         errorCallback(err)
     })
   }
-  
   //获取用户信息
   function getUserInfo(responseData,successCallback,errorCallback){
     var getUserInfoUrl = 'https://api.weixin.qq.com/sns/userinfo?access_token=' + responseData.access_token + '&openid=' + responseData.openid;
@@ -262,6 +302,44 @@ const Login = ({navigation}) => {
     }
   return(
     <Box  style = {styles.container}>
+      <Modal size={'lg'} style={{alignItems:'center',alignSelf:'center'}} isOpen={modalVisible} onClose={() => setModalVisible(false)} initialFocusRef={initialRef} finalFocusRef={finalRef}>
+        <Modal.Content>
+          <Modal.Body>
+            <View alignItems={'center'} mt={'2'}>
+              <Text style={{fontSize:screenWidth*0.035}}>请绑定手机号</Text>
+            </View>
+            <View  mt={'6'}>
+              <Input  
+              style={{width:'100%'}}
+              fontSize = {screenWidth*0.03}
+              onChangeText={(mobile)=>setmobile(mobile)} 
+              variant='rounded' placeholder={'手机号'}>
+              </Input>
+            </View>
+            <HStack width={'full'} mt={'6'} >
+              <View width={'1/2'}>
+                <Input  
+                style={{width:'100%'}}
+                fontSize = {screenWidth*0.03}
+                onChangeText={(code)=>setcode(code)} 
+                variant='rounded' placeholder={'验证码'}>
+                </Input>
+              </View>
+              <View width={'1/3'} marginLeft={'4'} >
+                {/* <Button>发送验证码</Button> */}
+                <Button disabled={msgKey}  onPress={handleSend}>
+            { msgText }
+          </Button>
+              </View>
+            </HStack>
+            <Button mt={'6'} colorScheme="blueGray">确认 </Button>
+
+            <Button mt={'6'} colorScheme="blueGray" onPress={() => {
+              setModalVisible(false)}}>取消 </Button>
+
+          </Modal.Body>
+        </Modal.Content>
+      </Modal>
       <TouchableOpacity  onPress={jumpRegister} style={{marginTop:15,marginRight:15}}>
         <Text style={{alignSelf:'flex-end',fontSize:18}}>注册</Text>
       </TouchableOpacity>
@@ -302,7 +380,7 @@ const Login = ({navigation}) => {
             登录
           </Button>
 
-        <Button  _text={{fontSize:screenWidth*0.055} } leftIcon={<Icon  as={<AntDesign name="wechat" />} size={screenWidth*0.07} ml="2" color="#81B337" />} mt={screenHeight*0.018} variant="outline"  onPress={loginwx} style={{ fontSize:'100', width:"80%", height:screenWidth*0.15 ,borderRadius:30 ,alignItems:'center'}}>
+        <Button  _text={{fontSize:screenWidth*0.055} } onPress={loginWx} leftIcon={<Icon  as={<AntDesign name="wechat" />} size={screenWidth*0.07} ml="2" color="#81B337" />} mt={screenHeight*0.018} variant="outline"   style={{ fontSize:'100', width:"80%", height:screenWidth*0.15 ,borderRadius:30 ,alignItems:'center'}}>
             微信登录
           </Button>
         </Stack>
