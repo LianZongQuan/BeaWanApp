@@ -11,7 +11,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign'
 
 import { Text } from 'react-native';
 import { err } from 'react-native-svg/lib/typescript/xml';
-// import HttpUtil from '../../utils/http';
+import HttpUtil from '../../../utils/http';
 import User from '../User.json';
 import { set } from 'immer/dist/internal';
 import { useRoute } from '@react-navigation/native';
@@ -36,6 +36,10 @@ const UserInfo = ({route, navigation}) => {
     navigation.navigate('修改密码');
   }
   async function signOut(){
+    let header = {};
+    let url = HttpUtil.localUrl + 'company/user/logout'
+    HttpUtil.get(url,null,header,function(response){})
+
     try {
       await AsyncStorage.removeItem('user_info');
     } catch (error) {

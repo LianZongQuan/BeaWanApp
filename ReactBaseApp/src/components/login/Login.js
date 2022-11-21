@@ -6,6 +6,8 @@ import {Pressable,Modal,
 import MaterialCommunityIcons  from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
+import Feather from 'react-native-vector-icons/Feather'
+
 
 import { StyleSheet, TouchableOpacity,Dimensions } from 'react-native';
 
@@ -52,8 +54,6 @@ const Login = ({navigation}) => {
   const [modalVisible, setModalVisible] = React.useState(false);
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
-
-
     //按压测试
     function onPressTest(){
       setModalVisible(!modalVisible);
@@ -65,9 +65,9 @@ const Login = ({navigation}) => {
       return(
         <Input 
           type={show ? "text" : "password"}
-          InputLeftElement={
-            <Icon as={<AntDesign name="lock" />} size={screenWidth*0.07} ml="2" color="muted.400" />
-          }
+          // InputLeftElement={
+          //   <Icon as={<AntDesign name="lock" />} size={screenWidth*0.07} ml="2" marginRight={'2'} color="muted.400" />
+          // }
           InputRightElement={<Pressable onPress={() => setShow(!show)}>
             <Icon as={<MaterialIcons name={show ? "visibility" : "visibility-off"} />} size={screenWidth*0.07} mr="2" color="muted.400" /></Pressable>
           }
@@ -86,7 +86,7 @@ const Login = ({navigation}) => {
             
             variant="underlined" placeholder=" 验证码" >
           </Input>           
-          <Button disabled={msgKey}  onPress={handleSend} w={screenWidth*0.33} size={screenWidth*0.12}>
+          <Button disabled={msgKey}  onPress={sendCode} w={screenWidth*0.33} size={screenWidth*0.12}>
             { msgText }
           </Button>
         </HStack>
@@ -94,35 +94,40 @@ const Login = ({navigation}) => {
     }
   }
   //发送验证码
-  function handleSend(){
-    if (msgKey) return;
-    let url = HttpUtil.localUrl+'admin/app/'+username;
-    let header = {};
-    HttpUtil.get(url,null,header,function(response){
-      if(response.status === 200){
-        setcode(response.data.msg)
-        timeCacl();
-      }
-      console.log(response)
-      
-    })
-  }
   function sendCode(){
     if (msgKey) return;
-    let url = HttpUtil.localUrl+'admin/user/getCode?phoneNumber='+mobile;
-
-
+    let url = HttpUtil.localUrl+'company/user/getCode?phoneNumber='+mobile;
     let header = {};
     HttpUtil.get(url,null,header,function(response){
-      if(response.status === 200){
-        setcode(response.data.msg)
+      if(response.data.code === 0){
+        setcode(response.data.data)
         timeCacl();
       }
-      console.log(response)
-      
+      console.log(response.data)
+    })
+  }
+  function bindMobile(){
+    let url = HttpUtil.localUrl+'company/user/weChatRegister';
+    let loginForm = {
+      weChatId: '111',
+      nickName: 'lian',
+      phoneNumber:'13423323334'
+    } 
+    var data = loginForm;
+    // var data = qs.stringify(loginForm);
+    let header = {"Content-Type": "application/json;"};
+    HttpUtil.post(url,data,header,async function(response){
+      console.log(response.data)
+      // if(response.status === 200){
+      //   let user_info = JSON.stringify(response.data.user_info)
+      //   await AsyncStorage.setItem('user_info',user_info)
+      //   navigation.navigate('我的')
+      // }
+      // console.log(response.data.user_info);
     })
   }
 
+  //验证码计时器
   function timeCacl() {
     // 计时避免重复发送
     setmsgText(MSGSCUCCESS.replace("${time}", codetime));
@@ -150,58 +155,47 @@ const Login = ({navigation}) => {
   }
   //使用验证码登录
   function loginByCode(){
-    let basicAuth = 'Basic ' + Buffer.from('app:app').toString('Base64');
-    let url = HttpUtil.localUrl+'auth/oauth2/token?grant_type=app&scope=server&mobile='+username+'&code='+code;
-    let header = {'Authorization':basicAuth};
-    data = null;
-    console.log('验证码登录')
-    // console.log('basic='+basicAuth+'url='+url)
-    // console.log(code);
-    HttpUtil.post(url,data,header,async function(response){
-      console.log(response)
-      if(response.status === 200){
-        let user_info = JSON.stringify(response.data.user_info)
-        await AsyncStorage.setItem('user_info',user_info)
-        navigation.navigate('Home')
-      }
-    })
+    let url = HttpUtil.localUrl+'company/user/loginByCode?phoneNumber='+mobile+'&'+'code='+code;
+    let header = {};
+    // let url = HttpUtil.localUrl + 'company/user/logout';
+    console.log(url)
+    HttpUtil.get(url,null,header,function(response){
+      if(response.data.code === 0){
+          let user_info = JSON.stringify(response.data.data)
+          AsyncStorage.setItem('user_info',user_info)
+          navigation.navigate('我的')
+      }else if(response.data.code === 1){
+          setModalVisible(true)
+      }else{
+
+      }})
   }
-  //使用账号密码登录
-  function loginByUsername(){
-    let loginForm = {
-      username: username,
-      password: password,
-    } 
-    const user = encryption({
-      data: loginForm,
-      key: 'thanks,pig4cloud',
-      param: ['password']
-    })
-    var qs = require('qs');
-    var data = qs.stringify({
-      'username': user.username,
-      'password': user.password 
-    });
-    let url = HttpUtil.localUrl+'auth/oauth2/token?grant_type=password&scope=server';
-    let header = {'Authorization':'Basic dGVzdDp0ZXN0'};
-    console.log(data);
-    HttpUtil.post(url,data,header,async function(response){
-      console.log(response)
-      if(response.status === 200){
-        let user_info = JSON.stringify(response.data.user_info)
-        await AsyncStorage.setItem('user_info',user_info)
-        navigation.navigate('我的')
-      }
-      console.log(response.data.user_info);
-    })
+  //使用手机号密码登录
+  function loginByPhone(){
+    let url = HttpUtil.localUrl+'company/user/loginByPassword?phoneNumber='+mobile+'&'+'password='+password;
+
+    let header = {};
+    console.log(url)
+    HttpUtil.get(url,null,header,function(response){
+      if(response.data.code === 0){
+          let user_info = JSON.stringify(response.data.data)
+          AsyncStorage.setItem('user_info',user_info)
+          navigation.navigate('我的')
+      }else if(response.data.code === 1){
+          setModalVisible(true)
+      }else{
+
+      }})
+    
   }
 
   function loginWx(){
     WeChat.registerApp('wx5a01a8ac8e18289c', '').then(res => {
       console.log("是否已经注册微信：" + res)
     })
-    let username = '123'
-    let url = HttpUtil.localUrl+'admin/user/getByChat?weChatId='+username;
+    let username = '13'
+
+    let url = HttpUtil.localUrl+'company/user/getByChat?weChatId='+username;
     let header = {};
     HttpUtil.get(url,null,header,function(response){
       if(response.data.code === 0){
@@ -216,23 +210,6 @@ const Login = ({navigation}) => {
       // console.log(response.data)
       
     })
-
-    // onPressTest();
-    //  WeChat.isWXAppInstalled().then( (isInstalled)=>{
-    //   WeChatLogin('wx5a01a8ac8e18289c','6c4d8f624c96c704d16a4c49edef0977',(userInfo)=>{
-    //     // let user_info = JSON.stringify(userInfo)
-    //     // AsyncStorage.setItem('user_info',user_info)
-    //     // navigation.navigate('我的')
-
-    //     // let us = AsyncStorage.getItem('user_info')
-    //     // console.log(JSON.parse(user).name)
-    //   },(err)=>{
-    //       console.log('授权失败',err)
-    //   })
-    // }).catch((err)=>{
-    //   console.log(err)
-    // })
-  
   }
   function WeChatLogin(APP_ID, APP_SECRET, successCallback, errorCallback) {
     console.log('APP_ID===',APP_ID)
@@ -245,7 +222,6 @@ const Login = ({navigation}) => {
         errorCallback(err)
     })
   }
-  
   // 获取 access_token
   function getAccessToken(APP_ID, APP_SECRET,code,successCallback,errorCallback) {
     var AccessTokenUrl = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=' + APP_ID + '&secret=' + APP_SECRET + '&code=' + code + '&grant_type=authorization_code';
@@ -257,7 +233,6 @@ const Login = ({navigation}) => {
         errorCallback(err)
     })
   }
-  
   // 获取 refresh_token
   function getRefreshToken(APP_ID,refresh_token,successCallback,errorCallback) {
     let getRefreshTokenUrl = 'https://api.weixin.qq.com/sns/oauth2/refresh_token?appid=' + APP_ID + '&grant_type=refresh_token&refresh_token=' + refresh_token;
@@ -276,7 +251,6 @@ const Login = ({navigation}) => {
         errorCallback(err)
     })
   }
-  
   function WeChatGet(url,successCallback,errorCallback){
     fetch(url, {
         method: 'GET',
@@ -310,33 +284,30 @@ const Login = ({navigation}) => {
             </View>
             <View  mt={'6'}>
               <Input  
-              style={{width:'100%'}}
-              fontSize = {screenWidth*0.03}
-              onChangeText={(mobile)=>setmobile(mobile)} 
-              variant='rounded' placeholder={'手机号'}>
+                style={{width:'100%'}}
+                fontSize = {screenWidth*0.03}
+                onChangeText={(mobile)=>setmobile(mobile)} 
+                variant='rounded' placeholder={'手机号'}>
               </Input>
             </View>
             <HStack width={'full'} mt={'6'} >
               <View width={'1/2'}>
                 <Input  
-                style={{width:'100%'}}
-                fontSize = {screenWidth*0.03}
-                onChangeText={(code)=>setcode(code)} 
-                variant='rounded' placeholder={'验证码'}>
+                  style={{width:'100%'}}
+                  fontSize = {screenWidth*0.03}
+                  onChangeText={(code)=>setcode(code)} 
+                  variant='rounded' placeholder={'验证码'}>
                 </Input>
               </View>
               <View width={'1/3'} marginLeft={'4'} >
-                {/* <Button>发送验证码</Button> */}
-                <Button disabled={msgKey}  onPress={handleSend}>
-            { msgText }
-          </Button>
+                <Button disabled={msgKey}  onPress={sendCode}>
+                  { msgText }
+                </Button>
               </View>
             </HStack>
-            <Button mt={'6'} colorScheme="blueGray">确认 </Button>
-
+            <Button mt={'6'} onPress={bindMobile} colorScheme="blueGray">确认 </Button>
             <Button mt={'6'} colorScheme="blueGray" onPress={() => {
               setModalVisible(false)}}>取消 </Button>
-
           </Modal.Body>
         </Modal.Content>
       </Modal>
@@ -352,12 +323,12 @@ const Login = ({navigation}) => {
       <Center style = {{marginTop:"10%"}} >
         <Stack space={4} w="90%" maxW="450px" mx="auto">
           <Input  
-            InputLeftElement={
-              <Icon as={<MaterialIcons name="person" />} size={screenWidth*0.07} ml="2" color="muted.400" />
-            }
+            // InputLeftElement={
+            //   <Icon as={<Feather name="phone" />} size={screenWidth*0.07} ml="2" marginRight={'2'} color="muted.400" />
+            // }
             fontSize = {screenWidth*0.055}
-            onChangeText={(userName)=>setusername(userName)} 
-            variant="underlined" placeholder={passwordLogin?'账号':'手机号'}>
+            onChangeText={(mobile)=>setmobile(mobile)} 
+            variant="underlined" placeholder={'手机号'}>
           </Input>
           {passwordOrCode()}
           <Box alignSelf="flex-end">
@@ -376,7 +347,7 @@ const Login = ({navigation}) => {
       <Center style = {{marginTop:"3%"}}>
       
       <Stack  alignItems={'center'} w={'full'} >
-          <Button _text={{fontSize:screenWidth*0.055} }  onPress={loginMode=='验证码登录'? loginByUsername:loginByCode}  style={{ width:"80%", height:screenWidth*0.15 ,alignItems:'center',borderRadius:30}} >
+          <Button _text={{fontSize:screenWidth*0.055} }  onPress={loginMode=='验证码登录'? loginByPhone:loginByCode}  style={{ width:"80%", height:screenWidth*0.15 ,alignItems:'center',borderRadius:30}} >
             登录
           </Button>
 
@@ -396,3 +367,69 @@ const styles = StyleSheet.create({
   }
 })
 export default Login;
+
+//附录
+  //使用账号密码登录
+  /*function loginByUsername(){
+    let loginForm = {
+      username: username,
+      password: password,
+    } 
+    const user = encryption({
+      data: loginForm,
+      key: 'thanks,pig4cloud',
+      param: ['password']
+    })
+    var qs = require('qs');
+    var data = qs.stringify({
+      'username': user.username,
+      'password': user.password 
+    });
+    let url = HttpUtil.localUrl+'auth/oauth2/token?grant_type=password&scope=server';
+    let header = {'Authorization':'Basic dGVzdDp0ZXN0'};
+    console.log(data);
+    HttpUtil.post(url,data,header,async function(response){
+      console.log(response)
+      if(response.status === 200){
+        let user_info = JSON.stringify(response.data.user_info)
+        await AsyncStorage.setItem('user_info',user_info)
+        navigation.navigate('我的')
+      }
+      console.log(response.data.user_info);
+    })
+  }*/
+
+  /*
+    使用验证码登录
+  let basicAuth = 'Basic ' + Buffer.from('app:app').toString('Base64');
+  let url = HttpUtil.localUrl+'auth/oauth2/token?grant_type=app&scope=server&mobile='+username+'&code='+code;
+  let header = {'Authorization':basicAuth};
+  data = null;
+  console.log('验证码登录')
+  // console.log('basic='+basicAuth+'url='+url)
+  // console.log(code);
+  HttpUtil.post(url,data,header,async function(response){
+    console.log(response)
+    if(response.status === 200){
+      let user_info = JSON.stringify(response.data.user_info)
+      await AsyncStorage.setItem('user_info',user_info)
+      navigation.navigate('Home')
+    }
+  })
+  */
+ /*
+   //发送验证码
+  function handleSend(){
+    if (msgKey) return;
+    let url = HttpUtil.localUrl+'admin/app/'+username;
+    let header = {};
+    HttpUtil.get(url,null,header,function(response){
+      if(response.status === 200){
+        setcode(response.data.msg)
+        timeCacl();
+      }
+      console.log(response)
+      
+    })
+  }
+  */

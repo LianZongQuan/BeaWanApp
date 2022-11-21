@@ -8,21 +8,25 @@
         "code":"300059",
         "report":[
           {
+            "timeId":1,
             "id":"123",
             "time":"2023一季报",
             "score":75        
           },
           {
+            "timeId":1,
             "id":"124",
             "time":"2022年报",
             "score":86        
           },
           {
+            "timeId":1,
             "id":"125",
             "time":"2022三季报",
             "score":75        
           },
           {
+            "timeId":1,
             "id":"126",
             "time":"2022中报",
             "score":75        

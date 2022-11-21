@@ -42,11 +42,14 @@ const User = ({navigation}) => {
     }
   }
   function jumpWallet(){
-    if(user === null){
-      loginAlter();
-    }else{
+    // if(user === null){
+    //   loginAlter();
+    // }else{
+    //   navigation.navigate('钱包');
+
       navigation.navigate('钱包');
-    }
+
+    // }
   }
   function jumpOrderInfo(){
     if(user === null){
@@ -151,6 +154,9 @@ const User = ({navigation}) => {
             <Icon style ={{marginRight:20}} as={<AntDesign name="right" />} size={screenWidth*0.07} ml="2" color="muted.400" />
           </HStack>     
         </TouchableOpacity>
+        <View style={{marginTop:20,alignItems:'center'}}>
+          <Text>sdsd</Text>
+        </View>
       </View>
     </View>
   ) 

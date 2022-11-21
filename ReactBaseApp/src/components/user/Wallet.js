@@ -115,9 +115,22 @@ const Wallet = ({navigation}) => {
       </HStack>
       <Text style={{fontSize:screenWidth*0.04,marginTop:10,marginLeft:20,color:"#6C6C6C",alignSelf:'flex-start'}}>关于碧湾币：</Text>
       <Text style={{fontSize:screenWidth*0.04,marginTop:10,marginLeft:20,color:"#6C6C6C",alignSelf:'flex-start'}}>1.碧湾币可以直接用户购买报告等虚拟服务</Text>
-      <Button _text={{fontSize:screenWidth*0.055,color:"black"} } colorScheme='rgba(255, 191, 107, 1)' style={{ borderRadius:30,marginTop:"18%", width:"90%", height:screenHeight*0.08,alignItems:'center'}} >
+      <TouchableOpacity  style={{ backgroundColor:'rgba(255, 191, 107, 1)', borderRadius:30,marginTop:"18%", width:"90%", justifyContent:'center', height:screenHeight*0.08,alignItems:'center'}}>
+        <HStack>
+          <View>
+            <Image alt='weixin' source={require('./images/wechatPay.png')}></Image>
+          </View>
+          <View>
+            <Text style={{fontSize:screenWidth*0.055,color:"black"}}>
+              微信支付
+            </Text>
+          </View>
+        </HStack>
+      </TouchableOpacity>
+      
+      {/* <Button  colorScheme='rgba(255, 191, 107, 1)' style={{ borderRadius:30,marginTop:"18%", width:"90%", height:screenHeight*0.08,alignItems:'center'}} >
         微信充值
-      </Button>
+      </Button> */}
 
 
     </View>
