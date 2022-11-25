@@ -1,11 +1,11 @@
 import React, { Component,useEffect, useState } from 'react';
 import {
    Avatar,HStack,Center,Box,Button,Image
-  ,Icon,Flex,Input,View, Container,Divider, Modal,FormControl
+  ,Icon,Flex,Input,View, Container,Divider, Modal,FormControl,useToast,Alert,VStack,IconButton,CloseIcon
 } from 'native-base';
-import { ScrollView, StyleSheet, TouchableOpacity,Dimensions,FlatList ,Alert,Text,useColorScheme,Pressable} from 'react-native';
+import { ScrollView, StyleSheet, TouchableOpacity,Dimensions,FlatList ,Text,useColorScheme,Pressable} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import  {DeviceEventEmitter} from 'react-native';
 import MaterialCommunityIcons  from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import AntDesign from 'react-native-vector-icons/AntDesign'
@@ -13,66 +13,78 @@ import WebView from "react-native-webview";
 
 import CircleProgressView from '../../utils/CircleProgressView';
 import HttpUtil from '../../utils/http';
-import TestData from './TestData.json'
-import TestData1 from './TestData1.json'
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
+
 const Optional = ({navigation}) => {
 
 
   //分段器选择下标
   const [selectedIndex, setSelectedIndex] = useState(0);
-  //总数据
-  const [listData,setListData] = useState(null);
   //搜索内容
   const [inputText,setInputText] = useState('');
+  //删除自选的股票代码
+  const [deleteCode,setdeleteCode] = useState('');
+  //自选数据
+  const [data,setdata] = useState(null);
   //用户数据
-  const [user, setuser] = React.useState( async ()=>{
-      let us = await AsyncStorage.getItem('user_info');
-      // console.log(us)
-      return JSON.parse(us)
-  });
-
-  //报告列表名称
-  // const [listReportName,setListReportName] = useState(TestData.testdata.optionData[0].report);
+  const [user,setuser] = useState(null);
+  //报告名称数据
   const [listReportName,setListReportName] = useState(null);
-
   //指向的报告列表组件
   let _titleList = null;
+  const toast = useToast();
+  const [modalVisible, setModalVisible] = React.useState(false);
+  const initialRef = React.useRef(null);
+  const finalRef = React.useRef(null);
   
+
   React.useEffect(() => {
     const focus=navigation.addListener('focus',()=>{
-      getUser().then(()=>{
+      setSelectedIndex(0);
+      setInputText('');
+      setListReportName([{"time": "2021年报"}, { "time": "2021三季报"}, { "time": "2021中报"}, { "time": "2021一季报"}]);
+      getData();
+    }) 
+  },[navigation]);
 
+  async function getData(){
+    let url = HttpUtil.localUrl+'company/company/selfCom'
+    let user = await AsyncStorage.getItem('user_info');
+    if(user === null){
+      setdata(null)
+    }else{
+      console.log(user)
+      setuser(user);
+      let header = {'token':JSON.parse(user).tokenValue};
+      HttpUtil.get(url,null,header,function(response){
+        setdata(response.data.data)
       })
-        setSelectedIndex(0);
-        setInputText('');
-        console.log(user)
-      user == null ? setListData(TestData1.testdata.optionData) : setListData(TestData.testdata.optionData);
-      user == null ? setListReportName(TestData1.testdata.optionData[0].report) : setListReportName(TestData.testdata.optionData[0].report);
-      console.log('刷新')
-    })
-    // setSelectedIndex(0);
-    // setInputText('');
-    // setListData(TestData.testdata.optionData);
-    // setListReportName(TestData.testdata.optionData[0].report);
-  });
-``
-  async function getUser(){
-    try {
-      let user_info = await AsyncStorage.getItem('user_info');
-      setuser(user_info)
-    } catch (error) {
-      console.log(error)
     }
   }
-  //按压测试
-  function onPressTest(){
-    console.log(user)
-    setModalVisible(!modalVisible);
+  function select0(){
+    setInputText('');
+    setSelectedIndex(0);
+    setListReportName([{"time": "2021年报"}, { "time": "2021三季报"}, { "time": "2021中报"}, { "time": "2021一季报"}]);
   }
-  //同步滚动方法
+  function select1(){
+    setInputText('');
+    setSelectedIndex(1);
+    setListReportName([{"time": "2021年报"}, { "time": "2020年报"}, { "time": "2019年报"}, { "time": "2018年报"}]);
+    // getData();
+  }
+  function select2(){
+    setInputText('');
+    setSelectedIndex(2);
+    setListReportName([{"time": "2021中报"}, { "time": "2020中报"}, { "time": "2019中报"}, { "time": "2018中报"}]);
+  }
+  function select3(){
+    setInputText('');
+    setSelectedIndex(3);
+    setListReportName([{"time": "2021三季报"}, { "time": "2021一季报"}, { "time": "2020三季报"}, { "time": "2020一季报"}]);
+  }
+    //同步滚动方法
   const ListScroll = (e) => {
     const x1 = e.nativeEvent.contentOffset.x;
     if (Platform.OS === 'ios') {
@@ -84,12 +96,114 @@ const Optional = ({navigation}) => {
     
     }
   };
+
+  //自定义提示
+  function  customAlter(id,status,title){
+    toast.show({
+      id:1,
+      render: () => {
+        return <Alert w={screenWidth*0.6} borderRadius={'lg'} variant={'subtle'} status={status} mt={screenHeight*0.2}>
+            <VStack space={2} flexShrink={1} w="100%">
+              <HStack flexShrink={1} space={2} justifyContent="space-between">
+                <HStack space={2} flexShrink={1}>
+                  <Alert.Icon size={screenWidth*0.05} mt="1" />
+                  <Text style={{color:"black",  fontSize:screenWidth*0.045}} >
+                     请登录后操作
+                  </Text>
+                </HStack>
+                <IconButton onPress={() => toast.close(1)} variant="unstyled" _focus={{
+              borderWidth: 0
+            }} icon={<CloseIcon   size={screenWidth*0.03}  />} _icon={{
+              color: "coolGray.600"
+            }} />
+              </HStack>
+            </VStack>
+          </Alert>;
+      },
+      placement: "top"
+    })
+  }
   //跳转到添加自选页面
   function jumpAddOptional(){
-    navigation.navigate('添加自选');
+    let status = "warning";
+    let title = "Selection successfully moved!";
+    let id = 1; 
+    if(user === null){
+      customAlter(id,status,title);
+    }else{
+      navigation.navigate('添加自选');
+    }
   }
   function jumpReport(){
     navigation.navigate('报告');
+  }
+  //处理数据，使获得的自选数据与表头相互对应
+  function dealData(namelist,reportlist){
+    let list = [];
+    let ret = '';
+    let i=0;let j=0;
+    for (i = 0; i < namelist.length; i++) {
+      for(j = 0;j<reportlist.length;j++){
+          ret = reportlist[j].year + reportlist[j].stage
+          if(namelist[i].time === ret){
+            list.push(reportlist[j])
+            // console.log(reportlist[j])
+          }
+      }
+    }
+    return list;
+    
+  }
+  //删除自选
+  async function deleteOption(){
+
+    let url = HttpUtil.localUrl+'company/company/deleteSelfCom?comCode='+deleteCode;
+    console.log(url)
+    let user = await AsyncStorage.getItem('user_info');
+    let header = {'token':JSON.parse(user).tokenValue};
+    HttpUtil.get(url,null,header,function(response){
+        console.log(response.data);
+        setModalVisible(false)
+        getData();
+    })
+
+
+  }
+  //搜索自选
+  function search(text){
+    setInputText(text)
+    let list = data;
+    if(text===''){
+      getData();
+    }else{
+      let isNumber = !isNaN(parseFloat(text)) && isFinite(text);
+
+
+      let ret =  isNumber == true ? QueryCode(list,text):QueryName(list,text)
+      if(ret != null){
+        setdata(ret);
+      }
+    }
+  }
+  function QueryName(list, keyWord) {
+    var reg =  new RegExp(keyWord);
+    var arr = [];
+    for (var i = 0; i < list.length; i++) {
+      if (reg.test(list[i].comName)) {
+        arr.push(list[i]);
+      }
+    }
+    return arr;
+  }
+  function QueryCode(list, keyWord) {
+    var reg =  new RegExp(keyWord);
+    var arr = [];
+    for (var i = 0; i < list.length; i++) {
+      if (reg.test(list[i].code)) {
+        arr.push(list[i]);
+      }
+    }
+    return arr;
   }
   const head = () =>{
     return(
@@ -107,7 +221,7 @@ const Optional = ({navigation}) => {
           _titleList = ref;
         }}
         renderItem={renderHeadItem}
-        keyExtractor={item => item.id}
+        // keyExtractor={item => item.id}
         data={listReportName}
         horizontal={true}>
       </FlatList>
@@ -131,7 +245,11 @@ const Optional = ({navigation}) => {
     if(type === 'SH')
       typeColor = '#F4CE98'
     return(
-      <TouchableOpacity onLongPress={onPressTest} style={{marginLeft:10,height:screenHeight*0.09,borderBottomWidth:0.5,borderColor:"#BEBEBE"}}>
+      <TouchableOpacity onLongPress={()=>{
+    setModalVisible(!modalVisible);
+    console.log(code)
+    setdeleteCode(code);
+      }} style={{marginLeft:10,height:screenHeight*0.09,borderBottomWidth:0.5,borderColor:"#BEBEBE"}}>
         <Text style={{fontSize:screenWidth*0.05,marginTop:10}}>{name}</Text>
         <HStack>
           <Text  style={{fontSize:screenWidth*0.035,backgroundColor:typeColor,color:"#ffffff"}}>{type}</Text>
@@ -141,9 +259,10 @@ const Optional = ({navigation}) => {
     )
   }
   const renderNameItem = ({item}) =>(
-    <NameItem name={item.name} type={item.type} code={item.code}></NameItem>
+    <NameItem name={item.comName} type={item.type} code={item.comCode}></NameItem>
   );
-  const MainItem = ({report}) =>{
+  const MainItem = ({report}) =>{   
+    report = dealData(listReportName,report)
     return(
       <View  >
         <HStack>
@@ -162,7 +281,7 @@ const Optional = ({navigation}) => {
               {/* 环形图分数组件 */}
               {/* <CircleProgressView raduis={screenHeight*0.035} progressBaseColor={'#BEBEBE'} progressColor = {circleColor} baseProgressWidth={4} progressWidth={4} progress={item.score} >
                 <View style={{alignItems:'center',justifyContent:'center'}} >
-                  <Text style={{fontSize:18}}>
+                  <Text style={{fontSize:18}}>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
                     {item.score}
                   </Text>
                 </View>
@@ -179,7 +298,7 @@ const Optional = ({navigation}) => {
   }
   const renderMainItem = ({item}) =>{
     return(
-      <MainItem report = {item.report} ></MainItem>  
+      <MainItem report = {item.comReports} ></MainItem>  
     )
   }
   const HeadItem = ({id,time}) =>{
@@ -197,11 +316,11 @@ const Optional = ({navigation}) => {
     return(
       <HStack>
         <View style={{width:'25%',height:'100%'}}>
-          <FlatList  
+          <FlatList
             listKey='100'
             renderItem={renderNameItem}
-            keyExtractor={item => item.id}
-            data={listData}>
+            keyExtractor={item => item.comId}
+            data={data}>
           </FlatList>
         </View>
         <ScrollView 
@@ -214,8 +333,8 @@ const Optional = ({navigation}) => {
           onScroll={ListScroll}>
           <FlatList style={{width:'100%',height:'100%'}}
             renderItem={renderMainItem}
-            keyExtractor={item => item.id}
-            data={listData}>
+            // keyExtractor={item => item.id}
+            data={data}>
           </FlatList>
         </ScrollView>
       </HStack>
@@ -224,77 +343,19 @@ const Optional = ({navigation}) => {
   const renderContainer = ({item}) =>(
     <Container ></Container>
   );
-  function select0(){
-    setInputText('');
-    setSelectedIndex(0);
-    setListData(TestData.testdata.optionData);
-    setListReportName(TestData.testdata.optionData[0].report);
-  }
-  function select1(){
-    setInputText('');
-    setSelectedIndex(1);
-    setListData(TestData.testdata.optionData1);
-    setListReportName(TestData.testdata.optionData1[0].report);
-  }
-  function select2(){
-    setSelectedIndex(2);
-  }
-  function select3(){
-    setSelectedIndex(3);
-  }
-  function search(text){
-    setInputText(text)
-    // let list = TestData.testdata.optionData;
-    let list = selectedIndex == 0 ? TestData.testdata.optionData : TestData.testdata.optionData1;
-    if(text===''){
-      setListData(list);
-    }else{
-      let isNumber = !isNaN(parseFloat(text)) && isFinite(text);
-
-
-      let ret =  isNumber == true ? QueryCode(list,text):QueryName(list,text)
-      if(ret != null){
-        setListData(ret);
-      }
-    }
-  }
-  function QueryName(list, keyWord) {
-    var reg =  new RegExp(keyWord);
-    var arr = [];
-    for (var i = 0; i < list.length; i++) {
-      if (reg.test(list[i].name)) {
-        arr.push(list[i]);
-      }
-    }
-    return arr;
-  }
-  function QueryCode(list, keyWord) {
-    var reg =  new RegExp(keyWord);
-    var arr = [];
-    for (var i = 0; i < list.length; i++) {
-      if (reg.test(list[i].code)) {
-        arr.push(list[i]);
-      }
-    }
-    return arr;
-  }
-  const [modalVisible, setModalVisible] = React.useState(false);
-  const initialRef = React.useRef(null);
-  const finalRef = React.useRef(null);
 
   return(
     <View style={{ flex: 1,backgroundColor:"#f5f5f5", alignItems:'center' }}>
       <Modal style={{alignItems:'center', width:screenWidth*0.5,alignSelf:'center'}} isOpen={modalVisible} onClose={() => setModalVisible(false)} initialFocusRef={initialRef} finalFocusRef={finalRef}>
         <Modal.Content>
           <Modal.Body>
-            <Button variant='ghost' colorScheme="blueGray">删除 </Button>
+            <Button onPress={deleteOption} variant='ghost' colorScheme="blueGray">删除 </Button>
             <Button variant="ghost" colorScheme="blueGray" onPress={() => {
               setModalVisible(false)}}>取消 </Button>
 
           </Modal.Body>
         </Modal.Content>
-      </Modal>
-      {/* <Text style={{marginLeft:20, marginTop:10, fontSize:screenWidth*0.06,alignSelf:'flex-start'}}>自选</Text> */}
+      </Modal>            
       <Input value={inputText} onChangeText={(text)=>search(text)} placeholder="检索"height={screenHeight*0.07} bg={"#ffffff"} width={screenWidth*0.9} borderRadius="24" mt={screenHeight*0.03} py="3" px="1" fontSize={screenWidth*0.04} 
         InputLeftElement={<Icon m="2" ml="3" size={screenWidth*0.07} color="gray.400" as={<MaterialIcons name="search" />} />}>
       </Input>

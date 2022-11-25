@@ -11,7 +11,6 @@ import AntDesign from 'react-native-vector-icons/AntDesign'
 
 import { Text } from 'react-native';
 import HttpUtil from '../../utils/http';
-
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 const User = ({navigation}) => {
@@ -19,11 +18,13 @@ const User = ({navigation}) => {
   //用户数据
   const [user, setuser] = React.useState(null);
   
+  
+  let listener = null
    React.useEffect(() => {
     const focus=navigation.addListener('focus',()=>{
       getUser();
     })
-  });
+  },[navigation]);
   //未登录提示
   function loginAlter(){
     Alert.alert(
@@ -42,14 +43,11 @@ const User = ({navigation}) => {
     }
   }
   function jumpWallet(){
-    // if(user === null){
-    //   loginAlter();
-    // }else{
-    //   navigation.navigate('钱包');
-
+    if(user === null){
+      loginAlter();
+    }else{
       navigation.navigate('钱包');
-
-    // }
+    }
   }
   function jumpOrderInfo(){
     if(user === null){

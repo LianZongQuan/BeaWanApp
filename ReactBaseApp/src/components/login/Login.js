@@ -42,8 +42,14 @@ const Login = ({navigation}) => {
   const [password,setpassword] = React.useState(''); 
   //手机号
   const [mobile,setmobile] = React.useState(''); 
+  //输入的验证码
+  const [inputCode,setinputCode] = React.useState('');
   //验证码
   const [code,setcode] = React.useState(''); 
+  //微信唯一id
+  const [weChatId,setweChatId] = React.useState('');
+  //微信昵称
+  const [nickName,setnickName] = React.useState('');
   //发送验证码按钮文本
   const [msgText,setmsgText] = React.useState(MSGINIT); 
   //验证码是否发送
@@ -108,23 +114,26 @@ const Login = ({navigation}) => {
   }
   function bindMobile(){
     let url = HttpUtil.localUrl+'company/user/weChatRegister';
-    let loginForm = {
-      weChatId: '111',
-      nickName: 'lian',
-      phoneNumber:'13423323334'
+    let data = {
+      weChatId: weChatId,
+      nickName: nickName,
+      phoneNumber:mobile
     } 
-    var data = loginForm;
-    // var data = qs.stringify(loginForm);
     let header = {"Content-Type": "application/json;"};
-    HttpUtil.post(url,data,header,async function(response){
-      console.log(response.data)
-      // if(response.status === 200){
-      //   let user_info = JSON.stringify(response.data.user_info)
-      //   await AsyncStorage.setItem('user_info',user_info)
-      //   navigation.navigate('我的')
-      // }
-      // console.log(response.data.user_info);
-    })
+    if(code === inputCode){
+      HttpUtil.post(url,data,header,function(response){
+        if(response.data.code === 0){
+          let user_info = JSON.stringify(response.data.data)
+          AsyncStorage.setItem('user_info',user_info)
+          navigation.navigate('我的')
+      }else{
+          console.log(response.data)
+      }})
+
+    }else{
+      console.log(code);
+      console.log(inputCode);
+    }
   }
 
   //验证码计时器
@@ -180,6 +189,8 @@ const Login = ({navigation}) => {
       if(response.data.code === 0){
           let user_info = JSON.stringify(response.data.data)
           AsyncStorage.setItem('user_info',user_info)
+          // AsyncStorage.setItem('token',response.data.data.token)
+          // console.log(response.data.data)
           navigation.navigate('我的')
       }else if(response.data.code === 1){
           setModalVisible(true)
@@ -193,29 +204,39 @@ const Login = ({navigation}) => {
     WeChat.registerApp('wx5a01a8ac8e18289c', '').then(res => {
       console.log("是否已经注册微信：" + res)
     })
-    let username = '13'
+    // WeChat.isWXAppInstalled().then( (isInstalled)=>{
+    //   WeChatLogin('wx5a01a8ac8e18289c','6c4d8f624c96c704d16a4c49edef0977',(userInfo)=>{
+    //     setweChatId(userInfo.unionid)
+    //     setnickName(userInfo.nickname)
+    //     let header = {};
+    //     let url = HttpUtil.localUrl+'company/user/getByChat?weChatId='+userInfo.unionid;
+    //     console.log(url)
+    //     HttpUtil.get(url,null,header,function(response){
+    //       if(response.data.code === 0){
+    //         let user_info = JSON.stringify(response.data.data)
+    //         AsyncStorage.setItem('user_info',user_info)
+    //         navigation.navigate('我的')
+    //       }else if(response.data.code === 1){
+    //         setModalVisible(true)
+    //       }else{
 
-    let url = HttpUtil.localUrl+'company/user/getByChat?weChatId='+username;
-    let header = {};
-    HttpUtil.get(url,null,header,function(response){
-      if(response.data.code === 0){
-          let user_info = JSON.stringify(response.data.data)
-          AsyncStorage.setItem('user_info',user_info)
-          navigation.navigate('我的')
-      }else if(response.data.code === 1){
-          setModalVisible(true)
-      }else{
-
-      }
-      // console.log(response.data)
-      
-    })
+    //       }
+    //     })
+    //   },(err)=>{
+    //       console.log('授权失败',err)
+    //   })
+    // }).catch((err)=>{
+    //   console.log(err)
+    // })
+        setweChatId('123')
+        setnickName('lian')
+    setModalVisible(true)
+    
   }
   function WeChatLogin(APP_ID, APP_SECRET, successCallback, errorCallback) {
     console.log('APP_ID===',APP_ID)
     WeChat.sendAuthRequest('snsapi_userinfo').then((data) => {
-        // console.log('用户微信信息===',data)
-    
+        // console.log('用户微信信息===',data) 
       getAccessToken(APP_ID, APP_SECRET, data.code,successCallback,errorCallback);
     }).catch((err) => {
         // console.log('授权失败', err);
@@ -295,7 +316,7 @@ const Login = ({navigation}) => {
                 <Input  
                   style={{width:'100%'}}
                   fontSize = {screenWidth*0.03}
-                  onChangeText={(code)=>setcode(code)} 
+                  onChangeText={(inputCode)=>setinputCode(inputCode)} 
                   variant='rounded' placeholder={'验证码'}>
                 </Input>
               </View>

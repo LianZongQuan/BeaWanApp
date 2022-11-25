@@ -10,32 +10,66 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 
 import { Text } from 'react-native';
-// import HttpUtil from '../../utils/http';
+import HttpUtil from '../../utils/http';
 import Data from './NameData.json'
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 const AddOptional = ({navigation}) => {
     //搜索内容
   const [inputText,setInputText] = React.useState('');
-  //公司列表数据
-  const [listData,setListData] = React.useState(Data.companyList);
+  //搜索列表数据
+  const [listData,setListData] = React.useState(null);
+
+  //添加股票代码
+  const[addCode,setaddCode] = React.useState('');
+  //全部列表数据
+  const [data,setdata] = React.useState(null);
+  React.useEffect(() => {
+    let url = HttpUtil.localUrl+'company/company/comList'
+    let header = {};
+    HttpUtil.get(url,null,header,function(response){
+      setdata(response.data) 
+      // console.log(response.data[10].comName) 
+    })
+
+  },[]);
+
+
+
   function jumpOptional(){
     navigation.navigate('自选');
   }
-  const NameItem = ({name}) =>{
+  async function addOption(addCode){
+    let url = HttpUtil.localUrl+'company/company/addSelfCom?comCode='+addCode;
+    console.log(url)
+    let user = await AsyncStorage.getItem('user_info');
+    let header = {'token':JSON.parse(user).tokenValue};
+    HttpUtil.get(url,null,header,function(response){
+      setInputText('');
+
+    })
+  }
+
+
+
+  const NameItem = ({name,code}) =>{
     return(
       <HStack style={{width:screenWidth*0.9,borderBottomWidth:1,borderColor:"#BEBEBE", height:screenHeight*0.07}}>
         <View style={{width:'80%',justifyContent:'center',}}>
-        <Text style={{fontSize:16}}>{name}</Text>
+        <Text style={{fontSize:16}}>{name+code}</Text>
         </View>
-        <View style={{justifyContent:'center',width:'20%'}}>
-        <Icon style ={{marginRight:20 }} color={'#F4CE98'}  as={<MaterialIcons name="add-circle-outline" />} size={screenWidth*0.085} ml="2" />
-        </View>
+        <TouchableOpacity onPress={()=>{
+          addOption(code);
+        }} style={{justifyContent:'center',width:'20%'}}>
+          <Icon style ={{marginRight:20 }} color={'#F4CE98'}  as={<MaterialIcons name="add-circle-outline" />} size={screenWidth*0.085} ml="2" />
+        </TouchableOpacity>
       </HStack>
     )
   }
   const renderNameItem = ({item}) =>(
-    <NameItem name={item.name} ></NameItem>
+
+ 
+    <NameItem name={item.comName} code = {item.comCode} ></NameItem>
   );
   const noSearch =() =>{
     if(inputText == ''){
@@ -97,7 +131,7 @@ const AddOptional = ({navigation}) => {
   }
   function search(text){
     setInputText(text)
-    let list = Data.companyList;
+    let list = data;
     if(text===''){
       setListData(list);
     }else{
@@ -106,6 +140,7 @@ const AddOptional = ({navigation}) => {
       let ret =  isNumber == true ? QueryCode(list,text):QueryName(list,text)
       if(ret != null){
         setListData(ret);
+        console.log(listData)
       }
     }
   }
@@ -114,7 +149,7 @@ const AddOptional = ({navigation}) => {
     var reg =  new RegExp(keyWord);
     var arr = [];
     for (var i = 0; i < list.length; i++) {
-      if (reg.test(list[i].name)) {
+      if (reg.test(list[i].comName)) {
         arr.push(list[i]);
       }
     }
@@ -124,7 +159,7 @@ const AddOptional = ({navigation}) => {
     var reg =  new RegExp(keyWord);
     var arr = [];
     for (var i = 0; i < list.length; i++) {
-      if (reg.test(list[i].code)) {
+      if (reg.test(list[i].comCode)) {
         arr.push(list[i]);
       }
     }

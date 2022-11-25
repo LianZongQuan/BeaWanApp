@@ -34,9 +34,14 @@ import FeedBack from './src/components/user/FeedBack'
 const Tab = createBottomTabNavigator();
 import {createRef} from 'react';
 
+
+
+
 function App() {
   const screenWidth = Dimensions.get('window').width;
   const screenHeight = Dimensions.get('window').height;
+
+
 
   return (
     // <Provider store={store} >
@@ -54,6 +59,8 @@ function App() {
               initialRouteName="自选"
               
               screenOptions={({ route }) => ({
+              
+
                 tabBarIcon: ({ focused, color, size }) => {
                   let iconName;
                   size = screenWidth*0.07;
