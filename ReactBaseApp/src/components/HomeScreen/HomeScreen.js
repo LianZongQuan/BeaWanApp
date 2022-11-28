@@ -20,27 +20,47 @@ const HomeScreen = ({navigation}) => {
 
   return(
     <View style = {styles.background}>
-      <Image  style={{borderWidth:1,width:screenWidth*0.8,height:screenHeight*0.1,marginTop:'35%'}}  source={require('./images/head_icon.png')}></Image>
-      <Input placeholder="请输入股票代码或者公司名称"height={screenHeight*0.09} borderWidth={'2'} width={screenWidth*0.95} borderRadius="24"mt={'1/6'} py="3" px="1" fontSize={screenWidth*0.04} 
+      <Image  style={{borderWidth:1,width:screenWidth*0.7,height:screenHeight*0.07,marginTop:'30%'}}  source={require('./images/BeaWanIcon.png')}></Image>
+      <Input placeholderTextColor={'#707070'} placeholder="请输入股票代码或者公司名称"height={screenHeight*0.08} backgroundColor={'#cdcdcd'} borderWidth={'0'} mt={'6'} width={screenWidth*0.95} borderRadius="24" py="3" px="1" fontSize={screenWidth*0.04} 
         InputLeftElement={<Icon m="2" ml="3" size={screenWidth*0.07} color="gray.400" as={<MaterialIcons name="search" />} />}>
       </Input>
-      {/* <ScrollView  horizontal={false}>
-      <Swiper style={styles.wrapper}
-       showsButtons={true}
-       width={screenWidth*0.94}
-       height={screenHeight*0.4}
-       showsButtons={false}>
-        <Image  style={{width:screenWidth*0.94,height:screenHeight*0.4}}  source={require('./images/image1.png')}></Image>
-        <Image  style={{width:screenWidth*0.94,height:screenHeight*0.4}}  source={require('./images/image1.png')}></Image>
-        <Image  style={{width:screenWidth*0.94,height:screenHeight*0.4}}  source={require('./images/image1.png')}></Image>
+      <View style={{marginTop:screenHeight*0.02}}>
+          <View style={{alignSelf:'flex-start',marginLeft:12}}> 
+          <Text style={{fontSize:screenWidth*0.045}}>热门搜索</Text>
+        </View>
+        <HStack mt={'3'} style={{width:'100%',justifyContent:'space-evenly'}}>
+          <TouchableOpacity style={{borderWidth:1,borderRadius:14,borderColor:"#BBBBBB",width:screenWidth*0.25,height:screenHeight*0.05,alignItems:'center',justifyContent:'center'}}>
+            <Text style={{fontSize:screenWidth*0.04}}>东方财富</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={{borderWidth:1,borderRadius:14,borderColor:"#BBBBBB",width:screenWidth*0.25,height:screenHeight*0.05,alignItems:'center',justifyContent:'center'}}>
+            <Text style={{fontSize:screenWidth*0.04}}>阿里巴巴</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={{borderWidth:1,borderRadius:14,borderColor:"#BBBBBB",width:screenWidth*0.25,height:screenHeight*0.05,alignItems:'center',justifyContent:'center'}}>
+            <Text style={{fontSize:screenWidth*0.04}}>比亚迪</Text>
+          </TouchableOpacity>
+        </HStack>
+        <HStack mt={'6'} style={{width:'100%',justifyContent:'space-evenly'}}>
+          <TouchableOpacity style={{borderWidth:1,borderRadius:14,borderColor:"#BBBBBB",width:screenWidth*0.25,height:screenHeight*0.05,alignItems:'center',justifyContent:'center'}}>
+            <Text style={{fontSize:screenWidth*0.04}}>腾讯</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={{borderWidth:1,borderRadius:14,borderColor:"#BBBBBB",width:screenWidth*0.25,height:screenHeight*0.05,alignItems:'center',justifyContent:'center'}}>
+            <Text style={{fontSize:screenWidth*0.04}}>超华科技</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={{borderWidth:1,borderRadius:14,borderColor:"#BBBBBB",width:screenWidth*0.25,height:screenHeight*0.05,alignItems:'center',justifyContent:'center'}}>
+            <Text style={{fontSize:screenWidth*0.04}}>招商银行</Text>
+          </TouchableOpacity>
+        </HStack>
+        <HStack mt={'6'} style={{width:'100%',justifyContent:'space-evenly'}}>
+          <TouchableOpacity style={{borderWidth:1,borderRadius:14,borderColor:"#BBBBBB",width:screenWidth*0.25,height:screenHeight*0.05,alignItems:'center',justifyContent:'center'}}>
+            <Text style={{fontSize:screenWidth*0.04}}>山东华鹏</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={{borderWidth:1,borderRadius:14,borderColor:"#BBBBBB",width:screenWidth*0.25,height:screenHeight*0.05,alignItems:'center',justifyContent:'center'}}>
+            <Text style={{fontSize:screenWidth*0.04}}>中触媒</Text>
+          </TouchableOpacity>
 
-      </Swiper>
-
-      </ScrollView> */}
-            {/* <View style={{width:screenWidth,height:screenHeight*0.4}}>
-        <WebView style={{}} source={{ uri: 'http://cxlzpblog.cn/' }} />
-      </View> */}
- 
+        </HStack>
+  
+        </View>
     
     </View>
   ) 
@@ -86,7 +106,7 @@ const styles = StyleSheet.create({
   background:{
     alignItems:'center',
     flex:1,
-    backgroundColor:"#f5f5f5"
+    // backgroundColor:"#f5f5f5"
 
   },
   content:{
@@ -101,7 +121,7 @@ const styles = StyleSheet.create({
     height:70,
     width:"100%",
     borderBottomWidth:1,
-    borderColor:"#f5f5f5"
+    // borderColor:"#f5f5f5"
   }
   
 })

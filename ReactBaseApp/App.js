@@ -23,6 +23,7 @@ import UserInfo from './src/components/user/userInfo/UserInfo'
     import ModifyPassword from './src/components/user/userInfo/ModifyPassword';
     import ModifyPhone from './src/components/user/userInfo/ModifyPhone';
 import Optional from './src/components/optional/Optional'
+import OptionalInfo  from './src/components/optional/OptionalInfo';
 import AddOptional from './src/components/optional/AddOptional';
 import Report from './src/components/optional/Report';
 
@@ -30,6 +31,7 @@ import AboutApp from './src/components/user/AboutApp';
 import Wallet from './src/components/user/Wallet'
 import OrderInfo from './src/components/user/OrderInfo'
 import FeedBack from './src/components/user/FeedBack'
+import PrivacyPolicy from './src/components/user/PrivacyPolicy';
   const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 import {createRef} from 'react';
@@ -112,9 +114,13 @@ function App() {
         <Stack.Screen name="钱包" component={Wallet} options={{headerTitleAlign:'center'}}/>
         <Stack.Screen name="订单信息" component={OrderInfo} options={{headerTitleAlign:'center'}}/>
         <Stack.Screen name="意见反馈" component={FeedBack} options={{headerTitleAlign:'center'}}/>
-        
+        <Stack.Screen name="收银台" component={PrivacyPolicy} options={{headerTitleAlign:'center'}}/>
+
+
         <Stack.Screen name="关于" component={AboutApp} options={{headerTitleAlign:'center'}}/>
         <Stack.Screen name="添加自选" component={AddOptional} options={{headerTitleAlign:'center'}}/>
+
+        <Stack.Screen name="自选详情" component={OptionalInfo} options={{headerTitleAlign:'center'}}/>
         <Stack.Screen name="报告" component={Report} options={{headerShadowVisible:'false'}}/>
         <Stack.Screen name="登录" component={Login} options={{headerTitleAlign:'center'}}/>
         <Stack.Screen name="注册" component={Register} options={{headerTitleAlign:'center'}} />

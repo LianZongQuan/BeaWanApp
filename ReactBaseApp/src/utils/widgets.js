@@ -5,6 +5,32 @@ import {
 } from 'native-base';
 
 
+  export const customAlter =(id,status,title) =>{
+    toast.show({
+      id:1,
+      render: () => {
+        return <Alert w={screenWidth*0.6} borderRadius={'lg'} variant={'subtle'} status={status} mt={screenHeight*0.2}>
+            <VStack space={2} flexShrink={1} w="100%">
+              <HStack flexShrink={1} space={2} justifyContent="space-between">
+                <HStack space={2} flexShrink={1}>
+                  <Alert.Icon size={screenWidth*0.05} mt="1" />
+                  <Text style={{color:"black",  fontSize:screenWidth*0.045}} >
+                     请登录后操作
+                  </Text>
+                </HStack>
+                <IconButton onPress={() => toast.close(1)} variant="unstyled" _focus={{
+              borderWidth: 0
+            }} icon={<CloseIcon   size={screenWidth*0.03}  />} _icon={{
+              color: "coolGray.600"
+            }} />
+              </HStack>
+            </VStack>
+          </Alert>;
+      },
+      placement: "top"
+    })
+  }
+
 
 
 // const Widgets = () =>{

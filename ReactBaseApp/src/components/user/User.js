@@ -17,8 +17,6 @@ const User = ({navigation}) => {
 
   //用户数据
   const [user, setuser] = React.useState(null);
-  
-  
   let listener = null
    React.useEffect(() => {
     const focus=navigation.addListener('focus',()=>{
@@ -61,6 +59,9 @@ const User = ({navigation}) => {
   }
   function jumpAboutApp(){
     navigation.navigate('关于');
+  }
+  function jumpPrivacyPolicy(){
+    navigation.navigate('收银台');
   }
   async function getUser(){
     try {
@@ -138,7 +139,7 @@ const User = ({navigation}) => {
             <Icon style ={{marginRight:20}} as={<AntDesign name="right" />} size={screenWidth*0.07} ml="2" color="muted.400" />
           </HStack>     
         </TouchableOpacity>
-        <TouchableOpacity style={styles.list}>
+        <TouchableOpacity style={styles.list} onPress={jumpPrivacyPolicy}>
           <HStack style = {{marginLeft:"3%"}}>
             <Icon as={<MaterialCommunityIcons name="eye-off-outline" />} size={screenWidth*0.07} ml="2" color="#377F7F" />
             <Text style = {styles.listText}>隐私政策</Text>

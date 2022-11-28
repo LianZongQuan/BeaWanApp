@@ -55,13 +55,13 @@ const AddOptional = ({navigation}) => {
   const NameItem = ({name,code}) =>{
     return(
       <HStack style={{width:screenWidth*0.9,borderBottomWidth:1,borderColor:"#BEBEBE", height:screenHeight*0.07}}>
-        <View style={{width:'80%',justifyContent:'center',}}>
+        <View style={{width:'85%',justifyContent:'center',}}>
         <Text style={{fontSize:16}}>{name+code}</Text>
         </View>
         <TouchableOpacity onPress={()=>{
           addOption(code);
-        }} style={{justifyContent:'center',width:'20%'}}>
-          <Icon style ={{marginRight:20 }} color={'#F4CE98'}  as={<MaterialIcons name="add-circle-outline" />} size={screenWidth*0.085} ml="2" />
+        }} style={{justifyContent:'center',width:'15%',alignItems:'center'}}>
+          <Icon  color={'#F4CE98'}  as={<MaterialIcons name="add-circle-outline" />} size={screenWidth*0.085} ml="2" />
         </TouchableOpacity>
       </HStack>
     )

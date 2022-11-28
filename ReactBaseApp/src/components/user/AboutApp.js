@@ -50,8 +50,8 @@ const AboutApp = ({navigation}) => {
           </HStack>     
         </TouchableOpacity>
         <View style={{marginTop:40,alignItems:'center'}}>
-          <Text style={{fontSize:16}}>杭州碧湾信息   版权所有</Text>
-          <Text style={{fontSize:16}}>Copyright@2021-2022 BeaWan. All Rights Reserved</Text>
+          <Text style={{fontSize:screenWidth*0.045}}>杭州碧湾信息技术有限公司   版权所有</Text>
+          <Text style={{fontSize:screenWidth*0.03}}>Copyright@2016-2022 BeaWan. All Rights Reserved</Text>
         </View>
       </View>
     </View>

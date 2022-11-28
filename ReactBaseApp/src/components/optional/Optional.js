@@ -124,10 +124,12 @@ const Optional = ({navigation}) => {
     })
   }
   //跳转到添加自选页面
-  function jumpAddOptional(){
+  async function jumpAddOptional(){
+    let user = await AsyncStorage.getItem('user_info');
     let status = "warning";
     let title = "Selection successfully moved!";
     let id = 1; 
+    console.log(user)
     if(user === null){
       customAlter(id,status,title);
     }else{
@@ -261,10 +263,13 @@ const Optional = ({navigation}) => {
   const renderNameItem = ({item}) =>(
     <NameItem name={item.comName} type={item.type} code={item.comCode}></NameItem>
   );
-  const MainItem = ({report}) =>{   
+  const MainItem = ({report,name}) =>{   
+    let list = report;
     report = dealData(listReportName,report)
     return(
-      <View  >
+      <TouchableOpacity onPress={()=>{
+        navigation.navigate('自选详情',{list:list,name:name});
+      }} >
         <HStack>
           {report.map((item, index) => {
             let circleColor = '';
@@ -277,7 +282,7 @@ const Optional = ({navigation}) => {
               circleColor = '#E87777';
             }
             return (
-              <Pressable key={index} delayLongPress={90}  onLongPress={jumpReport} style={{width:screenWidth*0.245,height:screenHeight*0.09,borderBottomWidth:0.5,justifyContent:'center',alignItems:'center',borderColor:"#BEBEBE"}}>
+              <View key={index}  style={{width:screenWidth*0.245,height:screenHeight*0.09,borderBottomWidth:0.5,justifyContent:'center',alignItems:'center',borderColor:"#BEBEBE"}}>
               {/* 环形图分数组件 */}
               {/* <CircleProgressView raduis={screenHeight*0.035} progressBaseColor={'#BEBEBE'} progressColor = {circleColor} baseProgressWidth={4} progressWidth={4} progress={item.score} >
                 <View style={{alignItems:'center',justifyContent:'center'}} >
@@ -289,16 +294,16 @@ const Optional = ({navigation}) => {
                 <Text style={{fontSize:22,color:circleColor}}>
                   {item.score}
                 </Text>
-              </Pressable>
+              </View>
             )})
           }
         </HStack>
-      </View>
+      </TouchableOpacity>
     )
   }
   const renderMainItem = ({item}) =>{
     return(
-      <MainItem report = {item.comReports} ></MainItem>  
+      <MainItem report = {item.comReports} name={item.comName} ></MainItem>  
     )
   }
   const HeadItem = ({id,time}) =>{
