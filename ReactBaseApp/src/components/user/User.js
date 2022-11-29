@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import {
    Avatar,HStack,Center,Box,Button,Image
-  ,Icon,Flex,Input,View, Container,
+  ,Icon,Flex,Input,View, Container,Alert,VStack,IconButton,CloseIcon,useToast
 } from 'native-base';
-import { StyleSheet, TouchableOpacity,Dimensions,Alert} from 'react-native';
+import { StyleSheet, TouchableOpacity,Dimensions} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import MaterialCommunityIcons  from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
@@ -17,6 +17,7 @@ const User = ({navigation}) => {
 
   //用户数据
   const [user, setuser] = React.useState(null);
+  const toast = useToast();
   let listener = null
    React.useEffect(() => {
     const focus=navigation.addListener('focus',()=>{
@@ -29,27 +30,62 @@ const User = ({navigation}) => {
       "请登录后操作",
     );
   }
+  //自定义提示
+  function  customAlter(id,status,title){
+    toast.show({
+      id:1,
+      render: () => {
+        return <Alert w={screenWidth*0.6} borderRadius={'lg'} h={screenHeight*0.08} variant={'subtle'} status={status} mt={screenHeight*0.2}>
+            <VStack space={2} flexShrink={1} w="100%">
+              <HStack flexShrink={1} space={2} justifyContent="space-between">
+                <HStack space={2} flexShrink={1}>
+                  <Alert.Icon size={screenWidth*0.06} mt="1" />
+                  <Text style={{color:"black",  fontSize:screenWidth*0.05}} >
+                     请登录后操作
+                  </Text>
+                </HStack>
+                <IconButton onPress={() => toast.close(1)} variant="unstyled" _focus={{
+              borderWidth: 0
+            }} icon={<CloseIcon   size={screenWidth*0.04}  />} _icon={{
+              color: "coolGray.600"
+            }} />
+              </HStack>
+            </VStack>
+          </Alert>;
+      },
+      placement: "top"
+    })
+  }
   
   function jumpLogin(){
     navigation.navigate('登录');
   }
   function jumpUserInfo(){
+    let status = "warning";
+    let title = "请登录后操作！";
+    let id = 1; 
     if(user === null){
-      loginAlter();
+      customAlter(id,status,title);
     }else{
       navigation.navigate('个人信息',{name:JSON.parse(user).name,phone:JSON.parse(user).phone});
     }
   }
   function jumpWallet(){
+    let status = "warning";
+    let title = "请登录后操作！";
+    let id = 1; 
     if(user === null){
-      loginAlter();
+      customAlter(id,status,title);
     }else{
       navigation.navigate('钱包');
     }
   }
   function jumpOrderInfo(){
+    let status = "warning";
+    let title = "请登录后操作！";
+    let id = 1; 
     if(user === null){
-      loginAlter();
+      customAlter(id,status,title);
     }else{
       navigation.navigate('订单信息');
     }
@@ -92,10 +128,10 @@ const User = ({navigation}) => {
               <Image alt='TU'style={{borderRadius:50,width:screenWidth*0.2,height:screenWidth*0.2}} source={require('./images/heard.jpg')} ></Image>
             </Avatar>
           <View onPress={jumpLogin} style={{alignItems:'flex-start'}}>
-            <Text style={{fontSize:screenWidth*0.065,color:"#6C6C6C"}}>{JSON.parse(user).name == undefined? JSON.parse(user).nickname:JSON.parse(user).name}</Text>
+            {/* <Text style={{fontSize:screenWidth*0.065,color:"#6C6C6C"}}>{JSON.parse(user).name == undefined? JSON.parse(user).nickname:JSON.parse(user).name}</Text> */}
 
             {/* <Text style={{fontSize:screenWidth*0.065,color:"#6C6C6C",marginTop:5}}>{JSON.parse(user).phone}</Text> */}
-            <Text style={{fontSize:screenWidth*0.065,color:"#6C6C6C",marginTop:5}}>{JSON.parse(user).name == undefined? JSON.parse(user).phone:''}</Text>
+            <Text style={{fontSize:screenWidth*0.065,color:"#6C6C6C",marginTop:5}}>{JSON.parse(user).name == undefined? JSON.parse(user).userNickName:''}</Text>
 
           </View>
         </HStack>
@@ -115,7 +151,7 @@ const User = ({navigation}) => {
           <HStack style = {{marginLeft:"3%"}}>
             <Icon as={<AntDesign name="user" />} size={screenWidth*0.07} ml="2" color="#2DB7F5" />
             <Text style = {styles.listText}>个人信息</Text>
-            <Icon style ={{marginRight:20}} as={<AntDesign name="right" />} size={screenWidth*0.07} ml="2" />
+            <Icon style ={{marginRight:20}} as={<AntDesign name="right" />} size={screenWidth*0.07} ml="2" color="muted.400" />
           </HStack>     
         </TouchableOpacity>
         <TouchableOpacity style={styles.list} onPress={jumpWallet}>
@@ -153,9 +189,7 @@ const User = ({navigation}) => {
             <Icon style ={{marginRight:20}} as={<AntDesign name="right" />} size={screenWidth*0.07} ml="2" color="muted.400" />
           </HStack>     
         </TouchableOpacity>
-        <View style={{marginTop:20,alignItems:'center'}}>
-          <Text>sdsd</Text>
-        </View>
+
       </View>
     </View>
   ) 

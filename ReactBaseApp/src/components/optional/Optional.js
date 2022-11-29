@@ -52,11 +52,15 @@ const Optional = ({navigation}) => {
   async function getData(){
     let url = HttpUtil.localUrl+'company/company/selfCom'
     let user = await AsyncStorage.getItem('user_info');
+    // console.log('请求数据')
+    setuser(user)
     if(user === null){
-      setdata(null)
+      let header = {};
+      HttpUtil.get(url,null,header,function(response){
+        setdata(response.data.data)
+      })
+      // setdata(null)
     }else{
-      console.log(user)
-      setuser(user);
       let header = {'token':JSON.parse(user).tokenValue};
       HttpUtil.get(url,null,header,function(response){
         setdata(response.data.data)
@@ -102,18 +106,18 @@ const Optional = ({navigation}) => {
     toast.show({
       id:1,
       render: () => {
-        return <Alert w={screenWidth*0.6} borderRadius={'lg'} variant={'subtle'} status={status} mt={screenHeight*0.2}>
+        return <Alert w={screenWidth*0.6} borderRadius={'lg'} h={screenHeight*0.08} variant={'subtle'} status={status} mt={screenHeight*0.2}>
             <VStack space={2} flexShrink={1} w="100%">
               <HStack flexShrink={1} space={2} justifyContent="space-between">
                 <HStack space={2} flexShrink={1}>
-                  <Alert.Icon size={screenWidth*0.05} mt="1" />
-                  <Text style={{color:"black",  fontSize:screenWidth*0.045}} >
+                  <Alert.Icon size={screenWidth*0.06} mt="1" />
+                  <Text style={{color:"black",  fontSize:screenWidth*0.05}} >
                      请登录后操作
                   </Text>
                 </HStack>
                 <IconButton onPress={() => toast.close(1)} variant="unstyled" _focus={{
               borderWidth: 0
-            }} icon={<CloseIcon   size={screenWidth*0.03}  />} _icon={{
+            }} icon={<CloseIcon   size={screenWidth*0.04}  />} _icon={{
               color: "coolGray.600"
             }} />
               </HStack>
@@ -125,11 +129,11 @@ const Optional = ({navigation}) => {
   }
   //跳转到添加自选页面
   async function jumpAddOptional(){
-    let user = await AsyncStorage.getItem('user_info');
+    // let user = await AsyncStorage.getItem('user_info');
     let status = "warning";
-    let title = "Selection successfully moved!";
+    let title = "请登录后操作！";
     let id = 1; 
-    console.log(user)
+    // console.log(user)
     if(user === null){
       customAlter(id,status,title);
     }else{
@@ -158,7 +162,6 @@ const Optional = ({navigation}) => {
   }
   //删除自选
   async function deleteOption(){
-
     let url = HttpUtil.localUrl+'company/company/deleteSelfCom?comCode='+deleteCode;
     console.log(url)
     let user = await AsyncStorage.getItem('user_info');
@@ -247,12 +250,12 @@ const Optional = ({navigation}) => {
     if(type === 'SH')
       typeColor = '#F4CE98'
     return(
-      <TouchableOpacity onLongPress={()=>{
+      <TouchableOpacity  disabled={user == null? true : false} onLongPress={()=>{
     setModalVisible(!modalVisible);
     console.log(code)
     setdeleteCode(code);
       }} style={{marginLeft:10,height:screenHeight*0.09,borderBottomWidth:0.5,borderColor:"#BEBEBE"}}>
-        <Text style={{fontSize:screenWidth*0.05,marginTop:10}}>{name}</Text>
+        <Text style={{fontSize:screenWidth*0.05,marginTop:10,color:'black'}}>{name}</Text>
         <HStack>
           <Text  style={{fontSize:screenWidth*0.035,backgroundColor:typeColor,color:"#ffffff"}}>{type}</Text>
           <Text style={{marginLeft:10,fontSize:screenWidth*0.035,color:'rgba(149, 29, 29, 0.62)'}}>{code}</Text>
@@ -390,8 +393,7 @@ const Optional = ({navigation}) => {
           ListFooterComponent={footer}
           listKey='1'
           onRefresh={() =>{
-            console.log("Lian")
-          } }
+            getData()          } }
           refreshing={false}
           renderItem={renderContainer}
           data = {[{id:'1'}]}

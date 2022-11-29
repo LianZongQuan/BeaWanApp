@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Pressable,Modal,
-  Link,Text,HStack,Center,Heading,Switch,useColorMode,NativeBaseProvider,VStack,Box,Button,AspectRatio,Image,Stagger,Stack,FormControl,isOpen,Select,CheckIcon,
-  children,Actionsheet,WarningOutlineIcon,AlertDialog,Icon,ScrollView,Ionicons,Flex,Radio,Spacer,Input,AddIcon,Divider,Checkbox,sidebarItems,View, Container
+  Text,HStack,Center,VStack,Box,Button,AspectRatio,Image,Stagger,Stack,isOpen,useToast,Alert,IconButton,CloseIcon,
+  Icon,ScrollView,Ionicons,Flex,Spacer,Input,Divider,View, Container
 } from 'native-base';
 import MaterialCommunityIcons  from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
@@ -24,6 +24,7 @@ import qs from 'qs'
 import { Console } from 'console';
 import { set } from 'immer/dist/internal';
 import * as WeChat from 'react-native-wechat-lib';
+import { isvalidatemobile ,validatenull} from '../../utils/validate'
 const MSGINIT = "发送验证码",
   MSGSCUCCESS = "${time}秒后重发",
   MSGTIME = 60;
@@ -57,6 +58,7 @@ const Login = ({navigation}) => {
   //验证码时间
   let codetime = MSGTIME;
   let idcode = '';
+  const toast = useToast();
   const [modalVisible, setModalVisible] = React.useState(false);
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
@@ -135,6 +137,32 @@ const Login = ({navigation}) => {
       console.log(inputCode);
     }
   }
+  //自定义提示
+  function  customAlter(id,status,title){
+    toast.show({
+      id:1,
+      render: () => {
+        return <Alert w={screenWidth*0.6} borderRadius={'lg'}  variant={'subtle'} status={status} mt={screenHeight*0.2}>
+            <VStack space={2} flexShrink={1} w="100%">
+              <HStack flexShrink={1} space={2} justifyContent="space-between">
+                <HStack space={2} flexShrink={1}>
+                  <Alert.Icon size={screenWidth*0.06} mt="1" />
+                  <Text style={{color:"black",  fontSize:screenWidth*0.05}} >
+                      {title}
+                  </Text>
+                </HStack>
+                <IconButton onPress={() => toast.close(1)} variant="unstyled" _focus={{
+              borderWidth: 0
+            }} icon={<CloseIcon   size={screenWidth*0.04}  />} _icon={{
+              color: "coolGray.600"
+            }} />
+              </HStack>
+            </VStack>
+          </Alert>;
+      },
+      placement: "top"
+    })
+  }
 
   //验证码计时器
   function timeCacl() {
@@ -181,6 +209,12 @@ const Login = ({navigation}) => {
   }
   //使用手机号密码登录
   function loginByPhone(){
+    let isnumber = isvalidatemobile(mobile);
+    if(isnumber[0] == true){
+      customAlter(123,'warning',isnumber[1])
+      return;
+    }
+    console.log('lian')
     let url = HttpUtil.localUrl+'company/user/loginByPassword?phoneNumber='+mobile+'&'+'password='+password;
 
     let header = {};
@@ -189,11 +223,9 @@ const Login = ({navigation}) => {
       if(response.data.code === 0){
           let user_info = JSON.stringify(response.data.data)
           AsyncStorage.setItem('user_info',user_info)
-          // AsyncStorage.setItem('token',response.data.data.token)
-          // console.log(response.data.data)
           navigation.navigate('我的')
       }else if(response.data.code === 1){
-          setModalVisible(true)
+          
       }else{
 
       }})
@@ -204,34 +236,30 @@ const Login = ({navigation}) => {
     WeChat.registerApp('wx5a01a8ac8e18289c', '').then(res => {
       console.log("是否已经注册微信：" + res)
     })
-    // WeChat.isWXAppInstalled().then( (isInstalled)=>{
-    //   WeChatLogin('wx5a01a8ac8e18289c','6c4d8f624c96c704d16a4c49edef0977',(userInfo)=>{
-    //     setweChatId(userInfo.unionid)
-    //     setnickName(userInfo.nickname)
-    //     let header = {};
-    //     let url = HttpUtil.localUrl+'company/user/getByChat?weChatId='+userInfo.unionid;
-    //     console.log(url)
-    //     HttpUtil.get(url,null,header,function(response){
-    //       if(response.data.code === 0){
-    //         let user_info = JSON.stringify(response.data.data)
-    //         AsyncStorage.setItem('user_info',user_info)
-    //         navigation.navigate('我的')
-    //       }else if(response.data.code === 1){
-    //         setModalVisible(true)
-    //       }else{
+    WeChat.isWXAppInstalled().then( (isInstalled)=>{
+      WeChatLogin('wx5a01a8ac8e18289c','6c4d8f624c96c704d16a4c49edef0977',(userInfo)=>{
+        setweChatId(userInfo.unionid)
+        setnickName(userInfo.nickname)
+        let header = {};
+        let url = HttpUtil.localUrl+'company/user/getByChat?weChatId='+userInfo.unionid;
+        console.log(url)
+        HttpUtil.get(url,null,header,function(response){
+          if(response.data.code === 0){
+            let user_info = JSON.stringify(response.data.data)
+            AsyncStorage.setItem('user_info',user_info)
+            navigation.navigate('我的')
+          }else if(response.data.code === 1){
+            setModalVisible(true)
+          }else{
 
-    //       }
-    //     })
-    //   },(err)=>{
-    //       console.log('授权失败',err)
-    //   })
-    // }).catch((err)=>{
-    //   console.log(err)
-    // })
-        setweChatId('123')
-        setnickName('lian')
-    setModalVisible(true)
-    
+          }
+        })
+      },(err)=>{
+          console.log('授权失败',err)
+      })
+    }).catch((err)=>{
+      console.log(err)
+    })    
   }
   function WeChatLogin(APP_ID, APP_SECRET, successCallback, errorCallback) {
     console.log('APP_ID===',APP_ID)
@@ -293,7 +321,13 @@ const Login = ({navigation}) => {
   
   //跳转到注册页面
   function jumpRegister(){
-      navigation.navigate('注册')
+    let number = ''
+    console.log(isvalidatemobile(number))
+
+
+      // navigation.navigate('注册')
+
+      
     }
   return(
     <Box  style = {styles.container}>
@@ -336,8 +370,7 @@ const Login = ({navigation}) => {
         <Text style={{alignSelf:'flex-end',fontSize:18}}>注册</Text>
       </TouchableOpacity>
       <Center style={{marginTop:screenHeight*0.05}}>
-        {/* <Image  w={'32'} h={'32'} alt='登录图标' source={require('./images/login_icon.png') }>
-        </Image> */}
+
          <Icon as={<FontAwesome5 name="user-circle" />} size={24}  color="muted.400" />
       </Center >
 

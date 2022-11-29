@@ -65,7 +65,7 @@ const OptionalInfo = ({route,navigation}) => {
                 <Text style={{fontSize:22,color:circleColor}}>
                   {item.score}
                 </Text>
-                <Text>chakan</Text>
+                <Text>查看</Text>
               </View>
             )})
           }
@@ -85,6 +85,20 @@ const OptionalInfo = ({route,navigation}) => {
       <View>
         <Text>{name}</Text>
       </View>
+      <HStack style = {{alignSelf:'flex-end',width:screenWidth*0.8,justifyContent:'space-between'}}>
+        <View>
+          <Text>lian</Text>
+        </View>
+        <View>
+          <Text>lian</Text>
+        </View>
+        <View>
+          <Text>lian</Text>
+        </View>
+        <View>
+          <Text>lian</Text>
+        </View>
+      </HStack>
       <FlatList
         listKey='100'
         renderItem={renderMainItem}

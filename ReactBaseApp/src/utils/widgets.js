@@ -3,8 +3,6 @@ import {
   Text,Center,Box,Button,Image,Stack,Pressable,useToast,VStack, HStack,
   Icon,Input,View, Container,IconButton,CloseIcon,Alert
 } from 'native-base';
-
-
   export const customAlter =(id,status,title) =>{
     toast.show({
       id:1,

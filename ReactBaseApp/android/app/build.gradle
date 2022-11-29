@@ -135,7 +135,6 @@ android {
     ndkVersion rootProject.ext.ndkVersion
 
     compileSdkVersion rootProject.ext.compileSdkVersion
-
     defaultConfig {
         applicationId "com.reactbaseapp"
         minSdkVersion rootProject.ext.minSdkVersion
@@ -162,7 +161,6 @@ android {
             }
         }
     }
-
     if (isNewArchitectureEnabled()) {
         // We configure the NDK build only if you decide to opt-in for the New Architecture.
         externalNativeBuild {
