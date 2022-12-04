@@ -21,7 +21,10 @@ const HomeScreen = ({navigation}) => {
   return(
     <View style = {styles.background}>
       <Image  style={{borderWidth:1,width:screenWidth*0.7,height:screenHeight*0.07,marginTop:'30%'}}  source={require('./images/BeaWanIcon.png')}></Image>
-      <Input placeholderTextColor={'#707070'} placeholder="请输入股票代码或者公司名称"height={screenHeight*0.08} backgroundColor={'#cdcdcd'} borderWidth={'0'} mt={'6'} width={screenWidth*0.95} borderRadius="24" py="3" px="1" fontSize={screenWidth*0.04} 
+      
+      <Input onPressIn={()=>{
+        navigation.navigate('搜索');
+      }} placeholderTextColor={'#707070'} placeholder="请输入股票代码或者公司名称"height={screenHeight*0.068} backgroundColor={'#cdcdcd'} borderWidth={'0'} mt={'6'} width={screenWidth*0.95} borderRadius="30" py="3" px="1" fontSize={screenWidth*0.04} 
         InputLeftElement={<Icon m="2" ml="3" size={screenWidth*0.07} color="gray.400" as={<MaterialIcons name="search" />} />}>
       </Input>
       <View style={{marginTop:screenHeight*0.02}}>

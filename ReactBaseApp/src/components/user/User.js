@@ -97,7 +97,7 @@ const User = ({navigation}) => {
     navigation.navigate('关于');
   }
   function jumpPrivacyPolicy(){
-    navigation.navigate('收银台');
+    navigation.navigate('报告');
   }
   async function getUser(){
     try {

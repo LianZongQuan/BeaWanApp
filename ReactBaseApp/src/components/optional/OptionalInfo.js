@@ -9,6 +9,7 @@ import MaterialCommunityIcons  from 'react-native-vector-icons/MaterialCommunity
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import WebView from 'react-native-webview';
+import CircleProgressView from '../../utils/CircleProgressView';
 // import Swiper from 'react-native-swiper';
 import { Text } from 'react-native';
 
@@ -53,7 +54,7 @@ const OptionalInfo = ({route,navigation}) => {
               circleColor = '#E87777';
             }
             return (
-              <View key={index}  style={{width:screenWidth*0.245,height:screenHeight*0.09,borderBottomWidth:0.5,justifyContent:'center',alignItems:'center',borderColor:"#BEBEBE"}}>
+              <TouchableOpacity key={index}  style={{width:screenWidth*0.245,height:screenHeight*0.09,borderBottomWidth:0.5,justifyContent:'center',alignItems:'center',borderColor:"#BEBEBE"}}>
               {/* 环形图分数组件 */}
               {/* <CircleProgressView raduis={screenHeight*0.035} progressBaseColor={'#BEBEBE'} progressColor = {circleColor} baseProgressWidth={4} progressWidth={4} progress={item.score} >
                 <View style={{alignItems:'center',justifyContent:'center'}} >
@@ -66,7 +67,7 @@ const OptionalInfo = ({route,navigation}) => {
                   {item.score}
                 </Text>
                 <Text>查看</Text>
-              </View>
+              </TouchableOpacity>
             )})
           }
         </HStack>
@@ -87,16 +88,16 @@ const OptionalInfo = ({route,navigation}) => {
       </View>
       <HStack style = {{alignSelf:'flex-end',width:screenWidth*0.8,justifyContent:'space-between'}}>
         <View>
-          <Text>lian</Text>
+          <Text>年报</Text>
         </View>
         <View>
-          <Text>lian</Text>
+          <Text>三季报</Text>
         </View>
         <View>
-          <Text>lian</Text>
+          <Text>中报</Text>
         </View>
         <View>
-          <Text>lian</Text>
+          <Text>一季报</Text>
         </View>
       </HStack>
       <FlatList

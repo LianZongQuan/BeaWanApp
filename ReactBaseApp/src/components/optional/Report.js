@@ -18,13 +18,22 @@ import HttpUtil from '../../utils/http'
 import Util, { WeChatLogin } from '../../utils/util'
 import { Path } from 'react-native-svg';
 import CircleProgressView from '../../utils/CircleProgressView';
+import {  MD5 } from 'crypto-js';
 
 const Report = ({navigation}) => {
   React.useEffect(() => {
     WeChat.registerApp('wx5a01a8ac8e18289c', '').then(res => {
-      console.log("是否已经注册微信：" + res)
+      console.log("是否 已经注册微信：" + res)
     })
+
+
+    // 83DA8E78F57EFD28037A7B6031DB1334
+    // let stringA = stringA="appid=wx5a01a8ac8e18289c&body=test&device_info=WEB&mch_id=1635512528&nonce_str=ibuaiVcKdpRxkhJA";
+    // let stringSignTemp=stringA+"&key=192006250b4c09247ec02edce69f6a2d" //注：key为商户平台设置的密钥key
+    // let sign=HmacMD5(stringSignTemp).toUpperCase()="9A0A8659F005D6984697E2CA0A9CF3B7" //注：MD5签名方式
+
   },[]);
+  
 
 
 
@@ -35,7 +44,7 @@ function wxpay(){
       if (isInstalled) {
         //执行支付
           WeChat.pay({
-              partnerId: '1900000109',  // 商家向财付通申请的商家id
+              partnerId: '1635512528',  // 商家向财付通申请的商家id
               prepayId: 'WX1217752501201407033233368018',   // 预支付订单
               nonceStr: '5K8264ILTKCH16CQ2502SI8ZNMTM67VS',   // 随机串，防重发
               timeStamp: '1412000000',  // 时间戳，防重发.
@@ -62,11 +71,12 @@ function wxpay(){
  
 
   function wx(){
-    WeChat.shareText({
-      text: 'Text content.',
-      scene: 0,
-    });
+    // WeChat.shareText({
+    //   text: 'Text content.',
+    //   scene: 0,
+    // });
     // WeChat.openWXApp();
+    wxpay();
   }
   function download(){
     Linking.openURL('http://192.168.10.186:8080/test.pdf')
