@@ -50,11 +50,13 @@ function App() {
     // <Provider store={store} >
       <NativeBaseProvider  >
       <NavigationContainer ref={createRef()}> 
-      <Stack.Navigator initialRouteName="Home" screenOptions={{ fullScreenGestureEnabled: true, contentStyle: { backgroundColor: '#ffffff' } }}>
+      <Stack.Navigator initialRouteName="Home"   screenOptions={{}} >
         <Stack.Screen name="Home" 
+        
           options={{
             header: ({ navigation }) => { },
             title: '',
+            
             
         }}>
           {() => (
@@ -66,7 +68,7 @@ function App() {
 
                 tabBarIcon: ({ focused, color, size }) => {
                   let iconName;
-                  size = screenWidth*0.07;
+                  size = screenWidth*0.055;
                   if (route.name === '首页') {
                     iconName = focused
                       ? 'home'
@@ -82,12 +84,13 @@ function App() {
                 },
                 //标签属性
                 tabBarLabelStyle: {
-                  fontSize: screenWidth*0.05,
+                  fontSize: screenWidth*0.04,
                 },
                 //导航栏属性
                 tabBarStyle:{
                   paddingTop:5,
-                  height:screenWidth*0.16,
+                  height:screenWidth*0.14,
+                  shadowOpacity:1
                 },
                 //选中颜色
                 tabBarActiveTintColor: '#4095E5',
@@ -123,8 +126,8 @@ function App() {
         <Stack.Screen name="关于" component={AboutApp} options={{headerTitleAlign:'center'}}/>
         <Stack.Screen name="添加自选" component={AddOptional} options={{headerTitleAlign:'center'}}/>
 
-        <Stack.Screen name="自选详情" component={OptionalInfo} options={{headerShown:false}}/>
-        <Stack.Screen name="报告" component={Report} options={{headerShadowVisible:'false'}}/>
+        <Stack.Screen name="自选详情" component={OptionalInfo} options={{headerTitleAlign:'center'}}/>
+        <Stack.Screen name="报告" component={Report} options={{headerTitleAlign:'center'}}/>
         <Stack.Screen name="登录" component={Login}  options={{headerTitleAlign:'center'
       
           }}/>

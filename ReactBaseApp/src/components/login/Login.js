@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Pressable,Modal,
   Text,HStack,Center,VStack,Box,Button,AspectRatio,Image,Stagger,Stack,isOpen,useToast,Alert,IconButton,CloseIcon,
-  Icon,ScrollView,Ionicons,Flex,Spacer,Input,Divider,View, Container
+  Icon,ScrollView,Ionicons,Flex,Spacer,Input,Divider,View, Container,Checkbox
 } from 'native-base';
 import MaterialCommunityIcons  from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
@@ -34,9 +34,9 @@ const Login = ({navigation}) => {
   //控制密码是否显示
   const [show, setShow] = React.useState(false);
   //控制是否采用验证码登录 true：密码登录 false：验证码登录
-  const [passwordLogin,setpasswordLogin] = React.useState(true);
+  const [passwordLogin,setpasswordLogin] = React.useState(false);
   //登录方式
-  const [loginMode,setloginMode] = React.useState("验证码登录");
+  const [loginMode,setloginMode] = React.useState("密码登录");
   //账号
   const [username,setusername] = React.useState('');
   //密码
@@ -80,23 +80,29 @@ const Login = ({navigation}) => {
             <Icon as={<MaterialIcons name={show ? "visibility" : "visibility-off"} />} size={screenWidth*0.07} mr="2" color="muted.400" /></Pressable>
           }
           fontSize = {screenWidth*0.055} 
-          variant="underlined" placeholder=" 密码" 
+          variant='outline' borderColor={'blueGray.300'} placeholder=" 密码" 
           onChangeText={(password)=>setpassword(password)}>
         </Input>
       )
     }else{
       return(
-        <HStack w={'full'} alignItems={'center'}>
-          <Input 
-            type={"text"}
-            fontSize = {screenWidth*0.055} 
-            w={screenWidth*0.6}
-            
-            variant="underlined" placeholder=" 验证码" >
-          </Input>           
-          <Button disabled={msgKey}  onPress={sendCode} w={screenWidth*0.33} size={screenWidth*0.12}>
-            { msgText }
-          </Button>
+        <HStack w={'full'} style={{height:screenHeight*0.1}} alignItems={'center'}>
+          <View style={{height:screenHeight*0.1,justifyContent:'center'}}>
+            <Input 
+              type={"text"}
+              fontSize = {screenWidth*0.055} 
+              w={screenWidth*0.55}
+              
+              variant='outline' borderColor={'blueGray.300'} placeholder=" 验证码" >
+            </Input>  
+          </View>
+         
+          <View style={{height:screenHeight*0.1,justifyContent:'center',marginLeft:10}}>
+            <Button disabled={msgKey} _text={{fontSize:screenWidth*0.035,color:'#ffffff'} }  backgroundColor={'blueGray.400'} onPress={sendCode} borderRadius={5} w={screenWidth*0.33} height={screenHeight*0.06}>
+              { msgText }
+            </Button>
+          </View>
+
         </HStack>
       )
     }
@@ -366,15 +372,17 @@ const Login = ({navigation}) => {
           </Modal.Body>
         </Modal.Content>
       </Modal>
-      <TouchableOpacity  onPress={jumpRegister} style={{marginTop:15,marginRight:15}}>
+      {/* <TouchableOpacity  onPress={jumpRegister} style={{marginTop:15,marginRight:15}}>
         <Text style={{alignSelf:'flex-end',fontSize:18}}>注册</Text>
-      </TouchableOpacity>
-      <Center style={{marginTop:screenHeight*0.05}}>
+      </TouchableOpacity> */}
+      <Center style={{marginTop:screenHeight*0.04}}>
+        <Image alt='1' style={{width:screenWidth*0.3,height:screenWidth*0.3}} source={require('../HomeScreen/images/logo.png')}></Image>
+        <Image alt='2' style={{width:screenWidth*0.5,height:screenHeight*0.06}}  source={require('../HomeScreen/images/beawan.png')}></Image>
 
-         <Icon as={<FontAwesome5 name="user-circle" />} size={24}  color="muted.400" />
+         {/* <Icon as={<FontAwesome5 name="user-circle" />} size={24}  color="muted.400" /> */}
       </Center >
 
-      <Center style = {{marginTop:"10%"}} >
+      <Center style = {{marginTop:"7%"}} >
         <Stack space={4} w="90%" maxW="450px" mx="auto">
           <Input  
             // InputLeftElement={
@@ -382,32 +390,68 @@ const Login = ({navigation}) => {
             // }
             fontSize = {screenWidth*0.055}
             onChangeText={(mobile)=>setmobile(mobile)} 
-            variant="underlined" placeholder={'手机号'}>
+            variant='outline' borderColor={'blueGray.300'} placeholder={'手机号'}>
           </Input>
           {passwordOrCode()}
           <Box alignSelf="flex-end">
-            <Flex direction="row" h="58" p="4">
+            <Flex direction="row">
               <TouchableOpacity onPress={changeLoginType}>
-                <Text underline={true} color={'indigo.500'} fontSize={screenWidth*0.045}>{loginMode}</Text>
-              </TouchableOpacity>
-              <Divider bg="indigo.500" thickness="2" mx="2" orientation="vertical" />
-              <TouchableOpacity>
-                <Text color={'indigo.500'} underline={true} fontSize={screenWidth*0.045}>忘记密码</Text>
+                <Text underline={true} color={'blueGray.500'} fontSize={screenWidth*0.045}>{loginMode}</Text>
               </TouchableOpacity>
             </Flex>
          </Box> 
         </Stack>
       </Center>
-      <Center style = {{marginTop:"3%"}}>
+      <Center style = {{marginTop:"4%"}}>
       
       <Stack  alignItems={'center'} w={'full'} >
-          <Button _text={{fontSize:screenWidth*0.055} }  onPress={loginMode=='验证码登录'? loginByPhone:loginByCode}  style={{ width:"80%", height:screenWidth*0.15 ,alignItems:'center',borderRadius:30}} >
-            登录
+          <Button _text={{fontSize:screenWidth*0.055} }  bgColor={'blueGray.400'} onPress={loginMode=='验证码登录'? loginByPhone:loginByCode}  style={{ width:"86%", height:screenWidth*0.13 ,alignItems:'center',borderRadius:5}} >
+            {passwordLogin==true?'登录':'登录/注册'}
           </Button>
 
-        <Button  _text={{fontSize:screenWidth*0.055} } onPress={loginWx} leftIcon={<Icon  as={<AntDesign name="wechat" />} size={screenWidth*0.07} ml="2" color="#81B337" />} mt={screenHeight*0.018} variant="outline"   style={{ fontSize:'100', width:"80%", height:screenWidth*0.15 ,borderRadius:30 ,alignItems:'center'}}>
+          <HStack style={{height:screenHeight*0.06}}>
+            <View style={{height:screenHeight*0.06,justifyContent:'center',marginRight:10}} >
+              <Checkbox  colorScheme='blue' boxSize={screenWidth*0.05} style={{borderRadius:50}} value="test" accessibilityLabel="This is a dummy checkbox"></Checkbox>
+            </View>
+            <View style={{height:screenHeight*0.06,justifyContent:'center'}}>
+              <Text style={{fontSize:screenWidth*0.035}}>已阅读并同意</Text>
+            </View>
+            <View style={{height:screenHeight*0.06,justifyContent:'center'}}>
+              <Text style={{fontSize:screenWidth*0.035}}>隐私政策</Text>
+            </View>
+            <View style={{height:screenHeight*0.06,justifyContent:'center'}}>
+              <Text style={{fontSize:screenWidth*0.035}}>和</Text>
+            </View>
+            <View style={{height:screenHeight*0.06,justifyContent:'center'}}>
+              <Text style={{fontSize:screenWidth*0.035}}>服务协议</Text>
+            </View>
+          </HStack>
+
+            <Text style={{fontSize:screenWidth*0.03,color:'#666666',marginTop:screenHeight*0.04}}>
+              其它登录方式
+            </Text>
+            <HStack style={{ justifyContent:'center',width:'60%', marginTop:screenHeight*0.02}}>
+            {/* <Spacer></Spacer> */}
+              <TouchableOpacity onPress={loginWx} style={{ borderRadius:50, backgroundColor:'#f5f5f5',alignItems:'center',justifyContent:'center',width:screenHeight*0.05,height:screenHeight*0.05}}>
+                <Icon as={<AntDesign name="wechat" />} size={screenWidth*0.06}  color="#81B337"  />
+
+              </TouchableOpacity>
+              {/* <Spacer></Spacer>
+              <TouchableOpacity style={{ borderRadius:50, backgroundColor:'#f5f5f5',alignItems:'center',justifyContent:'center',width:screenHeight*0.05,height:screenHeight*0.05}}>
+                <Icon as={<AntDesign name="wechat" />} size={screenWidth*0.06}  color="#81B337"  />
+
+              </TouchableOpacity>
+              <Spacer></Spacer>
+              <TouchableOpacity style={{ borderRadius:50, backgroundColor:'#f5f5f5',alignItems:'center',justifyContent:'center',width:screenHeight*0.05,height:screenHeight*0.05}}>
+                <Icon as={<AntDesign name="wechat" />} size={screenWidth*0.06}  color="#81B337"  />
+
+              </TouchableOpacity>
+              <Spacer></Spacer> */}
+            {/* <Icon  as={} size={screenWidth*0.07} ml="2" color="#81B337" />} mt={screenHeight*0.018} variant="outline"   style={{ fontSize:'100', width:"80%", height:screenWidth*0.15 ,borderRadius:30 ,alignItems:'center'}} */}
+            </HStack >
+        {/* <Button  _text={{fontSize:screenWidth*0.055} } onPress={loginWx} leftIcon={<Icon  as={<AntDesign name="wechat" />} size={screenWidth*0.07} ml="2" color="#81B337" />} mt={screenHeight*0.018} variant="outline"   style={{ fontSize:'100', width:"80%", height:screenWidth*0.15 ,borderRadius:30 ,alignItems:'center'}}>
             微信登录
-          </Button>
+          </Button> */}
         </Stack>
       </Center>
     </Box>

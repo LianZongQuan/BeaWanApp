@@ -59,16 +59,23 @@ const Search = ({navigation}) => {
   }
   const NameItem = ({name,code}) =>{
     return(
-      <TouchableOpacity  onPress={jumpReport} style={{width:screenWidth*0.9,borderBottomWidth:1,borderColor:"#BEBEBE", height:screenHeight*0.07,justifyContent:'center'}}>
+      <TouchableOpacity  onPress={jumpReport} style={{width:screenWidth*0.9,borderBottomWidth:0.5,borderColor:"#BEBEBE", height:screenHeight*0.07,justifyContent:'center'}}>
         <HStack>
 
     
-        <View style={{width:'80%', alignItems:'center',justifyContent:'center',height:screenHeight*0.07}}>
-          <Text style={{fontSize:16}}>{name+code}</Text>
+        <View style={{width:'35%', alignItems:'center',justifyContent:'center',height:screenHeight*0.07}}>
+          <Text style={{fontSize:16}}>{name}</Text>
         </View>
-        <View style={{width:'20%', alignItems:'center',justifyContent:'center',height:screenHeight*0.07}}>
-          <Text style={{fontSize:16}}>{name+code}</Text>
+        <View style={{width:'35%', alignItems:'center',justifyContent:'center',height:screenHeight*0.07}}>
+          <Text style={{fontSize:16}}>{code}</Text>
         </View>
+        <View style={{width:'30%', alignItems:'flex-end',justifyContent:'center',height:screenHeight*0.07}}>
+        <Icon style ={{marginRight:20}} as={<AntDesign name="right" />} size={screenWidth*0.06} ml="2" color="muted.400" />
+
+        </View>
+        {/* <View style={{width:'20%', alignItems:'center',justifyContent:'center',height:screenHeight*0.07}}>
+          <Text style={{fontSize:16}}>{name+code}</Text>
+        </View> */}
         </HStack>
       </TouchableOpacity>
     )
@@ -128,6 +135,17 @@ const Search = ({navigation}) => {
     }else{
       return(
         <View >
+      <TouchableOpacity  onPress={jumpReport} style={{width:screenWidth*0.9,borderBottomWidth:0.5,borderColor:"#BEBEBE", height:screenHeight*0.07,justifyContent:'center'}}>
+        <HStack>
+          <View style={{width:'35%', alignItems:'center',justifyContent:'center',height:screenHeight*0.07}}>
+            <Text style={{fontSize:18,color:"#333333"}}>股票名称</Text>
+          </View>
+          <View style={{width:'35%', alignItems:'center',justifyContent:'center',height:screenHeight*0.07}}>
+            <Text style={{fontSize:18,color:"#333333"}}>股票代码</Text>
+          </View>
+        </HStack>
+      </TouchableOpacity>
+
           <FlatList         
             renderItem={renderNameItem}
             data={listData}

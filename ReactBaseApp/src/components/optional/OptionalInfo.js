@@ -34,17 +34,21 @@ const OptionalInfo = ({route,navigation}) => {
     return list;
     
   }
+  function jumpReport(){
+    navigation.navigate('报告');
+  }
   const MainItem = ({report,year}) =>{   
     let list = report;
     report = dealData(data,report,year)
     return(
       <View>
         <View>
-          <Text>{year}</Text>
+          <Text style={{fontSize:screenWidth*0.05,marginTop:10,color:'#CBA43F'}}>{year}</Text>
         </View>
-        <HStack>
+        <View>
           {report.map((item, index) => {
             let circleColor = '';
+            // console.log(item)
             if(item.score<=60){
               circleColor = '#81B337';
             }else if(item.score<=80)
@@ -54,23 +58,27 @@ const OptionalInfo = ({route,navigation}) => {
               circleColor = '#E87777';
             }
             return (
-              <TouchableOpacity key={index}  style={{width:screenWidth*0.245,height:screenHeight*0.09,borderBottomWidth:0.5,justifyContent:'center',alignItems:'center',borderColor:"#BEBEBE"}}>
-              {/* 环形图分数组件 */}
-              {/* <CircleProgressView raduis={screenHeight*0.035} progressBaseColor={'#BEBEBE'} progressColor = {circleColor} baseProgressWidth={4} progressWidth={4} progress={item.score} >
-                <View style={{alignItems:'center',justifyContent:'center'}} >
-                  <Text style={{fontSize:18}}>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+              <TouchableOpacity key={index}  onPress={jumpReport} style={{width:screenWidth*0.9,backgroundColor:"#ffffff",borderRadius:10,height:screenHeight*0.06,elevation:0.3,marginTop:15}}>
+                <HStack style={{width:screenWidth*0.9,height:screenHeight*0.06,}}>
+                  <View style={{width:screenWidth*0.4,height:screenHeight*0.06,justifyContent:'center',alignItems:'center'}}>
+                    <Text style={{fontSize:22,color:"#333333"}}>
+                    {item.year+'年'+item.stage}
+                    </Text>
+                  </View>
+                  <View style={{width:screenWidth*0.3,height:screenHeight*0.06,justifyContent:'center',alignItems:'center'}}>
+                    <Text style={{fontSize:22,color:circleColor}}>
                     {item.score}
-                  </Text>
-                </View>
-                </CircleProgressView> */}
-                <Text style={{fontSize:22,color:circleColor}}>
-                  {item.score}
-                </Text>
-                <Text>查看</Text>
+                    </Text>
+                  </View>
+                  <View style={{width:screenWidth*0.2,height:screenHeight*0.06,justifyContent:'center',alignItems:'flex-end'}}>
+                  <Icon style ={{marginRight:20}} as={<AntDesign name="right" />} size={screenWidth*0.06} ml="2" color="#999999" />
+                  </View>
+                </HStack>
+
               </TouchableOpacity>
             )})
           }
-        </HStack>
+        </View>
       </View>
     )
   }
@@ -84,25 +92,12 @@ const OptionalInfo = ({route,navigation}) => {
   return(
     <View style = {styles.background}>
       <View>
-        <Text>{name}</Text>
+        <Text style={{fontSize:screenWidth*0.065,marginTop:10,color:"#215476"}}>{name}</Text>
       </View>
-      <HStack style = {{alignSelf:'flex-end',width:screenWidth*0.8,justifyContent:'space-between'}}>
-        <View>
-          <Text>年报</Text>
-        </View>
-        <View>
-          <Text>三季报</Text>
-        </View>
-        <View>
-          <Text>中报</Text>
-        </View>
-        <View>
-          <Text>一季报</Text>
-        </View>
-      </HStack>
       <FlatList
         listKey='100'
         renderItem={renderMainItem}
+        showsVerticalScrollIndicator={false}
         data={year}>
       </FlatList>
     
@@ -118,7 +113,17 @@ const styles = StyleSheet.create({
   background:{
     alignItems:'center',
     flex:1,
-    // backgroundColor:"#f5f5f5"
+    backgroundColor:"#f5f5f5"
 
   },
 })
+
+
+              {/* 环形图分数组件 */}
+              {/* <CircleProgressView raduis={screenHeight*0.035} progressBaseColor={'#BEBEBE'} progressColor = {circleColor} baseProgressWidth={4} progressWidth={4} progress={item.score} >
+                <View style={{alignItems:'center',justifyContent:'center'}} >
+                  <Text style={{fontSize:18}}>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                    {item.score}
+                  </Text>
+                </View>
+                </CircleProgressView> */}

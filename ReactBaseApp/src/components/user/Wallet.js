@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
    Avatar,HStack,Center,Box,Button,Image
-  ,Icon,Flex,Input,View, Container,
+  ,Icon,Flex,Input,View, Container, ScrollView,
 } from 'native-base';
 import { StyleSheet, TouchableOpacity,Dimensions } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -39,17 +39,10 @@ const Wallet = ({navigation}) => {
   function select6(){
     setSelectedIndex(6)
   }  
-  function select7(){
-    setSelectedIndex(7)
-  }  
-  function select8(){
-    setSelectedIndex(8)
-  }  
-  function select9(){
-    setSelectedIndex(9)
-  }
+
 
   return(
+    <ScrollView>
     <View style = {styles.background}>
        
       <View style = {styles.header}>
@@ -59,92 +52,159 @@ const Wallet = ({navigation}) => {
               <Image alt='TU'style={{borderRadius:50,width:screenWidth*0.2,height:screenWidth*0.2}} source={require('./images/heard.jpg')} ></Image>
             </Avatar>
           </View>
+          
           <View style={{height:'100%',justifyContent:'center'}}>
-            <Text style={{fontSize:screenWidth*0.06,color:"#6C6C6C"}}>仟仟陌陌</Text>
+            <Text style={{fontSize:screenWidth*0.06,color:"#101010"}}>仟仟陌陌</Text>
+            <HStack style={{height:screenHeight*0.03,backgroundColor:'#BEBEBE',marginTop:15,borderRadius:5}}>
+              <View style={{height:screenHeight*0.03,justifyContent:'center'}}>
+              <Image alt='会员中心' size={screenWidth*0.04} ml="2" source={require('./images/noMember.png')}></Image>
+
+              </View>
+              <View style={{height:screenHeight*0.03,justifyContent:'center'}}>
+                <Text style={{fontSize:screenWidth*0.03,color:"#6C6C6C"}}>未开通会员</Text>
+              </View>
+
+            </HStack>
           </View>
-          <View style={{height:'100%',justifyContent:'center',marginLeft:10}}>
+          {/* <View style={{height:'100%',justifyContent:'center',marginLeft:10}}>
             <Text style={{fontSize:screenWidth*0.12,color:"#E99D42"}}>0</Text>
           </View>
           <View style={{height:'100%',justifyContent:'center',marginLeft:10}}>
             <Text style={{fontSize:screenWidth*0.06,color:"#6C6C6C"}}>碧湾币</Text>
-          </View>
+          </View> */}
         </HStack>
       </View>
-      <Text style={{fontSize:screenWidth*0.055,marginTop:10,marginLeft:20,color:"#6C6C6C",alignSelf:'flex-start'}}>充值</Text>
+
+      <Text style={{fontSize:screenWidth*0.045,marginTop:10,marginLeft:20,color:"#101010",alignSelf:'flex-start'}}>充值会员</Text>
       <HStack space={4} style={{justifyContent:'space-between',marginTop:10}}>
         <TouchableOpacity onPress={select1} style={selectedIndex == 1 ? styles.checkIndex:styles.select}>
-          <Text style={{fontSize:screenWidth*0.055,color:selectedIndex == 1 ? "#FFBF6B":"black"}}>12碧湾币</Text>
-          <Text style={{fontSize:screenWidth*0.045,color:'#9A9A9A'}}>12.00元</Text>
+          <Text style={{fontSize:screenWidth*0.035,color:selectedIndex == 1 ? "#101010":"black"}}>月卡会员</Text>
+          <HStack style={{marginTop:5,height:screenHeight*0.05}}>
+            <View style={{height:screenHeight*0.05,justifyContent:'flex-end'}}>
+              <Icon marginBottom={1} as={<MaterialCommunityIcons name="currency-cny" />} size={screenWidth*0.05} color="#C5884C" />
+            </View>
+            <View style={{height:screenHeight*0.05,justifyContent:'flex-end'}}>
+              <Text style={{fontSize:screenWidth*0.065,color:"#C5884C"}}>
+              19.9
+            </Text>
+            </View>
+          </HStack>
         </TouchableOpacity>
         <TouchableOpacity onPress={select2} style={selectedIndex == 2 ? styles.checkIndex:styles.select}>
-          <Text style={{fontSize:screenWidth*0.055,color:selectedIndex == 2 ? "#FFBF6B":"black"}}>24碧湾币</Text>
-          <Text style={{fontSize:screenWidth*0.04,color:'#9A9A9A'}}>24.00元</Text>
+        <Text style={{fontSize:screenWidth*0.035,color:selectedIndex == 1 ? "#101010":"black"}}>季卡会员</Text>
+          <HStack style={{marginTop:5,height:screenHeight*0.05}}>
+            <View style={{height:screenHeight*0.05,justifyContent:'flex-end'}}>
+              <Icon marginBottom={1} as={<MaterialCommunityIcons name="currency-cny" />} size={screenWidth*0.05} color="#C5884C" />
+            </View>
+            <View style={{height:screenHeight*0.05,justifyContent:'flex-end'}}>
+              <Text style={{fontSize:screenWidth*0.065,color:"#C5884C"}}>
+              49.9
+            </Text>
+            </View>
+          </HStack>
         </TouchableOpacity>
         <TouchableOpacity onPress={select3} style={selectedIndex == 3 ? styles.checkIndex:styles.select}>
-          <Text style={{fontSize:screenWidth*0.055,color:selectedIndex == 3 ? "#FFBF6B":"black"}}>36碧湾币</Text>
-          <Text style={{fontSize:screenWidth*0.04,color:'#9A9A9A'}}>36.00元</Text>
+        <Text style={{fontSize:screenWidth*0.035,color:selectedIndex == 1 ? "#101010":"black"}}>年卡会员</Text>
+          <HStack style={{marginTop:5,height:screenHeight*0.05}}>
+            <View style={{height:screenHeight*0.05,justifyContent:'flex-end'}}>
+              <Icon marginBottom={1} as={<MaterialCommunityIcons name="currency-cny" />} size={screenWidth*0.05} color="#C5884C" />
+            </View>
+            <View style={{height:screenHeight*0.05,justifyContent:'flex-end'}}>
+              <Text style={{fontSize:screenWidth*0.065,color:"#C5884C"}}>
+              69.9
+            </Text>
+            </View>
+          </HStack>
         </TouchableOpacity>
       </HStack>
+      <Text style={{fontSize:screenWidth*0.045,marginTop:10,marginLeft:20,color:"#101010",alignSelf:'flex-start'}}>充值次卡</Text>
       <HStack space={4} style={{justifyContent:'space-between',marginTop:10}}>
         <TouchableOpacity onPress={select4} style={selectedIndex == 4 ? styles.checkIndex:styles.select}>
-          <Text style={{fontSize:screenWidth*0.055,color:selectedIndex == 4 ? "#FFBF6B":"black"}}>48碧湾币</Text>
-          <Text style={{fontSize:screenWidth*0.04,color:'#9A9A9A'}}>48.00元</Text>
+          <Text style={{fontSize:screenWidth*0.035,color:selectedIndex == 4 ? "#101010":"black"}}>10次</Text>
+          <HStack style={{marginTop:5,height:screenHeight*0.05}}>
+            <View style={{height:screenHeight*0.05,justifyContent:'flex-end'}}>
+              <Icon marginBottom={1} as={<MaterialCommunityIcons name="currency-cny" />} size={screenWidth*0.05} color="#C5884C" />
+            </View>
+            <View style={{height:screenHeight*0.05,justifyContent:'flex-end'}}>
+              <Text style={{fontSize:screenWidth*0.065,color:"#C5884C"}}>
+              8.8
+            </Text>
+            </View>
+          </HStack>
         </TouchableOpacity>
         <TouchableOpacity onPress={select5} style={selectedIndex == 5 ? styles.checkIndex:styles.select}>
-          <Text style={{fontSize:screenWidth*0.055,color:selectedIndex == 5 ? "#FFBF6B":"black"}}>60碧湾币</Text>
-          <Text style={{fontSize:screenWidth*0.04,color:'#9A9A9A'}}>60.00元</Text>
+        <Text style={{fontSize:screenWidth*0.035,color:selectedIndex == 5 ? "#101010":"black"}}>20次</Text>
+          <HStack style={{marginTop:5,height:screenHeight*0.05}}>
+            <View style={{height:screenHeight*0.05,justifyContent:'flex-end'}}>
+              <Icon marginBottom={1} as={<MaterialCommunityIcons name="currency-cny" />} size={screenWidth*0.05} color="#C5884C" />
+            </View>
+            <View style={{height:screenHeight*0.05,justifyContent:'flex-end'}}>
+              <Text style={{fontSize:screenWidth*0.065,color:"#C5884C"}}>
+              18.8
+            </Text>
+            </View>
+          </HStack>
         </TouchableOpacity>
         <TouchableOpacity onPress={select6} style={selectedIndex == 6 ? styles.checkIndex:styles.select}>
-          <Text style={{fontSize:screenWidth*0.055,color:selectedIndex == 6 ? "#FFBF6B":"black"}}>72碧湾币</Text>
-          <Text style={{fontSize:screenWidth*0.04,color:'#9A9A9A'}}>72.00元</Text>
-        </TouchableOpacity>
-      </HStack>
-      <HStack space={4} style={{justifyContent:'space-between',marginTop:10}}>
-        <TouchableOpacity onPress={select7} style={selectedIndex == 7 ? styles.checkIndex:styles.select}>
-          <Text style={{fontSize:screenWidth*0.055,color:selectedIndex == 7 ? "#FFBF6B":"black"}}>108碧湾币</Text>
-          <Text style={{fontSize:screenWidth*0.04,color:'#9A9A9A'}}>108.00元</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={select8}  style={selectedIndex == 8 ? styles.checkIndex:styles.select}>
-          <Text style={{fontSize:screenWidth*0.055,color:selectedIndex == 8 ? "#FFBF6B":"black"}}>198碧湾币</Text>
-          <Text style={{fontSize:screenWidth*0.04,color:'#9A9A9A'}}>198.00元</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={select9} style={selectedIndex == 9 ? styles.checkIndex:styles.select}>
-          <Text style={{fontSize:screenWidth*0.055,color:selectedIndex == 9 ? "#FFBF6B":"black"}}>298碧湾币</Text>
-          <Text style={{fontSize:screenWidth*0.04,color:'#9A9A9A'}}>298.00元</Text>
-        </TouchableOpacity>
-      </HStack>
-      <Text style={{fontSize:screenWidth*0.04,marginTop:10,marginLeft:20,color:"#6C6C6C",alignSelf:'flex-start'}}>关于碧湾币：</Text>
-      <Text style={{fontSize:screenWidth*0.04,marginTop:10,marginLeft:20,color:"#6C6C6C",alignSelf:'flex-start'}}>1.碧湾币可以直接用户购买报告等虚拟服务</Text>
-      <TouchableOpacity  style={{ backgroundColor:'rgba(255, 191, 107, 1)', borderRadius:30,marginTop:"18%", width:"90%", justifyContent:'center', height:screenHeight*0.08,alignItems:'center'}}>
-        <HStack>
-          <View>
-            <Image alt='weixin' source={require('./images/wechatPay.png')}></Image>
-          </View>
-          <View>
-            <Text style={{fontSize:screenWidth*0.055,color:"black"}}>
-              微信支付
+        <Text style={{fontSize:screenWidth*0.035,color:selectedIndex == 6 ? "#101010":"black"}}>50次</Text>
+          <HStack style={{marginTop:5,height:screenHeight*0.05}}>
+            <View style={{height:screenHeight*0.05,justifyContent:'flex-end'}}>
+              <Icon marginBottom={1} as={<MaterialCommunityIcons name="currency-cny" />} size={screenWidth*0.05} color="#C5884C" />
+            </View>
+            <View style={{height:screenHeight*0.05,justifyContent:'flex-end'}}>
+              <Text style={{fontSize:screenWidth*0.065,color:"#C5884C"}}>
+            45.8
             </Text>
-          </View>
-        </HStack>
+            </View>
+          </HStack>
+        </TouchableOpacity>
+      </HStack>
+
+      {/* <Text style={{fontSize:screenWidth*0.04,marginTop:10,marginLeft:20,color:"#6C6C6C",alignSelf:'flex-start'}}>关于碧湾币：</Text>
+      <Text style={{fontSize:screenWidth*0.04,marginTop:10,marginLeft:20,color:"#6C6C6C",alignSelf:'flex-start'}}>1.碧湾币可以直接用户购买报告等虚拟服务</Text> */}
+      <TouchableOpacity  style={{ backgroundColor:'#F3BB3A', borderRadius:30,marginTop:"6%", width:"90%", justifyContent:'center', height:screenHeight*0.07,alignItems:'center'}}>
+            <Text style={{fontSize:screenWidth*0.045,color:"#724E0B"}}>
+            同意协议并立即支付开通会员
+            </Text>
       </TouchableOpacity>
-      
-      {/* <Button  colorScheme='rgba(255, 191, 107, 1)' style={{ borderRadius:30,marginTop:"18%", width:"90%", height:screenHeight*0.08,alignItems:'center'}} >
-        微信充值
-      </Button> */}
+      <HStack>
+        <Text style={{fontSize:screenWidth*0.03,marginTop:10,color:"#6C6C6C",alignSelf:'flex-start'}}>开通会员前请务必仔细阅读</Text> 
+        <Text style={{fontSize:screenWidth*0.03,marginTop:10,color:"#C5884C",alignSelf:'flex-start'}}>《会员服务协议》</Text> 
+        <Text style={{fontSize:screenWidth*0.03,marginTop:10,color:"#6C6C6C",alignSelf:'flex-start'}}>规则</Text> 
+      </HStack>
+      <Text style={{fontSize:screenWidth*0.045,marginTop:10,marginLeft:20,color:"#101010",alignSelf:'flex-start'}}>权益说明</Text>
+      <View style = {styles.bottom}>
+        <Text style={{marginLeft:20,marginTop:10,fontSize:screenWidth*0.035,color:"#C5884C"}}>会员权益</Text>
+        <Text style={{marginLeft:30,marginTop:10,fontSize:screenWidth*0.035,color:"#6C6C6C"}}>一、自选股票上限增加为50支</Text>
+        <Text style={{marginLeft:30,marginTop:10,fontSize:screenWidth*0.035,color:"#6C6C6C"}}>二、每月可以查看100份报告</Text>
+        <Text style={{marginLeft:30,marginTop:10,fontSize:screenWidth*0.035,color:"#6C6C6C"}}>三、可以下载报告并分享</Text>
+        <Text style={{marginLeft:20,marginTop:10,fontSize:screenWidth*0.035,color:"#C5884C"}}>次卡权益</Text>
+        {/* <Text style={{marginLeft:30,marginTop:10,fontSize:screenWidth*0.035,color:"#6C6C6C"}}>一、自选股票上限增加为50支</Text> */}
+        <Text style={{marginLeft:30,marginTop:10,fontSize:screenWidth*0.035,color:"#6C6C6C"}}>一、可以查看一定次数报告</Text>
+        <Text style={{marginLeft:30,marginTop:10,fontSize:screenWidth*0.035,color:"#6C6C6C"}}>二、可以下载报告并分享</Text>
+      </View>
 
 
     </View>
+    </ScrollView>
   ) 
   
 }
 export default Wallet;
 const styles = StyleSheet.create({
   header: {
-    backgroundColor:"rgba(244, 206, 152, 0.47)",
+    backgroundColor:"#FAF2D1",
     width:"94%",
     height:screenHeight*0.15,
     marginTop:'4%',
-    borderRadius:20,
+    borderRadius:10,
+  },
+  bottom: {
+    backgroundColor:"rgba(250, 242, 209, 0.38)",
+    width:"94%",
+    height:screenHeight*0.35,
+    marginTop:'4%',
+    borderRadius:10,
   },
   background:{
     alignItems:'center',
@@ -155,8 +215,8 @@ const styles = StyleSheet.create({
     width:"28%",
     height:screenHeight*0.1,
     borderWidth:1,
-    borderColor:"#FFBF6B",
-     backgroundColor:'rgba(239, 239, 239, 0.79)',
+    borderColor:"#C5884C",
+     backgroundColor:'#F3DB98',
      borderRadius:10,
      alignItems:'center',
      justifyContent:'center'
@@ -164,7 +224,10 @@ const styles = StyleSheet.create({
   select:{
     width:"28%",
     height:screenHeight*0.1,
-    backgroundColor:'rgba(239, 239, 239, 0.79)',
+    backgroundColor:'#ffffff',
+    borderWidth:1,
+    borderColor:'#BBBBBB',
+    
     borderRadius:10,alignItems:'center',
     justifyContent:'center'
   },

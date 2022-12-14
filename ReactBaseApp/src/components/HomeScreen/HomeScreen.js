@@ -9,14 +9,16 @@ import MaterialCommunityIcons  from 'react-native-vector-icons/MaterialCommunity
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import WebView from 'react-native-webview';
+import { Table, Row, Rows,TableWrapper,Col } from 'react-native-table-component';
+
 // import Swiper from 'react-native-swiper';
 import { Text } from 'react-native';
 import HttpUtil from '../../utils/http';
+import RNEChartsPro from 'react-native-echarts-pro';
 
 const HomeScreen = ({navigation}) => {
   const screenWidth = Dimensions.get('window').width;
   const screenHeight = Dimensions.get('window').height;
-
 
   return(
     <View style = {styles.background}>
@@ -27,6 +29,7 @@ const HomeScreen = ({navigation}) => {
       }} placeholderTextColor={'#707070'} placeholder="请输入股票代码或者公司名称"height={screenHeight*0.068} backgroundColor={'#cdcdcd'} borderWidth={'0'} mt={'6'} width={screenWidth*0.95} borderRadius="30" py="3" px="1" fontSize={screenWidth*0.04} 
         InputLeftElement={<Icon m="2" ml="3" size={screenWidth*0.07} color="gray.400" as={<MaterialIcons name="search" />} />}>
       </Input>
+  
       <View style={{marginTop:screenHeight*0.02}}>
           <View style={{alignSelf:'flex-start',marginLeft:12}}> 
           <Text style={{fontSize:screenWidth*0.045}}>热门搜索</Text>
@@ -60,11 +63,8 @@ const HomeScreen = ({navigation}) => {
           <TouchableOpacity style={{borderWidth:1,borderRadius:14,borderColor:"#BBBBBB",width:screenWidth*0.25,height:screenHeight*0.05,alignItems:'center',justifyContent:'center'}}>
             <Text style={{fontSize:screenWidth*0.04}}>中触媒</Text>
           </TouchableOpacity>
-
         </HStack>
-  
-        </View>
-    
+      </View>
     </View>
   ) 
    
@@ -125,6 +125,9 @@ const styles = StyleSheet.create({
     width:"100%",
     borderBottomWidth:1,
     // borderColor:"#f5f5f5"
-  }
+  },
+  container: { flex: 1, padding: 16, paddingTop: 30, backgroundColor: '#fff',width:'100%' },
+  head: { height: 40, backgroundColor: '#f1f8ff' },
+  text: { margin: 6 }
   
 })

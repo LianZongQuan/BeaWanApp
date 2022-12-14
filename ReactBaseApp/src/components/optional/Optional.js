@@ -106,22 +106,15 @@ const Optional = ({navigation}) => {
     toast.show({
       id:1,
       render: () => {
-        return <Alert w={screenWidth*0.6} borderRadius={'lg'} h={screenHeight*0.08} variant={'subtle'} status={status} mt={screenHeight*0.2}>
-            <VStack space={2} flexShrink={1} w="100%">
-              <HStack flexShrink={1} space={2} justifyContent="space-between">
-                <HStack space={2} flexShrink={1}>
-                  <Alert.Icon size={screenWidth*0.06} mt="1" />
-                  <Text style={{color:"black",  fontSize:screenWidth*0.05}} >
-                     请登录后操作
-                  </Text>
-                </HStack>
-                <IconButton onPress={() => toast.close(1)} variant="unstyled" _focus={{
-              borderWidth: 0
-            }} icon={<CloseIcon   size={screenWidth*0.04}  />} _icon={{
-              color: "coolGray.600"
-            }} />
-              </HStack>
-            </VStack>
+        return <Alert  w={screenWidth*0.6} borderRadius={10} variant={'outline'} borderColor={'info.50'}  backgroundColor={'white'} status={status} >
+            <HStack  w={screenWidth*0.6} h={'full'}>
+              <View style={{height:'100%',justifyContent:'center'}}>
+                <Alert.Icon ml={'2'} mr={'2'} size={screenWidth*0.06}/>
+              </View>
+              <View style={{height:'100%',justifyContent:'center'}}>
+                <Text style={{fontSize:screenWidth*0.045}}>{title}</Text>
+              </View>
+            </HStack>
           </Alert>;
       },
       placement: "top"
@@ -214,7 +207,7 @@ const Optional = ({navigation}) => {
     return(
       <HStack>
         <View style={{width:'25%',borderBottomWidth:0.5,borderColor:"#BEBEBE", backgroundColor:'#ffffff',justifyContent:'center', alignItems:'center',height:36}}>
-          <Text style={{color:'#BEBEBE',fontSize:screenWidth*0.04}}>名称</Text>
+          <Text style={{color:'#333333',fontSize:screenWidth*0.04}}>名称</Text>
         </View>
       <FlatList 
         style={{width:'75%'}}
@@ -237,10 +230,10 @@ const Optional = ({navigation}) => {
     <TouchableOpacity style={{alignItems:'center'}} onPress={jumpAddOptional}>
       <HStack style={{marginTop:10,height:screenHeight*0.1}}>
         <View style={{height:screenHeight*0.1,alignContent:'center'}}>
-        <Icon  color={'#9A9A9A'}  as={<MaterialIcons name="add" />} size={screenWidth*0.08}  />
+        <Icon  color={'#666666'}  as={<MaterialIcons name="add" />} size={screenWidth*0.06}  />
         </View>
         <View style={{height:screenHeight*0.1,alignContent:'center'}}>
-        <Text  style={{color:'#9A9A9A',fontSize:screenWidth*0.053}}>添加自选</Text>
+        <Text  style={{color:'#666666',fontSize:screenWidth*0.045}}>添加自选</Text>
         </View>
       </HStack>
     </TouchableOpacity>
@@ -252,13 +245,13 @@ const Optional = ({navigation}) => {
     return(
       <TouchableOpacity  disabled={user == null? true : false} onLongPress={()=>{
     setModalVisible(!modalVisible);
-    console.log(code)
+
     setdeleteCode(code);
-      }} style={{marginLeft:10,height:screenHeight*0.09,borderBottomWidth:0.5,borderColor:"#BEBEBE"}}>
-        <Text style={{fontSize:screenWidth*0.05,marginTop:10,color:'black'}}>{name}</Text>
+      }} style={{marginLeft:10,height:screenHeight*0.09,borderBottomWidth:0.7,borderColor:"#f5f5f5"}}>
+        <Text style={{fontSize:screenWidth*0.04,marginTop:10,color:'black'}}>{name}</Text>
         <HStack>
-          <Text  style={{fontSize:screenWidth*0.035,backgroundColor:typeColor,color:"#ffffff"}}>{type}</Text>
-          <Text style={{marginLeft:10,fontSize:screenWidth*0.035,color:'rgba(149, 29, 29, 0.62)'}}>{code}</Text>
+          <Text  style={{fontSize:screenWidth*0.03,backgroundColor:typeColor,color:"#ffffff"}}>{type}</Text>
+          <Text style={{marginLeft:5,fontSize:screenWidth*0.03,color:'#BEBEBE'}}>{code}</Text>
         </HStack>
       </TouchableOpacity>
     )
@@ -285,7 +278,7 @@ const Optional = ({navigation}) => {
               circleColor = '#E87777';
             }
             return (
-              <View key={index}  style={{width:screenWidth*0.245,height:screenHeight*0.09,borderBottomWidth:0.5,justifyContent:'center',alignItems:'center',borderColor:"#BEBEBE"}}>
+              <View key={index}  style={{width:screenWidth*0.245,height:screenHeight*0.09,borderBottomWidth:0.7,justifyContent:'center',alignItems:'center',borderColor:"#f5f5f5"}}>
               {/* 环形图分数组件 */}
               {/* <CircleProgressView raduis={screenHeight*0.035} progressBaseColor={'#BEBEBE'} progressColor = {circleColor} baseProgressWidth={4} progressWidth={4} progress={item.score} >
                 <View style={{alignItems:'center',justifyContent:'center'}} >
@@ -313,7 +306,7 @@ const Optional = ({navigation}) => {
   
     return(
       <View style={{height:36,backgroundColor:'#ffffff',borderBottomWidth:0.5,borderColor:"#BEBEBE", justifyContent:'center',alignItems:'center'}}>
-        <Text style={{color:'#BEBEBE',width:screenWidth*0.245,textAlign:'center', fontSize:screenWidth*0.04}}>{time}</Text>
+        <Text style={{color:'#666666',width:screenWidth*0.245,textAlign:'center', fontSize:screenWidth*0.04}}>{time}</Text>
       </View>
     )
   }
@@ -364,25 +357,25 @@ const Optional = ({navigation}) => {
           </Modal.Body>
         </Modal.Content>
       </Modal>            
-      <Input value={inputText} onChangeText={(text)=>search(text)} placeholder="检索"height={screenHeight*0.07} bg={"#ffffff"} width={screenWidth*0.9} borderRadius="24" mt={screenHeight*0.03} py="3" px="1" fontSize={screenWidth*0.04} 
-        InputLeftElement={<Icon m="2" ml="3" size={screenWidth*0.07} color="gray.400" as={<MaterialIcons name="search" />} />}>
+      <Input value={inputText} onChangeText={(text)=>search(text)} placeholder="检索"height={screenHeight*0.06} bg={"#ffffff"} width={screenWidth*0.9} borderRadius="24" mt={screenHeight*0.03} py="3" px="1" fontSize={screenWidth*0.04} 
+        InputLeftElement={<Icon m="2" ml="3" size={screenWidth*0.06} color="gray.400" as={<MaterialIcons name="search" />} />}>
       </Input>
       <View style={styles.segmentContainer}>
         <Flex direction="row"  >
           <TouchableOpacity onPress={select0} style={selectedIndex == 0 ? styles.checkSelect:styles.select} >
-            <Text style={{color:selectedIndex == 0 ? "black":"#BEBEBE",  fontSize:screenWidth*0.055}}>最新</Text>
+            <Text style={{color:selectedIndex == 0 ? "black":"#666666",  fontSize:screenWidth*0.05}}>最新</Text>
           </TouchableOpacity>
           <Divider h={7} bg="indigo.500" thickness="2" mx="2" orientation="vertical" />
           <TouchableOpacity onPress={select1} style={selectedIndex == 1 ? styles.checkSelect:styles.select}>
-            <Text style={{color:selectedIndex == 1 ? "black":"#BEBEBE", fontSize:screenWidth*0.055}}>年报</Text>
+            <Text style={{color:selectedIndex == 1 ? "black":"#666666", fontSize:screenWidth*0.05}}>年报</Text>
           </TouchableOpacity>
           <Divider h={7} bg="indigo.500" thickness="2" mx="2" orientation="vertical" />
           <TouchableOpacity onPress={select2}  style={selectedIndex == 2 ? styles.checkSelect:styles.select}>
-            <Text style={{color:selectedIndex == 2 ? "black":"#BEBEBE",fontSize:screenWidth*0.055}}>中报</Text>
+            <Text style={{color:selectedIndex == 2 ? "black":"#666666",fontSize:screenWidth*0.05}}>中报</Text>
           </TouchableOpacity>
           <Divider h={7} bg="indigo.500" thickness="2" mx="2" orientation="vertical" />
           <TouchableOpacity onPress={select3}  style={selectedIndex == 3 ? styles.checkSelect:styles.select}>
-            <Text style={{color:selectedIndex == 3 ? "black":"#BEBEBE",fontSize:screenWidth*0.055}}>季报</Text>
+            <Text style={{color:selectedIndex == 3 ? "black":"#666666",fontSize:screenWidth*0.05}}>季报</Text>
           </TouchableOpacity>
         </Flex>
 
@@ -399,7 +392,6 @@ const Optional = ({navigation}) => {
           data = {[{id:'1'}]}
           style={{alignSelf:'stretch'}}
           stickyHeaderIndices={[0]}>
-            
         </FlatList>
       </HStack>
     </View>
@@ -410,7 +402,7 @@ const styles = StyleSheet.create({
   segmentContainer: {
     marginBottom: 10,
     marginTop:10,
-    marginRight:20,
+    marginRight:40,
     width:'100%',
     alignItems:'flex-end'
   },
@@ -420,7 +412,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   checkSelect:{
-    elevation:3,
+    elevation:1,
     backgroundColor:'#ffffff',
     width:screenWidth*0.18,
     alignItems:'center',

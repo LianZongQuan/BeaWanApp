@@ -6725,6 +6725,11 @@ react-native-codegen@^0.70.6:
     jscodeshift "^0.13.1"
     nullthrows "^1.1.1"
 
+react-native-echarts-pro@^1.8.9:
+  version "1.8.9"
+  resolved "https://registry.npmmirror.com/react-native-echarts-pro/-/react-native-echarts-pro-1.8.9.tgz#afbf65609304950906694f7288d0c265aed8d141"
+  integrity sha512-Da8IoFuVBSU3bXF1+0WXH8KkQqS/DehqW6KuzueFRjMrgxIkbKCv8R1SXFRJD5RU6yFhH9sjrYWcuf5s2Pybjg==
+
 react-native-gradle-plugin@^0.70.3:
   version "0.70.3"
   resolved "https://registry.npmmirror.com/react-native-gradle-plugin/-/react-native-gradle-plugin-0.70.3.tgz#cbcf0619cbfbddaa9128701aa2d7b4145f9c4fc8"
@@ -6775,6 +6780,11 @@ react-native-tab-view@^3.3.0:
   integrity sha512-xjAQe657Gp/de2QHb7ptksTg8Jcb+j3fLAdcYryzfavt/pe+HtKLpkCtQsxyIJpRrAO7YPxFsymi2N4MnNfePA==
   dependencies:
     use-latest-callback "^0.1.5"
+
+react-native-table-component@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.npmmirror.com/react-native-table-component/-/react-native-table-component-1.2.2.tgz#1c9bdcd8f1fd7edf10d1e93ebc3b7877ecd74def"
+  integrity sha512-7bbsi5431iWcjj3toASh8lFHGi6AG/+MTd4M7GuksXKxx/CFs/Qwv1Ys7D2wgyuYKe3hxWNfSVrteFj0tOYXYw==
 
 react-native-vector-icons@^9.2.0:
   version "9.2.0"

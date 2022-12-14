@@ -30,27 +30,27 @@ const User = ({navigation}) => {
       "请登录后操作",
     );
   }
+
+  // <IconButton onPress={() => toast.close(1)} variant="unstyled" _focus={{
+  //   borderWidth: 0
+  // }} icon={<CloseIcon   size={screenWidth*0.04}  />} _icon={{
+  //   color: "coolGray.600"
+  // }} />
+
   //自定义提示
   function  customAlter(id,status,title){
     toast.show({
       id:1,
       render: () => {
-        return <Alert w={screenWidth*0.6} borderRadius={'lg'} h={screenHeight*0.08} variant={'subtle'} status={status} mt={screenHeight*0.2}>
-            <VStack space={2} flexShrink={1} w="100%">
-              <HStack flexShrink={1} space={2} justifyContent="space-between">
-                <HStack space={2} flexShrink={1}>
-                  <Alert.Icon size={screenWidth*0.06} mt="1" />
-                  <Text style={{color:"black",  fontSize:screenWidth*0.05}} >
-                     请登录后操作
-                  </Text>
-                </HStack>
-                <IconButton onPress={() => toast.close(1)} variant="unstyled" _focus={{
-              borderWidth: 0
-            }} icon={<CloseIcon   size={screenWidth*0.04}  />} _icon={{
-              color: "coolGray.600"
-            }} />
-              </HStack>
-            </VStack>
+        return <Alert  w={screenWidth*0.6} borderRadius={10} variant={'outline'} borderColor={'info.50'}  backgroundColor={'white'} status={status} >
+            <HStack  w={screenWidth*0.6} h={'full'}>
+              <View style={{height:'100%',justifyContent:'center'}}>
+                <Alert.Icon ml={'2'} mr={'2'} size={screenWidth*0.06}/>
+              </View>
+              <View style={{height:'100%',justifyContent:'center'}}>
+                <Text style={{fontSize:screenWidth*0.045}}>{title}</Text>
+              </View>
+            </HStack>
           </Alert>;
       },
       placement: "top"
@@ -103,6 +103,8 @@ const User = ({navigation}) => {
     try {
       let user_info = await AsyncStorage.getItem('user_info');
       setuser(user_info)
+      console.log(user_info)
+
     } catch (error) {
       console.log(error)
     }
@@ -117,21 +119,22 @@ const User = ({navigation}) => {
               <Image alt='TU'style={{borderRadius:50,width:screenWidth*0.2,height:screenWidth*0.2}} source={require('./images/heard.jpg')} ></Image>
             </Avatar>
           <TouchableOpacity onPress={jumpLogin} style={{alignItems:'center',justifyContent:'center',marginBottom:10}}>
-            <Text style={{fontSize:screenWidth*0.07,color:"#6C6C6C"}}>登录/注册</Text>
+            <Text style={{fontSize:screenWidth*0.06,color:"#666666"}}>登录/注册</Text>
           </TouchableOpacity>
         </HStack>
       )
     }else{
       return(
-        <HStack style={{marginLeft:screenWidth*0.05}}>
+        <HStack style={{marginLeft:screenWidth*0.05,height:screenWidth*0.2}}>
             <Avatar  style={{width:screenWidth*0.2,height:screenWidth*0.2,borderColor:"#BEBEBE",borderWidth:1}}  mr="4" >
               <Image alt='TU'style={{borderRadius:50,width:screenWidth*0.2,height:screenWidth*0.2}} source={require('./images/heard.jpg')} ></Image>
             </Avatar>
-          <View onPress={jumpLogin} style={{alignItems:'flex-start'}}>
+          <View onPress={jumpLogin} style={{alignItems:'flex-start',height:screenWidth*0.2,justifyContent:'center'}}>
             {/* <Text style={{fontSize:screenWidth*0.065,color:"#6C6C6C"}}>{JSON.parse(user).name == undefined? JSON.parse(user).nickname:JSON.parse(user).name}</Text> */}
 
             {/* <Text style={{fontSize:screenWidth*0.065,color:"#6C6C6C",marginTop:5}}>{JSON.parse(user).phone}</Text> */}
-            <Text style={{fontSize:screenWidth*0.065,color:"#6C6C6C",marginTop:5}}>{JSON.parse(user).name == undefined? JSON.parse(user).userNickName:''}</Text>
+            <Text style={{fontSize:screenWidth*0.06,color:"#333333"}}>{JSON.parse(user).name == undefined? JSON.parse(user).userNickName:''}</Text>
+            <Text style={{fontSize:screenWidth*0.035,color:"#6C6C6C",marginTop:5}}>手机号：{JSON.parse(user).phone}</Text>
 
           </View>
         </HStack>
@@ -147,6 +150,13 @@ const User = ({navigation}) => {
         {head()}
       </View>
       <View style = {styles.content}>
+      <TouchableOpacity  style={styles.list1} onPress={jumpWallet} >
+          <HStack style = {{marginLeft:"3%"}}>
+            <Image alt='会员中心' size={screenWidth*0.07} ml="2" source={require('./images/member.png')}></Image>
+            <Text style = {styles.listText}>会员中心</Text>
+            <Icon style ={{marginRight:20}} as={<AntDesign name="right" />} size={screenWidth*0.07} ml="2" color="muted.400" />
+          </HStack>     
+        </TouchableOpacity>
         <TouchableOpacity style={styles.list} onPress={jumpUserInfo} >
           <HStack style = {{marginLeft:"3%"}}>
             <Icon as={<AntDesign name="user" />} size={screenWidth*0.07} ml="2" color="#2DB7F5" />
@@ -154,13 +164,7 @@ const User = ({navigation}) => {
             <Icon style ={{marginRight:20}} as={<AntDesign name="right" />} size={screenWidth*0.07} ml="2" color="muted.400" />
           </HStack>     
         </TouchableOpacity>
-        <TouchableOpacity style={styles.list} onPress={jumpWallet}>
-          <HStack style = {{marginLeft:"3%"}}>
-            <Icon as={<AntDesign name="wallet" />} size={screenWidth*0.07} ml="2" color="#54BCBD" />
-            <Text style = {styles.listText}>钱包</Text>
-            <Icon style ={{marginRight:20}} as={<AntDesign name="right" />} size={screenWidth*0.07} ml="2" color="muted.400" />
-          </HStack>     
-        </TouchableOpacity>
+
         <TouchableOpacity style={styles.list} onPress={jumpOrderInfo}>
           <HStack style = {{marginLeft:"3%"}}>
             <Icon as={<AntDesign name="profile" />} size={screenWidth*0.07} ml="2" color="#F4CE98" />
@@ -200,7 +204,7 @@ const styles = StyleSheet.create({
   header: {
     backgroundColor:"#ffffff",
     width:"100%",
-    height:screenHeight*0.2,
+    height:screenHeight*0.15,
     justifyContent: 'center',
   },
   background:{
@@ -212,15 +216,27 @@ const styles = StyleSheet.create({
     // borderWidth:1,
     height:screenHeight*0.8,
     width:"100%",
-    marginTop:"3%",
-    backgroundColor:"#ffffff"
+    backgroundColor:"#f5f5f5"
   },
   list:{
     justifyContent:'center',
-    height:screenHeight*0.09,
+    height:screenHeight*0.08,
     width:"100%",
     borderBottomWidth:1,
-    borderColor:"#f5f5f5"
+    borderColor:"#f5f5f5",
+    backgroundColor:"#ffffff"
+
+  },
+  list1:{
+    justifyContent:'center',
+    height:screenHeight*0.08,
+    width:"100%",
+    borderBottomWidth:1,
+    borderColor:"#f5f5f5",
+    marginBottom:10,
+    marginTop:10,
+    backgroundColor:"#ffffff"
+
   },
   listText:{
     fontSize:screenWidth*0.055,
