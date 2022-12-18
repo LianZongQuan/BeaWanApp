@@ -27,6 +27,7 @@ import Optional from './src/components/optional/Optional'
 import OptionalInfo  from './src/components/optional/OptionalInfo';
 import AddOptional from './src/components/optional/AddOptional';
 import Report from './src/components/optional/Report';
+import Message from './src/components/optional/Message';
 
 import AboutApp from './src/components/user/AboutApp';
 import Wallet from './src/components/user/Wallet'
@@ -121,13 +122,13 @@ function App() {
         <Stack.Screen name="收银台" component={PrivacyPolicy} options={{headerTitleAlign:'center'}}/>
         <Stack.Screen name="搜索" component={Search} options={{headerShown:false}}/>
 
-      
+        <Stack.Screen name="消息" component={Message} options={{headerTitleAlign:'center'}}/>
 
         <Stack.Screen name="关于" component={AboutApp} options={{headerTitleAlign:'center'}}/>
         <Stack.Screen name="添加自选" component={AddOptional} options={{headerTitleAlign:'center'}}/>
 
         <Stack.Screen name="自选详情" component={OptionalInfo} options={{headerTitleAlign:'center'}}/>
-        <Stack.Screen name="报告" component={Report} options={{headerTitleAlign:'center'}}/>
+        <Stack.Screen name="报告" component={Report} options={{headerShown:false}}/>
         <Stack.Screen name="登录" component={Login}  options={{headerTitleAlign:'center'
       
           }}/>

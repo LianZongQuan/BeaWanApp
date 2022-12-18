@@ -33,10 +33,7 @@ const Search = ({navigation}) => {
       setdata(response.data) 
       // console.log(response.data[10].comName) 
     })
-
   },[]);
-
-
 
   function jumpOptional(){
     navigation.navigate('自选');
@@ -59,10 +56,10 @@ const Search = ({navigation}) => {
   }
   const NameItem = ({name,code}) =>{
     return(
-      <TouchableOpacity  onPress={jumpReport} style={{width:screenWidth*0.9,borderBottomWidth:0.5,borderColor:"#BEBEBE", height:screenHeight*0.07,justifyContent:'center'}}>
+      <TouchableOpacity onPress={()=>{
+        navigation.navigate('自选详情',{name:name,comCode:code});
+      }} style={{width:screenWidth*0.9,borderBottomWidth:0.5,borderColor:"#BEBEBE", height:screenHeight*0.07,justifyContent:'center'}}>
         <HStack>
-
-    
         <View style={{width:'35%', alignItems:'center',justifyContent:'center',height:screenHeight*0.07}}>
           <Text style={{fontSize:16}}>{name}</Text>
         </View>
@@ -81,8 +78,6 @@ const Search = ({navigation}) => {
     )
   }
   const renderNameItem = ({item}) =>(
-
- 
     <NameItem name={item.comName} code = {item.comCode} ></NameItem>
   );
   const noSearch =() =>{
@@ -167,7 +162,7 @@ const Search = ({navigation}) => {
       let ret =  isNumber == true ? QueryCode(list,text):QueryName(list,text)
       if(ret != null){
         setListData(ret);
-        console.log(listData)
+        // console.log(listData)
       }
     }
   }

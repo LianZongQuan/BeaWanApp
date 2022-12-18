@@ -140,7 +140,7 @@ const AddOptional = ({navigation}) => {
       let ret =  isNumber == true ? QueryCode(list,text):QueryName(list,text)
       if(ret != null){
         setListData(ret);
-        console.log(listData)
+        // console.log(listData)
       }
     }
   }

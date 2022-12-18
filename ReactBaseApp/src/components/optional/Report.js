@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import {
    Avatar,HStack,Center,Box,Button,Image
-  ,Icon,Flex,Input,View, Container,Select,TextArea, Link 
+  ,Icon,Flex,Input,View, Container,Select,TextArea, Link ,Text 
 } from 'native-base';
-import { StyleSheet, TextInput, TouchableOpacity,Dimensions, Linking,FlatList,ScrollView } from 'react-native';
+import { StyleSheet, TextInput, TouchableOpacity,Dimensions, Linking,FlatList,ScrollView} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import MaterialCommunityIcons  from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import WebView from 'react-native-webview';
 import * as WeChat from 'react-native-wechat-lib';
-import { Text } from 'react-native';
+// import { Text } from 'react-native';
 const screenWidth = Dimensions.get('window').width;
 import RNEChartsPro from 'react-native-echarts-pro';
 
@@ -22,7 +22,7 @@ import { Path } from 'react-native-svg';
 import CircleProgressView from '../../utils/CircleProgressView';
 import { Table, Row, Rows,TableWrapper,Col } from 'react-native-table-component';
 import {  MD5 } from 'crypto-js';
-import data from './TestData.json'
+// import data from './TestData.json'
 
 /*
 微信支付
@@ -42,24 +42,45 @@ nonce_str： ibuaiVcKdpRxkhJF
 
 
 
-const Report = ({navigation}) => {
-  const list = data.data
+const Report = ({route,navigation}) => {
+  // const list = data.data
+  const {comCode,year,stage} = route.params;
+
+  const [list,setList] = React.useState([]);
 
   React.useEffect(() => {
-    WeChat.registerApp('wx5a01a8ac8e18289c', '').then(res => {
-      console.log("是否 已经注册微信：" + res)
-    })
+    // WeChat.registerApp('wx5a01a8ac8e18289c', '').then(res => {
+    //   console.log("是否 已经注册微信：" + res)
+    // })
+    getReport(comCode,year,stage)
+    // console.log(screenHeight)
     // 83DA8E78F57EFD28037A7B6031DB1334
     // let stringA = stringA="appid=wx5a01a8ac8e18289c&body=test&device_info=WEB&mch_id=1635512528&nonce_str=ibuaiVcKdpRxkhJA";
     // let stringSignTemp=stringA+"&key=192006250b4c09247ec02edce69f6a2d" //注：key为商户平台设置的密钥key
     // let sign=HmacMD5(stringSignTemp).toUpperCase()="9A0A8659F005D6984697E2CA0A9CF3B7" //注：MD5签名方式
   },[]);
   
+  function jumpOptionalInfo(){
+    navigation.goBack()
+  }
+
+  function getReport(comCode,year,stage){
+    let url = HttpUtil.localUrl+'company/company/analysisResult/'+comCode+'/'+year+'/'+stage;
+    console.log(url)
+    // let user = await AsyncStorage.getItem('user_info');
+    let header = {};
+    HttpUtil.get(url,null,header,function(response){
+      // console.log(response.data.data)
+      setList(response.data.data);
+    })
+  }
+
   const Item = ({type,data}) =>{
     if(type == 1){
       return(
-        <View style={{width:screenWidth*0.96}}>
-          <Text  style={ data.style == 'T'? styles.t1: data.style == 'H1'?styles.h1:data.style == 'H2'?styles.h2:styles.h3}>{data.strings}</Text>
+        <View style={{width:screenWidth*0.92,alignSelf:'center',flex:1}}>
+          <Text  style={ data.style == 'T'? styles.t1: data.style == 'H1'?styles.h1:data.style == 'H2'?styles.h2: data.style == 'H0'? styles.h0:styles.h3}>{data.strings}</Text>
+
         </View>
       )
     }else if(type == 3){
@@ -68,8 +89,8 @@ const Report = ({navigation}) => {
       option.title.text = '';
       return(
         <View style={{alignItems:'center',width:screenWidth*0.96,}}>
-          <RNEChartsPro option={option} height={screenHeight*0.45} backgroundColor={'#f5f5f5'} ></RNEChartsPro>
-          <Text style={{marginBottom:10,fontSize:screenWidth*0.045,color:"#666666"}}>{title}</Text>
+          <RNEChartsPro  option={option} height={screenHeight*0.4} backgroundColor={'#f5f5f5'} ></RNEChartsPro>
+          <Text style={{marginBottom:10,fontSize:screenWidth*0.04,color:"#333333",marginTop:10}}>{title}</Text>
         </View>
       )
     }
@@ -151,6 +172,7 @@ function wxpay(){
   }
 
   return(
+
     <View style={{height:screenHeight*1,alignItems:'center',backgroundColor:'#ffffff'}}>
       {/* <HStack style={{width:screenWidth*1,height:screenHeight*0.06,backgroundColor:'#f5f5f5',elevation:1}}>
         <View style={{height:screenHeight*0.06,justifyContent:'center'}}>
@@ -171,11 +193,27 @@ function wxpay(){
         </View>
 
       </HStack> */}
-      <View style={{width:screenWidth*0.96}}>
+      <HStack width={'full'} h={screenHeight*0.08} alignItems={'center'}  >
+        <TouchableOpacity onPress={jumpOptionalInfo} style={{height:screenHeight*0.08,justifyContent:'center',width:screenWidth*0.2,alignItems:'center'}}>
+          <Icon style ={{marginRight:20}} as={<AntDesign name="left" />} size={screenWidth*0.06} ml="2" color="#333333" />
+        </TouchableOpacity>
+        {/* <View  style={{height:screenHeight*0.08,justifyContent:'center',width:screenWidth*0.4,alignItems:'center'}}> */}
+          <Text style={{fontSize:screenWidth*0.047,fontWeight:'600',width:screenWidth*0.4}}>
+            冰山冷热研报
+          </Text>
+        {/* </View> */}
+        <TouchableOpacity  onPress={wx} style={{width:screenWidth*0.2,height:screenHeight*0.08,justifyContent:'center',alignItems:'center'}}>
+          <Icon  as={<AntDesign name="wechat" />} size={screenWidth*0.07} color="#81B337" />
+        </TouchableOpacity>
+        <TouchableOpacity  onPress={wx} style={{width:screenWidth*0.2,height:screenHeight*0.08,justifyContent:'center',alignItems:'center'}}>
+        <Icon  as={<AntDesign name="download" />} size={screenWidth*0.07} ml="2" color="#215476" />
+        </TouchableOpacity>
+      </HStack>
+      <View style={{width:screenWidth*0.96,height:screenHeight*0.9}}>
         <FlatList
           automaticallyAdjustContentInsets={false}
           listKey='100'
-          ListHeaderComponent={head}
+          // ListHeaderComponent={head}
           renderItem={renderItem}
           data={list}
           showsVerticalScrollIndicator={false}>
@@ -195,34 +233,46 @@ const styles = StyleSheet.create({
 
   },
   t1:{
-    fontSize:screenWidth*0.049,
-    lineHeight:25,
-    letterSpacing:2,
+    // width:screenWidth*0.9,
+    fontSize:screenWidth*0.047,
+    lineHeight:27,
+    letterSpacing:1.5,
     color:'#333333',
-    textAlign:'justify',
+    fontFamily:'PingFang-Medium',
     marginBottom:15,
-    backgroundColor:'#f5f5f5',
-
-    borderRadius:10,
-    padding:5,
-    // elevation:0.5
+    textAlign:'justify'
   },
-  h1:{
+  h0:{
     fontSize:screenWidth*0.055,
     marginBottom:15,
+    marginTop:15,
+    lineHeight:40,
     color:'#215476',
-    alignSelf:'center'
+    alignSelf:'center',
+    fontWeight:'600'
+    
+  },
+  h1:{
+    fontSize:screenWidth*0.05,
+    marginBottom:15,
+    marginTop:15,
+    lineHeight:40,
+    color:'#215476',
+    alignSelf:'center',
+    fontWeight:'600'
     
   },
   h2:{
-    fontSize:screenWidth*0.047,
-    // lineHeight:50,
+    fontSize:screenWidth*0.048,
+    lineHeight:40,
     marginBottom:15,
-    color:'#333333'
+    color:'#333333',
+    fontWeight:'600'
+    
   },
   h3:{
     fontSize:screenWidth*0.04,
-    // lineHeight:40,
+    lineHeight:30,
     marginBottom:15,
     color:'#333333'
   },

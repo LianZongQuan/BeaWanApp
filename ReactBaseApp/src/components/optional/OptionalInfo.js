@@ -10,13 +10,24 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import WebView from 'react-native-webview';
 import CircleProgressView from '../../utils/CircleProgressView';
+import HttpUtil from '../../utils/http';
 // import Swiper from 'react-native-swiper';
 import { Text } from 'react-native';
 
 const OptionalInfo = ({route,navigation}) => {
   const screenWidth = Dimensions.get('window').width;
   const screenHeight = Dimensions.get('window').height;
-  const {list,name} = route.params;
+
+  //搜索列表数据
+  const [list,setList] = React.useState([]);
+  // const {list,name} = route.params;
+  const {name,comCode} = route.params;
+
+
+  React.useEffect(() => {
+    getList(comCode);
+  },[]);
+
   function dealData(namelist,reportlist,year){
     let list = [];
     let ret = '';
@@ -32,20 +43,41 @@ const OptionalInfo = ({route,navigation}) => {
       }
     }
     return list;
-    
   }
-  function jumpReport(){
-    navigation.navigate('报告');
+  function getList(comCode){
+    let url = HttpUtil.localUrl+'company/result/'+comCode;
+    console.log(url)
+    // let user = await AsyncStorage.getItem('user_info');
+    let header = {};
+    HttpUtil.get(url,null,header,function(response){
+      console.log(response.data.data)
+      setList(response.data.data);
+    })
+
+  }
+
+
+  // function jumpReport(){
+  //   navigation.navigate('报告');
+  // }
+  function isyear(reprot,year){
+    if(reprot.length == 0){
+    }else{
+      return(
+        <Text style={{fontSize:screenWidth*0.05,marginTop:10,color:'#CBA43F'}}>{year}</Text>
+      )
+    }
   }
   const MainItem = ({report,year}) =>{   
     let list = report;
+    // console.log(report)
     report = dealData(data,report,year)
+    
     return(
       <View>
+        {isyear(report,year)}
         <View>
-          <Text style={{fontSize:screenWidth*0.05,marginTop:10,color:'#CBA43F'}}>{year}</Text>
-        </View>
-        <View>
+        
           {report.map((item, index) => {
             let circleColor = '';
             // console.log(item)
@@ -58,7 +90,9 @@ const OptionalInfo = ({route,navigation}) => {
               circleColor = '#E87777';
             }
             return (
-              <TouchableOpacity key={index}  onPress={jumpReport} style={{width:screenWidth*0.9,backgroundColor:"#ffffff",borderRadius:10,height:screenHeight*0.06,elevation:0.3,marginTop:15}}>
+              <TouchableOpacity key={index}  onPress={()=>{
+                navigation.navigate('报告',{comCode:item.comCode,year:item.year,stage:item.stage});
+                }} style={{width:screenWidth*0.9,backgroundColor:"#ffffff",borderRadius:10,height:screenHeight*0.06,elevation:0.3,marginTop:15}}>
                 <HStack style={{width:screenWidth*0.9,height:screenHeight*0.06,}}>
                   <View style={{width:screenWidth*0.4,height:screenHeight*0.06,justifyContent:'center',alignItems:'center'}}>
                     <Text style={{fontSize:22,color:"#333333"}}>
@@ -88,7 +122,7 @@ const OptionalInfo = ({route,navigation}) => {
     )
   }
   const data = [{"time": "年报"}, { "time": "三季报"}, { "time": "中报"}, { "time": "一季报"}]
-  const year = [{"year": "2021"}, {"year": "2020"}, {"year": "2019"}, {"year": "2018"}]
+  const year = [{"year": "2022"},{"year": "2021"}, {"year": "2020"}, {"year": "2019"}, {"year": "2018"}]
   return(
     <View style = {styles.background}>
       <View>

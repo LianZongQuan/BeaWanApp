@@ -1,8 +1,30 @@
 import * as CryptoJS from "crypto-js";
 import * as WeChat from "react-native-wechat-lib";
 
-
-
+/**
+ * 获取最新列表标题名称
+ */
+export function getTitle(index) {
+  let data = new Date();
+  let todayYear = data.getFullYear();
+  let todayMonth = data.getMonth()+1;
+  let title1 = '';let title2 = '';let title3 = '';let title4 = '';
+  if(todayMonth > 10){
+    title1 = [ { "time": todayYear+"三季报"}, { "time": todayYear+"中报"}, { "time": todayYear+"一季报"},{"time": (todayYear-1)+"年报"}]
+    title2 = [ { "time": (todayYear-1)+"年报"}, { "time": (todayYear-2)+"年报"}, { "time": (todayYear-3)+"年报"},{"time": (todayYear-4)+"年报"}]
+    title3 = [ { "time": (todayYear)+"中报"}, { "time": (todayYear-1)+"中报"}, { "time": (todayYear-2)+"中报"},{"time": (todayYear-3)+"中报"}]
+    title4 = [ { "time": (todayYear)+"三季报"}, { "time": (todayYear)+"一季报"}, { "time": (todayYear-1)+"三季报"},{"time": (todayYear-1)+"一季报"}]
+  }
+  if(index===1){
+    return title1;
+  }else if(index == 2){
+    return title2;
+  }else if(index == 3){
+    return title3;
+  }else{
+    return title4;
+  }
+}
 
 /**
  *加密处理

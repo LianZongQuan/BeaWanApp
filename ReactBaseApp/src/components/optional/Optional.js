@@ -13,12 +13,12 @@ import WebView from "react-native-webview";
 
 import CircleProgressView from '../../utils/CircleProgressView';
 import HttpUtil from '../../utils/http';
+import {getTitle} from '../../utils/util'
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 
 const Optional = ({navigation}) => {
-
 
   //分段器选择下标
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -34,59 +34,68 @@ const Optional = ({navigation}) => {
   const [listReportName,setListReportName] = useState(null);
   //指向的报告列表组件
   let _titleList = null;
+  //最新
+  const title1 = getTitle(1);
+  //年报
+  const title2 = getTitle(2);
+  //中报
+  const title3 = getTitle(3);
+  //季报
+  const title4 = getTitle(4);
+
   const toast = useToast();
   const [modalVisible, setModalVisible] = React.useState(false);
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
   
-
   React.useEffect(() => {
     const focus=navigation.addListener('focus',()=>{
-      setSelectedIndex(0);
+     
+      setSelectedIndex(1);
       setInputText('');
-      setListReportName([{"time": "2021年报"}, { "time": "2021三季报"}, { "time": "2021中报"}, { "time": "2021一季报"}]);
+      setListReportName(title2)
       getData();
     }) 
-  },[navigation]);
 
+  },[navigation]);
+  
   async function getData(){
     let url = HttpUtil.localUrl+'company/company/selfCom'
     let user = await AsyncStorage.getItem('user_info');
-    // console.log('请求数据')
     setuser(user)
     if(user === null){
       let header = {};
       HttpUtil.get(url,null,header,function(response){
         setdata(response.data.data)
       })
-      // setdata(null)
     }else{
       let header = {'token':JSON.parse(user).tokenValue};
       HttpUtil.get(url,null,header,function(response){
         setdata(response.data.data)
+        console.log(response.data.data)
+
       })
     }
   }
   function select0(){
     setInputText('');
     setSelectedIndex(0);
-    setListReportName([{"time": "2021年报"}, { "time": "2021三季报"}, { "time": "2021中报"}, { "time": "2021一季报"}]);
+    setListReportName(title1)
   }
   function select1(){
     setInputText('');
     setSelectedIndex(1);
-    setListReportName([{"time": "2021年报"}, { "time": "2020年报"}, { "time": "2019年报"}, { "time": "2018年报"}]);
-    // getData();
+    setListReportName(title2)
   }
   function select2(){
     setInputText('');
     setSelectedIndex(2);
-    setListReportName([{"time": "2021中报"}, { "time": "2020中报"}, { "time": "2019中报"}, { "time": "2018中报"}]);
+    setListReportName(title3)
   }
   function select3(){
     setInputText('');
     setSelectedIndex(3);
-    setListReportName([{"time": "2021三季报"}, { "time": "2021一季报"}, { "time": "2020三季报"}, { "time": "2020一季报"}]);
+    setListReportName(title4)
   }
     //同步滚动方法
   const ListScroll = (e) => {
@@ -146,8 +155,11 @@ const Optional = ({navigation}) => {
           ret = reportlist[j].year + reportlist[j].stage
           if(namelist[i].time === ret){
             list.push(reportlist[j])
-            // console.log(reportlist[j])
+            break;
           }
+      }
+      if(j == reportlist.length){
+        list.push({"comCode": "0", "id": 0, "score": "0", "stage": "0", "year": "0"})
       }
     }
     return list;
@@ -206,8 +218,8 @@ const Optional = ({navigation}) => {
   const head = () =>{
     return(
       <HStack>
-        <View style={{width:'25%',borderBottomWidth:0.5,borderColor:"#BEBEBE", backgroundColor:'#ffffff',justifyContent:'center', alignItems:'center',height:36}}>
-          <Text style={{color:'#333333',fontSize:screenWidth*0.04}}>名称</Text>
+        <View style={{width:'25%', backgroundColor:'#ffffff',justifyContent:'center', alignItems:'center',height:36}}>
+          <Text style={{color:'#999999',fontSize:screenWidth*0.035}}>名称</Text>
         </View>
       <FlatList 
         style={{width:'75%'}}
@@ -259,12 +271,12 @@ const Optional = ({navigation}) => {
   const renderNameItem = ({item}) =>(
     <NameItem name={item.comName} type={item.type} code={item.comCode}></NameItem>
   );
-  const MainItem = ({report,name}) =>{   
+  const MainItem = ({report,name,comCode}) =>{   
     let list = report;
     report = dealData(listReportName,report)
     return(
       <TouchableOpacity onPress={()=>{
-        navigation.navigate('自选详情',{list:list,name:name});
+        navigation.navigate('自选详情',{name:name,comCode:comCode});
       }} >
         <HStack>
           {report.map((item, index) => {
@@ -275,7 +287,7 @@ const Optional = ({navigation}) => {
             {
               circleColor = '#E99D42';
             }else{
-              circleColor = '#E87777';
+              circleColor = '#5ac4ad';
             }
             return (
               <View key={index}  style={{width:screenWidth*0.245,height:screenHeight*0.09,borderBottomWidth:0.7,justifyContent:'center',alignItems:'center',borderColor:"#f5f5f5"}}>
@@ -299,14 +311,14 @@ const Optional = ({navigation}) => {
   }
   const renderMainItem = ({item}) =>{
     return(
-      <MainItem report = {item.comReports} name={item.comName} ></MainItem>  
+      <MainItem report = {item.comReports} name={item.comName} comCode={item.comCode} ></MainItem>  
     )
   }
   const HeadItem = ({id,time}) =>{
   
     return(
-      <View style={{height:36,backgroundColor:'#ffffff',borderBottomWidth:0.5,borderColor:"#BEBEBE", justifyContent:'center',alignItems:'center'}}>
-        <Text style={{color:'#666666',width:screenWidth*0.245,textAlign:'center', fontSize:screenWidth*0.04}}>{time}</Text>
+      <View style={{height:36,backgroundColor:'#ffffff', justifyContent:'center',alignItems:'center'}}>
+        <Text style={{color:'#999999',width:screenWidth*0.245,textAlign:'center', fontSize:screenWidth*0.035}}>{time}</Text>
       </View>
     )
   }
@@ -346,7 +358,7 @@ const Optional = ({navigation}) => {
   );
 
   return(
-    <View style={{ flex: 1,backgroundColor:"#f5f5f5", alignItems:'center' }}>
+    <View style={{ flex: 1,backgroundColor:"#ffffff", alignItems:'center' }}>
       <Modal style={{alignItems:'center', width:screenWidth*0.5,alignSelf:'center'}} isOpen={modalVisible} onClose={() => setModalVisible(false)} initialFocusRef={initialRef} finalFocusRef={finalRef}>
         <Modal.Content>
           <Modal.Body>
@@ -356,31 +368,35 @@ const Optional = ({navigation}) => {
 
           </Modal.Body>
         </Modal.Content>
-      </Modal>            
-      <Input value={inputText} onChangeText={(text)=>search(text)} placeholder="检索"height={screenHeight*0.06} bg={"#ffffff"} width={screenWidth*0.9} borderRadius="24" mt={screenHeight*0.03} py="3" px="1" fontSize={screenWidth*0.04} 
-        InputLeftElement={<Icon m="2" ml="3" size={screenWidth*0.06} color="gray.400" as={<MaterialIcons name="search" />} />}>
-      </Input>
-      <View style={styles.segmentContainer}>
-        <Flex direction="row"  >
-          <TouchableOpacity onPress={select0} style={selectedIndex == 0 ? styles.checkSelect:styles.select} >
-            <Text style={{color:selectedIndex == 0 ? "black":"#666666",  fontSize:screenWidth*0.05}}>最新</Text>
-          </TouchableOpacity>
-          <Divider h={7} bg="indigo.500" thickness="2" mx="2" orientation="vertical" />
-          <TouchableOpacity onPress={select1} style={selectedIndex == 1 ? styles.checkSelect:styles.select}>
-            <Text style={{color:selectedIndex == 1 ? "black":"#666666", fontSize:screenWidth*0.05}}>年报</Text>
-          </TouchableOpacity>
-          <Divider h={7} bg="indigo.500" thickness="2" mx="2" orientation="vertical" />
-          <TouchableOpacity onPress={select2}  style={selectedIndex == 2 ? styles.checkSelect:styles.select}>
-            <Text style={{color:selectedIndex == 2 ? "black":"#666666",fontSize:screenWidth*0.05}}>中报</Text>
-          </TouchableOpacity>
-          <Divider h={7} bg="indigo.500" thickness="2" mx="2" orientation="vertical" />
-          <TouchableOpacity onPress={select3}  style={selectedIndex == 3 ? styles.checkSelect:styles.select}>
-            <Text style={{color:selectedIndex == 3 ? "black":"#666666",fontSize:screenWidth*0.05}}>季报</Text>
-          </TouchableOpacity>
-        </Flex>
+      </Modal>
+      <HStack w={'full'} height={screenHeight*0.09} style={{paddingLeft:10,marginBottom:5}}>
+        <TouchableOpacity onPress={select0} style={selectedIndex == 0 ? styles.checkSelect:styles.select} >
+          <Text style={{color:selectedIndex == 0 ? "#333333":"#666666",  fontSize:selectedIndex == 0 ? screenWidth*0.06:screenWidth*0.05}}>最新</Text>
+        </TouchableOpacity>
+        {/* <Divider h={4} bg="indigo.500" thickness="2" mx="2" orientation="vertical" /> */}
+        <TouchableOpacity onPress={select1} style={selectedIndex == 1 ? styles.checkSelect:styles.select}>
+          <Text style={{color:selectedIndex == 1 ? "#333333":"#666666", fontSize:selectedIndex == 1 ? screenWidth*0.06:screenWidth*0.05}}>年报</Text>
+        </TouchableOpacity>
+        {/* <Divider h={7} bg="indigo.500" thickness="2" mx="2" orientation="vertical" /> */}
+        <TouchableOpacity onPress={select2}  style={selectedIndex == 2 ? styles.checkSelect:styles.select}>
+          <Text style={{color:selectedIndex == 2 ? "#333333":"#666666",fontSize:selectedIndex == 2 ? screenWidth*0.06:screenWidth*0.05}}>中报</Text>
+        </TouchableOpacity>
+        {/* <Divider h={7} bg="indigo.500" thickness="2" mx="2" orientation="vertical" /> */}
+        <TouchableOpacity onPress={select3}  style={selectedIndex == 3 ? styles.checkSelect:styles.select}>
+          <Text style={{color:selectedIndex == 3 ? "#333333":"#666666",fontSize:selectedIndex == 3 ? screenWidth*0.06:screenWidth*0.05}}>季报</Text>
+        </TouchableOpacity>
 
-      </View>
-      <HStack style={{width:'100%',marginTop:1,height:screenHeight*0.7,alignItems:'center', backgroundColor:'#ffffff'}}>
+
+        <TouchableOpacity style={{marginLeft:screenWidth*0.12,height:screenHeight*0.09,justifyContent:'center',alignSelf:'flex-end'}}>
+          <Image alt='search'  ml={'2'} w={screenWidth*0.09} h={screenWidth*0.09} source={require('../HomeScreen/images/search.png')}></Image>  
+        </TouchableOpacity>
+        <TouchableOpacity  onPress={()=>{
+        navigation.navigate('消息');
+      }} style={{marginLeft:screenWidth*0.01,height:screenHeight*0.09,justifyContent:'center',alignSelf:'flex-end'}}>
+          <Image alt='message'  ml={'2'} w={screenWidth*0.08} h={screenWidth*0.08} source={require('../HomeScreen/images/message.png')}></Image>  
+        </TouchableOpacity>
+      </HStack>            
+      <HStack style={{width:'100%',marginTop:1,height:screenHeight*0.7,borderTopWidth:0.5,borderTopColor:'#BEBEBE',alignItems:'center', backgroundColor:'#ffffff'}}>
         <FlatList
           ListHeaderComponent={head}
           ListFooterComponent={footer}
@@ -399,28 +415,27 @@ const Optional = ({navigation}) => {
 }
 export default Optional;
 const styles = StyleSheet.create({
-  segmentContainer: {
-    marginBottom: 10,
-    marginTop:10,
-    marginRight:40,
-    width:'100%',
-    alignItems:'flex-end'
-  },
+
   text: {
     color: 'black',
     fontSize: 30,
     fontWeight: 'bold'
   },
   checkSelect:{
-    elevation:1,
+    // elevation:1,
     backgroundColor:'#ffffff',
-    width:screenWidth*0.18,
+    width:screenWidth*0.15,
     alignItems:'center',
     borderRadius:6,
+    height:screenHeight*0.09,
+    justifyContent:'center',
   },
   select:{
-    width:screenWidth*0.18,
+    width:screenWidth*0.15,
     alignItems:'center',
+    justifyContent:'center',
+
+    height:screenHeight*0.09
   }
   
 })
