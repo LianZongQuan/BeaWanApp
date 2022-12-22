@@ -70,7 +70,7 @@ const Report = ({route,navigation}) => {
     // let user = await AsyncStorage.getItem('user_info');
     let header = {};
     HttpUtil.get(url,null,header,function(response){
-      // console.log(response.data.data)
+      console.log(response.data)
       setList(response.data.data);
     })
   }

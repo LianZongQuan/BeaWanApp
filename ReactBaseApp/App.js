@@ -65,8 +65,6 @@ function App() {
               initialRouteName="自选"
               
               screenOptions={({ route }) => ({
-              
-
                 tabBarIcon: ({ focused, color, size }) => {
                   let iconName;
                   size = screenWidth*0.055;
@@ -91,12 +89,13 @@ function App() {
                 tabBarStyle:{
                   paddingTop:5,
                   height:screenWidth*0.14,
-                  shadowOpacity:1
+                  shadowOpacity:1,
+                  backgroundColor:'#0371C7'
                 },
                 //选中颜色
-                tabBarActiveTintColor: '#4095E5',
+                tabBarActiveTintColor: '#E99D42',
                 //未选中颜色
-                tabBarInactiveTintColor: 'gray',
+                tabBarInactiveTintColor: '#ffffff',
                 headerShown: false
             })}>
               <Tab.Screen name="首页" component={HomeScreen}/>

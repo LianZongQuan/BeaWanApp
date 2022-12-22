@@ -34,8 +34,6 @@ const AddOptional = ({navigation}) => {
 
   },[]);
 
-
-
   function jumpOptional(){
     navigation.navigate('自选');
   }
@@ -45,12 +43,12 @@ const AddOptional = ({navigation}) => {
     let user = await AsyncStorage.getItem('user_info');
     let header = {'token':JSON.parse(user).tokenValue};
     HttpUtil.get(url,null,header,function(response){
+
+      console.log(response.data)
       setInputText('');
 
     })
   }
-
-
 
   const NameItem = ({name,code}) =>{
     return(

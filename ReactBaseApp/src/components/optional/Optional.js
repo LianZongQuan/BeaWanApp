@@ -32,6 +32,8 @@ const Optional = ({navigation}) => {
   const [user,setuser] = useState(null);
   //报告名称数据
   const [listReportName,setListReportName] = useState(null);
+  //是否有新消息   true：有新消息       false：无新消息
+  const [hasMessage,setHasMessage] = useState(null);
   //指向的报告列表组件
   let _titleList = null;
   //最新
@@ -51,6 +53,7 @@ const Optional = ({navigation}) => {
   React.useEffect(() => {
     const focus=navigation.addListener('focus',()=>{
      
+      getHasMessag();
       setSelectedIndex(1);
       setInputText('');
       setListReportName(title2)
@@ -62,6 +65,7 @@ const Optional = ({navigation}) => {
   async function getData(){
     let url = HttpUtil.localUrl+'company/company/selfCom'
     let user = await AsyncStorage.getItem('user_info');
+    // console.log(user)
     setuser(user)
     if(user === null){
       let header = {};
@@ -69,14 +73,48 @@ const Optional = ({navigation}) => {
         setdata(response.data.data)
       })
     }else{
+      
       let header = {'token':JSON.parse(user).tokenValue};
+      console.log(header)
       HttpUtil.get(url,null,header,function(response){
         setdata(response.data.data)
-        console.log(response.data.data)
+        // console.log(response.data)
 
       })
     }
   }
+
+  //是否有新消息
+  function getHasMessag(){
+    let url = HttpUtil.localUrl+'company/message/unreadList';
+    let header = {};
+    HttpUtil.get(url,null,header,function(response){
+      if(response.data.data.length===0 ||response.data.data.length===null){
+        setHasMessage(false);
+      }else{
+        // console.log('true')
+
+        setHasMessage(true)    
+      }
+    })
+  }
+  const messageItem =() =>{
+    if(hasMessage == true){
+      return(
+        // <Image alt='newmessage'  ml={'2'} w={screenWidth*0.08} h={screenWidth*0.08}  source={require('../HomeScreen/images/newMessage.png')}></Image> 
+        <Icon color={'#ffffff'} as={<AntDesign name="search1" />} size={screenWidth*0.06}  />
+
+      )
+    }else if(hasMessage == false){
+      return(
+        // <Image alt='message'  ml={'2'} w={screenWidth*0.08} h={screenWidth*0.08}  source={require('../HomeScreen/images/message.png')}></Image>  
+        <Icon color={'#ffffff'} as={<MaterialCommunityIcons name="message-processing-outline" />} size={screenWidth*0.06}  />
+
+      )
+
+    }
+  }
+
   function select0(){
     setInputText('');
     setSelectedIndex(0);
@@ -162,8 +200,7 @@ const Optional = ({navigation}) => {
         list.push({"comCode": "0", "id": 0, "score": "0", "stage": "0", "year": "0"})
       }
     }
-    return list;
-    
+    return list;  
   }
   //删除自选
   async function deleteOption(){
@@ -176,8 +213,6 @@ const Optional = ({navigation}) => {
         setModalVisible(false)
         getData();
     })
-
-
   }
   //搜索自选
   function search(text){
@@ -219,7 +254,7 @@ const Optional = ({navigation}) => {
     return(
       <HStack>
         <View style={{width:'25%', backgroundColor:'#ffffff',justifyContent:'center', alignItems:'center',height:36}}>
-          <Text style={{color:'#999999',fontSize:screenWidth*0.035}}>名称</Text>
+          <Text style={{color:'#6C6C6C',fontSize:screenWidth*0.035}}>名称</Text>
         </View>
       <FlatList 
         style={{width:'75%'}}
@@ -257,12 +292,11 @@ const Optional = ({navigation}) => {
     return(
       <TouchableOpacity  disabled={user == null? true : false} onLongPress={()=>{
     setModalVisible(!modalVisible);
-
     setdeleteCode(code);
       }} style={{marginLeft:10,height:screenHeight*0.09,borderBottomWidth:0.7,borderColor:"#f5f5f5"}}>
         <Text style={{fontSize:screenWidth*0.04,marginTop:10,color:'black'}}>{name}</Text>
         <HStack>
-          <Text  style={{fontSize:screenWidth*0.03,backgroundColor:typeColor,color:"#ffffff"}}>{type}</Text>
+          <Text  style={{fontSize:screenWidth*0.03,width:screenWidth*0.06,textAlign:'center',backgroundColor:typeColor,color:"#ffffff"}}>{type}</Text>
           <Text style={{marginLeft:5,fontSize:screenWidth*0.03,color:'#BEBEBE'}}>{code}</Text>
         </HStack>
       </TouchableOpacity>
@@ -318,7 +352,7 @@ const Optional = ({navigation}) => {
   
     return(
       <View style={{height:36,backgroundColor:'#ffffff', justifyContent:'center',alignItems:'center'}}>
-        <Text style={{color:'#999999',width:screenWidth*0.245,textAlign:'center', fontSize:screenWidth*0.035}}>{time}</Text>
+        <Text style={{color:'#6c6c6c',width:screenWidth*0.245,textAlign:'center', fontSize:screenWidth*0.035}}>{time}</Text>
       </View>
     )
   }
@@ -369,34 +403,41 @@ const Optional = ({navigation}) => {
           </Modal.Body>
         </Modal.Content>
       </Modal>
-      <HStack w={'full'} height={screenHeight*0.09} style={{paddingLeft:10,marginBottom:5}}>
+
+      <HStack w={'full'} height={screenHeight*0.07} style={{backgroundColor:'#0371C7'}}>
+        <TouchableOpacity onPress={()=>{
+          navigation.navigate('消息');
+          }}  style={{height:screenHeight*0.07,justifyContent:'center',width:screenWidth*0.2,alignItems:'center'}}>
+          {messageItem()}
+        </TouchableOpacity>
+        <View style={{height:screenHeight*0.07,justifyContent:'center',width:screenWidth*0.6,alignItems:'center'}}>
+          <Text style={{fontSize:screenWidth*0.055,color:'#ffffff'}}>
+            自选
+          </Text>
+        </View>
+        <View style={{height:screenHeight*0.07,justifyContent:'center',width:screenWidth*0.2,alignItems:'center'}}>
+          {/* <Image alt='search'  ml={'2'} w={screenWidth*0.09} h={screenWidth*0.09} source={ require('../HomeScreen/images/search.png')}></Image>   */}
+          <Icon color={'#ffffff'} as={<AntDesign name="search1" />} size={screenWidth*0.06}  />
+
+        </View>
+
+      </HStack>
+      <HStack w={'full'} height={screenHeight*0.05} style={{marginBottom:5}}>
         <TouchableOpacity onPress={select0} style={selectedIndex == 0 ? styles.checkSelect:styles.select} >
-          <Text style={{color:selectedIndex == 0 ? "#333333":"#666666",  fontSize:selectedIndex == 0 ? screenWidth*0.06:screenWidth*0.05}}>最新</Text>
+          <Text style={{color:selectedIndex == 0 ? "#566CBE":"#666666",borderColor:'#2C49B4', borderBottomWidth:selectedIndex == 0? 1:0, fontSize:screenWidth*0.05}}>最新</Text>
         </TouchableOpacity>
-        {/* <Divider h={4} bg="indigo.500" thickness="2" mx="2" orientation="vertical" /> */}
         <TouchableOpacity onPress={select1} style={selectedIndex == 1 ? styles.checkSelect:styles.select}>
-          <Text style={{color:selectedIndex == 1 ? "#333333":"#666666", fontSize:selectedIndex == 1 ? screenWidth*0.06:screenWidth*0.05}}>年报</Text>
+          <Text style={{color:selectedIndex == 1 ? "#566CBE":"#666666",borderColor:'#2C49B4', borderBottomWidth:selectedIndex == 1 ? 1:0, fontSize:screenWidth*0.05}}>年报</Text>
         </TouchableOpacity>
-        {/* <Divider h={7} bg="indigo.500" thickness="2" mx="2" orientation="vertical" /> */}
         <TouchableOpacity onPress={select2}  style={selectedIndex == 2 ? styles.checkSelect:styles.select}>
-          <Text style={{color:selectedIndex == 2 ? "#333333":"#666666",fontSize:selectedIndex == 2 ? screenWidth*0.06:screenWidth*0.05}}>中报</Text>
+          <Text style={{color:selectedIndex == 2 ? "#566CBE":"#666666",borderColor:'#2C49B4', borderBottomWidth:selectedIndex == 2 ? 1:0,fontSize:screenWidth*0.05}}>中报</Text>
         </TouchableOpacity>
-        {/* <Divider h={7} bg="indigo.500" thickness="2" mx="2" orientation="vertical" /> */}
         <TouchableOpacity onPress={select3}  style={selectedIndex == 3 ? styles.checkSelect:styles.select}>
-          <Text style={{color:selectedIndex == 3 ? "#333333":"#666666",fontSize:selectedIndex == 3 ? screenWidth*0.06:screenWidth*0.05}}>季报</Text>
+          <Text style={{color:selectedIndex == 3 ? "#566CBE":"#666666",borderColor:'#2C49B4', borderBottomWidth:selectedIndex == 3 ? 1:0,fontSize:screenWidth*0.05}}>季报</Text>
         </TouchableOpacity>
-
-
-        <TouchableOpacity style={{marginLeft:screenWidth*0.12,height:screenHeight*0.09,justifyContent:'center',alignSelf:'flex-end'}}>
-          <Image alt='search'  ml={'2'} w={screenWidth*0.09} h={screenWidth*0.09} source={require('../HomeScreen/images/search.png')}></Image>  
-        </TouchableOpacity>
-        <TouchableOpacity  onPress={()=>{
-        navigation.navigate('消息');
-      }} style={{marginLeft:screenWidth*0.01,height:screenHeight*0.09,justifyContent:'center',alignSelf:'flex-end'}}>
-          <Image alt='message'  ml={'2'} w={screenWidth*0.08} h={screenWidth*0.08} source={require('../HomeScreen/images/message.png')}></Image>  
-        </TouchableOpacity>
-      </HStack>            
-      <HStack style={{width:'100%',marginTop:1,height:screenHeight*0.7,borderTopWidth:0.5,borderTopColor:'#BEBEBE',alignItems:'center', backgroundColor:'#ffffff'}}>
+      </HStack>
+      <View w={'full'} height={screenHeight*0.02} style={{backgroundColor:'#0371C7'}}></View>            
+      <HStack style={{width:'100%',marginTop:1,flex:1,alignItems:'center', backgroundColor:'#ffffff'}}>
         <FlatList
           ListHeaderComponent={head}
           ListFooterComponent={footer}
@@ -423,19 +464,18 @@ const styles = StyleSheet.create({
   },
   checkSelect:{
     // elevation:1,
-    backgroundColor:'#ffffff',
-    width:screenWidth*0.15,
+    // backgroundColor:'#ffffff',
+    width:screenWidth*0.25,
     alignItems:'center',
-    borderRadius:6,
-    height:screenHeight*0.09,
+    height:screenHeight*0.06,
     justifyContent:'center',
   },
   select:{
-    width:screenWidth*0.15,
+    width:screenWidth*0.25,
     alignItems:'center',
     justifyContent:'center',
 
-    height:screenHeight*0.09
+    height:screenHeight*0.06
   }
   
 })

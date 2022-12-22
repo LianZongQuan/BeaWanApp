@@ -119,7 +119,7 @@ const User = ({navigation}) => {
               <Image alt='TU'style={{borderRadius:50,width:screenWidth*0.2,height:screenWidth*0.2}} source={require('./images/heard.jpg')} ></Image>
             </Avatar>
           <TouchableOpacity onPress={jumpLogin} style={{alignItems:'center',justifyContent:'center',marginBottom:10}}>
-            <Text style={{fontSize:screenWidth*0.06,color:"#666666"}}>登录/注册</Text>
+            <Text style={{fontSize:screenWidth*0.065,color:"#666666"}}>登录/注册</Text>
           </TouchableOpacity>
         </HStack>
       )
@@ -133,9 +133,17 @@ const User = ({navigation}) => {
             {/* <Text style={{fontSize:screenWidth*0.065,color:"#6C6C6C"}}>{JSON.parse(user).name == undefined? JSON.parse(user).nickname:JSON.parse(user).name}</Text> */}
 
             {/* <Text style={{fontSize:screenWidth*0.065,color:"#6C6C6C",marginTop:5}}>{JSON.parse(user).phone}</Text> */}
-            <Text style={{fontSize:screenWidth*0.06,color:"#333333"}}>{JSON.parse(user).name == undefined? JSON.parse(user).userNickName:''}</Text>
-            <Text style={{fontSize:screenWidth*0.035,color:"#6C6C6C",marginTop:5}}>手机号：{JSON.parse(user).phone}</Text>
+            <Text style={{fontSize:screenWidth*0.065,color:"#ffffff"}}>{JSON.parse(user).name == undefined? JSON.parse(user).userNickName:''}</Text>
+            <Text style={{fontSize:screenWidth*0.035,color:"#ffffff",marginTop:5}}>手机号：{JSON.parse(user).phone}</Text>
 
+            <HStack style={{height:screenHeight*0.03,backgroundColor:'#ffffff',marginTop:10,borderRadius:5,width:screenWidth*0.25}}>
+              <View style={{height:screenHeight*0.03,justifyContent:'center'}}>
+                <Image alt='会员中心' size={screenWidth*0.04} ml="2" source={require('./images/noMember.png')}></Image>
+              </View>
+              <View style={{height:screenHeight*0.03,justifyContent:'center'}}>
+                <Text style={{fontSize:screenWidth*0.03,color:"#6C6C6C"}}>未开通会员</Text>
+              </View>
+            </HStack>
           </View>
         </HStack>
       )
@@ -147,6 +155,12 @@ const User = ({navigation}) => {
     <View style = {styles.background}>
        
       <View style = {styles.header}>
+        <View style={{width:screenWidth*1,alignItems:'flex-end'}}>
+          <HStack style={{marginRight:20}}>
+            <Icon style={{marginRight:20}} color={'#ffffff'} as={<AntDesign name="search1" />} size={screenWidth*0.07}  />
+            <Icon color={'#ffffff'} as={<MaterialCommunityIcons name="message-processing-outline" />} size={screenWidth*0.07}  />
+          </HStack>
+        </View>
         {head()}
       </View>
       <View style = {styles.content}>
@@ -154,43 +168,43 @@ const User = ({navigation}) => {
           <HStack style = {{marginLeft:"3%"}}>
             <Image alt='会员中心' size={screenWidth*0.07} ml="2" source={require('./images/member.png')}></Image>
             <Text style = {styles.listText}>会员中心</Text>
-            <Icon style ={{marginRight:20}} as={<AntDesign name="right" />} size={screenWidth*0.07} ml="2" color="muted.400" />
+            <Icon style ={{marginRight:20}} as={<AntDesign name="right" />} size={screenWidth*0.06} ml="2" color="#666666" />
           </HStack>     
         </TouchableOpacity>
         <TouchableOpacity style={styles.list} onPress={jumpUserInfo} >
           <HStack style = {{marginLeft:"3%"}}>
-            <Icon as={<AntDesign name="user" />} size={screenWidth*0.07} ml="2" color="#2DB7F5" />
+            <Icon as={<AntDesign name="user" />} size={screenWidth*0.07} ml="2" color="#666666" />
             <Text style = {styles.listText}>个人信息</Text>
-            <Icon style ={{marginRight:20}} as={<AntDesign name="right" />} size={screenWidth*0.07} ml="2" color="muted.400" />
+            <Icon style ={{marginRight:20}} as={<AntDesign name="right" />} size={screenWidth*0.06} ml="2" color="#666666" />
           </HStack>     
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.list} onPress={jumpOrderInfo}>
           <HStack style = {{marginLeft:"3%"}}>
-            <Icon as={<AntDesign name="profile" />} size={screenWidth*0.07} ml="2" color="#F4CE98" />
+            <Icon as={<AntDesign name="profile" />} size={screenWidth*0.07} ml="2" color="#666666" />
             <Text style = {styles.listText}>订单信息</Text>
-            <Icon style ={{marginRight:20}} as={<AntDesign name="right" />} size={screenWidth*0.07} ml="2" color="muted.400" />
+            <Icon style ={{marginRight:20}} as={<AntDesign name="right" />} size={screenWidth*0.06} ml="2" color="#666666" />
           </HStack>     
         </TouchableOpacity>
         <TouchableOpacity style={styles.list}onPress={jumpFeedBack}>
           <HStack style = {{marginLeft:"3%"}} >
-            <Icon as={<MaterialIcons name="feedback" />} size={screenWidth*0.07} ml="2" color="#BD3124" />
+            <Icon as={<MaterialIcons name="feedback" />} size={screenWidth*0.07} ml="2" color="#666666" />
             <Text style = {styles.listText}>意见反馈</Text>
-            <Icon style ={{marginRight:20}} as={<AntDesign name="right" />} size={screenWidth*0.07} ml="2" color="muted.400" />
+            <Icon style ={{marginRight:20}} as={<AntDesign name="right" />} size={screenWidth*0.06} ml="2" color="#666666" />
           </HStack>     
         </TouchableOpacity>
         <TouchableOpacity style={styles.list} onPress={jumpPrivacyPolicy}>
           <HStack style = {{marginLeft:"3%"}}>
-            <Icon as={<MaterialCommunityIcons name="eye-off-outline" />} size={screenWidth*0.07} ml="2" color="#377F7F" />
+            <Icon as={<MaterialCommunityIcons name="eye-off-outline" />} size={screenWidth*0.07} ml="2" color="#666666" />
             <Text style = {styles.listText}>隐私政策</Text>
-            <Icon style ={{marginRight:20}} as={<AntDesign name="right" />} size={screenWidth*0.07} ml="2" color="muted.400" />
+            <Icon style ={{marginRight:20}} as={<AntDesign name="right" />} size={screenWidth*0.06} ml="2" color="#666666" />
           </HStack>     
         </TouchableOpacity>
         <TouchableOpacity onPress={jumpAboutApp} style={styles.list}>
           <HStack style = {{marginLeft:"3%"}}>
-            <Icon as={<AntDesign name="exclamationcircleo" />} size={screenWidth*0.07} ml="2" color="#FCCA00" />
+            <Icon as={<AntDesign name="exclamationcircleo" />} size={screenWidth*0.07} ml="2" color="#666666" />
             <Text style = {styles.listText}>关于</Text>
-            <Icon style ={{marginRight:20}} as={<AntDesign name="right" />} size={screenWidth*0.07} ml="2" color="muted.400" />
+            <Icon style ={{marginRight:20}} as={<AntDesign name="right" />} size={screenWidth*0.06} ml="2" color="#666666" />
           </HStack>     
         </TouchableOpacity>
 
@@ -202,10 +216,11 @@ const User = ({navigation}) => {
 export default User;
 const styles = StyleSheet.create({
   header: {
-    backgroundColor:"#ffffff",
+    backgroundColor:"#0371C7",
     width:"100%",
-    height:screenHeight*0.15,
+    height:screenHeight*0.2,
     justifyContent: 'center',
+    
   },
   background:{
     alignItems:'center',

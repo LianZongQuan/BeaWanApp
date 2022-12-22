@@ -172,6 +172,9 @@ const Search = ({navigation}) => {
     for (var i = 0; i < list.length; i++) {
       if (reg.test(list[i].comName)) {
         arr.push(list[i]);
+        if(arr.length > 10){
+          break;
+        }
       }
     }
     return arr;
@@ -182,6 +185,9 @@ const Search = ({navigation}) => {
     for (var i = 0; i < list.length; i++) {
       if (reg.test(list[i].comCode)) {
         arr.push(list[i]);
+        if(arr.length > 10){
+          break;
+        }
       }
     }
     return arr;
