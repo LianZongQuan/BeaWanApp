@@ -92,7 +92,7 @@ const OptionalInfo = ({route,navigation}) => {
             return (
               <TouchableOpacity key={index}  onPress={()=>{
                 navigation.navigate('报告',{comCode:item.comCode,year:item.year,stage:item.stage});
-                }} style={{width:screenWidth*0.9,backgroundColor:"#ffffff",borderRadius:10,height:screenHeight*0.06,elevation:0.3,marginTop:15}}>
+                }} style={{width:screenWidth*0.9,backgroundColor:"#efefef",borderRadius:25,height:screenHeight*0.06,elevation:0.3,marginTop:15}}>
                 <HStack style={{width:screenWidth*0.9,height:screenHeight*0.06,}}>
                   <View style={{width:screenWidth*0.4,height:screenHeight*0.06,justifyContent:'center',alignItems:'center'}}>
                     <Text style={{fontSize:22,color:"#333333"}}>
@@ -105,7 +105,7 @@ const OptionalInfo = ({route,navigation}) => {
                     </Text>
                   </View>
                   <View style={{width:screenWidth*0.2,height:screenHeight*0.06,justifyContent:'center',alignItems:'flex-end'}}>
-                  <Icon style ={{marginRight:20}} as={<AntDesign name="right" />} size={screenWidth*0.06} ml="2" color="#999999" />
+                  <Icon style ={{marginRight:15}} as={<AntDesign name="right" />} size={screenWidth*0.06}  color="#999999" />
                   </View>
                 </HStack>
 
@@ -125,6 +125,16 @@ const OptionalInfo = ({route,navigation}) => {
   const year = [{"year": "2022"},{"year": "2021"}, {"year": "2020"}, {"year": "2019"}, {"year": "2018"}]
   return(
     <View style = {styles.background}>
+      <HStack width={'full'} backgroundColor={'#5461C9'} h={screenHeight*0.07} alignItems={'center'}  >
+        <TouchableOpacity  onPress={()=>{navigation.goBack()}} style={{height:screenHeight*0.07,justifyContent:'center',width:screenWidth*0.2,alignItems:'center'}}>
+          <Icon style ={{marginRight:20}} as={<AntDesign name="left" />} size={screenWidth*0.06} ml="2" color="#ffffff" />
+        </TouchableOpacity>
+        {/* <View  style={{height:screenHeight*0.08,justifyContent:'center',width:screenWidth*0.4,alignItems:'center'}}> */}
+          <Text style={{fontSize:screenWidth*0.055,textAlignVertical:'center',height:screenHeight*0.07,fontWeight:'500',width:screenWidth*0.6,textAlign:'center',color:'#ffffff'}}>
+            自选详情
+          </Text>
+        {/* </View> */}
+      </HStack>
       <View>
         <Text style={{fontSize:screenWidth*0.065,marginTop:10,color:"#215476"}}>{name}</Text>
       </View>
@@ -147,7 +157,7 @@ const styles = StyleSheet.create({
   background:{
     alignItems:'center',
     flex:1,
-    backgroundColor:"#f5f5f5"
+    backgroundColor:"#ffffff"
 
   },
 })

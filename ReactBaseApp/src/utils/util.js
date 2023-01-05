@@ -15,6 +15,18 @@ export function getTitle(index) {
     title3 = [ { "time": (todayYear)+"中报"}, { "time": (todayYear-1)+"中报"}, { "time": (todayYear-2)+"中报"},{"time": (todayYear-3)+"中报"}]
     title4 = [ { "time": (todayYear)+"三季报"}, { "time": (todayYear)+"一季报"}, { "time": (todayYear-1)+"三季报"},{"time": (todayYear-1)+"一季报"}]
   }
+  if(todayMonth >= 1 &&todayMonth<5){
+    title1 = [ { "time": (todayYear-1)+"年报"}, { "time": (todayYear-1)+"三季报"}, { "time": (todayYear-1)+"中报"},{"time": (todayYear-1)+"一季报"}]
+    title2 = [ { "time": (todayYear-1)+"年报"}, { "time": (todayYear-2)+"年报"}, { "time": (todayYear-3)+"年报"},{"time": (todayYear-4)+"年报"}]
+    title3 = [ { "time": (todayYear-1)+"中报"}, { "time": (todayYear-2)+"中报"}, { "time": (todayYear-3)+"中报"},{"time": (todayYear-4)+"中报"}]
+    title4 = [ { "time": (todayYear-1)+"三季报"}, { "time": (todayYear-1)+"一季报"}, { "time": (todayYear-2)+"三季报"},{"time": (todayYear-2)+"一季报"}]
+  }
+  if(todayMonth > 5 &&todayMonth<10){
+    title1 = [ { "time": (todayYear-1)+"年报"}, { "time": (todayYear-1)+"三季报"}, { "time": (todayYear-1)+"中报"},{"time": (todayYear-1)+"一季报"}]
+    title2 = [ { "time": (todayYear-1)+"年报"}, { "time": (todayYear-2)+"年报"}, { "time": (todayYear-3)+"年报"},{"time": (todayYear-4)+"年报"}]
+    title3 = [ { "time": (todayYear-1)+"中报"}, { "time": (todayYear-2)+"中报"}, { "time": (todayYear-3)+"中报"},{"time": (todayYear-4)+"中报"}]
+    title4 = [ { "time": (todayYear-1)+"三季报"}, { "time": (todayYear-1)+"一季报"}, { "time": (todayYear-2)+"三季报"},{"time": (todayYear-2)+"一季报"}]
+  }
   if(index===1){
     return title1;
   }else if(index == 2){

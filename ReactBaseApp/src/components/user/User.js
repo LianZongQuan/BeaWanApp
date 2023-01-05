@@ -119,7 +119,7 @@ const User = ({navigation}) => {
               <Image alt='TU'style={{borderRadius:50,width:screenWidth*0.2,height:screenWidth*0.2}} source={require('./images/heard.jpg')} ></Image>
             </Avatar>
           <TouchableOpacity onPress={jumpLogin} style={{alignItems:'center',justifyContent:'center',marginBottom:10}}>
-            <Text style={{fontSize:screenWidth*0.065,color:"#666666"}}>登录/注册</Text>
+            <Text style={{fontSize:screenWidth*0.065,color:"#ffffff"}}>登录/注册</Text>
           </TouchableOpacity>
         </HStack>
       )

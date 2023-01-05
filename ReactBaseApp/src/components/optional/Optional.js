@@ -57,6 +57,7 @@ const Optional = ({navigation}) => {
       setSelectedIndex(1);
       setInputText('');
       setListReportName(title2)
+      // console.log(listReportName)
       getData();
     }) 
 
@@ -75,7 +76,7 @@ const Optional = ({navigation}) => {
     }else{
       
       let header = {'token':JSON.parse(user).tokenValue};
-      console.log(header)
+      // console.log(header)
       HttpUtil.get(url,null,header,function(response){
         setdata(response.data.data)
         // console.log(response.data)
@@ -89,11 +90,10 @@ const Optional = ({navigation}) => {
     let url = HttpUtil.localUrl+'company/message/unreadList';
     let header = {};
     HttpUtil.get(url,null,header,function(response){
+      console.log(response.data.data)
       if(response.data.data.length===0 ||response.data.data.length===null){
         setHasMessage(false);
       }else{
-        // console.log('true')
-
         setHasMessage(true)    
       }
     })
@@ -205,11 +205,11 @@ const Optional = ({navigation}) => {
   //删除自选
   async function deleteOption(){
     let url = HttpUtil.localUrl+'company/company/deleteSelfCom?comCode='+deleteCode;
-    console.log(url)
+    // console.log(url)
     let user = await AsyncStorage.getItem('user_info');
     let header = {'token':JSON.parse(user).tokenValue};
     HttpUtil.get(url,null,header,function(response){
-        console.log(response.data);
+        // console.log(response.data);
         setModalVisible(false)
         getData();
     })
@@ -222,8 +222,6 @@ const Optional = ({navigation}) => {
       getData();
     }else{
       let isNumber = !isNaN(parseFloat(text)) && isFinite(text);
-
-
       let ret =  isNumber == true ? QueryCode(list,text):QueryName(list,text)
       if(ret != null){
         setdata(ret);
@@ -253,7 +251,7 @@ const Optional = ({navigation}) => {
   const head = () =>{
     return(
       <HStack>
-        <View style={{width:'25%', backgroundColor:'#ffffff',justifyContent:'center', alignItems:'center',height:36}}>
+        <View style={{width:'25%', backgroundColor:'#efefef',justifyContent:'center', alignItems:'center',height:36}}>
           <Text style={{color:'#6C6C6C',fontSize:screenWidth*0.035}}>名称</Text>
         </View>
       <FlatList 
@@ -308,6 +306,7 @@ const Optional = ({navigation}) => {
   const MainItem = ({report,name,comCode}) =>{   
     let list = report;
     report = dealData(listReportName,report)
+    // console.log(report)
     return(
       <TouchableOpacity onPress={()=>{
         navigation.navigate('自选详情',{name:name,comCode:comCode});
@@ -351,7 +350,7 @@ const Optional = ({navigation}) => {
   const HeadItem = ({id,time}) =>{
   
     return(
-      <View style={{height:36,backgroundColor:'#ffffff', justifyContent:'center',alignItems:'center'}}>
+      <View style={{height:36,backgroundColor:'#efefef', justifyContent:'center',alignItems:'center'}}>
         <Text style={{color:'#6c6c6c',width:screenWidth*0.245,textAlign:'center', fontSize:screenWidth*0.035}}>{time}</Text>
       </View>
     )
@@ -392,7 +391,7 @@ const Optional = ({navigation}) => {
   );
 
   return(
-    <View style={{ flex: 1,backgroundColor:"#ffffff", alignItems:'center' }}>
+    <View style={{ flex: 1,backgroundColor:"#efefef", alignItems:'center' }}>
       <Modal style={{alignItems:'center', width:screenWidth*0.5,alignSelf:'center'}} isOpen={modalVisible} onClose={() => setModalVisible(false)} initialFocusRef={initialRef} finalFocusRef={finalRef}>
         <Modal.Content>
           <Modal.Body>
@@ -436,8 +435,8 @@ const Optional = ({navigation}) => {
           <Text style={{color:selectedIndex == 3 ? "#566CBE":"#666666",borderColor:'#2C49B4', borderBottomWidth:selectedIndex == 3 ? 1:0,fontSize:screenWidth*0.05}}>季报</Text>
         </TouchableOpacity>
       </HStack>
-      <View w={'full'} height={screenHeight*0.02} style={{backgroundColor:'#0371C7'}}></View>            
-      <HStack style={{width:'100%',marginTop:1,flex:1,alignItems:'center', backgroundColor:'#ffffff'}}>
+      <View w={'full'} height={screenHeight*0.02} style={{backgroundColor:'#697DC7'}}></View>            
+      <HStack style={{width:'100%',marginTop:1,flex:1,alignItems:'center', backgroundColor:'#efefef'}}>
         <FlatList
           ListHeaderComponent={head}
           ListFooterComponent={footer}
@@ -463,7 +462,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   checkSelect:{
-    // elevation:1,
+    // elevation:1, 
     // backgroundColor:'#ffffff',
     width:screenWidth*0.25,
     alignItems:'center',

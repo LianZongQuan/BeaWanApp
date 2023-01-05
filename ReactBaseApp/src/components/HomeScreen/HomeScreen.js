@@ -8,6 +8,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import MaterialCommunityIcons  from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import AntDesign from 'react-native-vector-icons/AntDesign'
+
+import Fontisto from 'react-native-vector-icons/Fontisto'
+
 import WebView from 'react-native-webview';
 import { Table, Row, Rows,TableWrapper,Col } from 'react-native-table-component';
 
@@ -35,95 +38,91 @@ const HomeScreen = ({navigation}) => {
       <View style={{flex:1,width:screenWidth*1,alignItems:'center',backgroundColor:'#efefef',borderTopLeftRadius:20,borderTopRightRadius:20}}>
         <Image style={{width:screenWidth*0.94,height:screenHeight*0.2,borderRadius:20,marginTop:screenHeight*0.02}} source={require('./images/image1.jpg')}>
         </Image>
-        <View style={{width:screenWidth*0.94,height:screenHeight*0.41,borderRadius:20,backgroundColor:'#ffffff',marginTop:screenHeight*0.02}}>
-          <HStack style={{width:'100%',marginTop:10,marginBottom:10}}>
-            <View style={{width:'50%',marginLeft:10}}>
-              <Text style={{color:'#101010',fontSize:screenWidth*0.045,fontWeight:'600'}}>热门搜索</Text>
-            </View>
-          </HStack>
-          <HStack>
-            <View style={{width:screenWidth*0.47,borderRightWidth:1, borderColor:'#cecece',height:screenHeight*0.24,alignItems:'center'}}>
-              <TouchableOpacity>
-                <HStack  style={{width:screenWidth*0.35,alignItems:'center',height:screenHeight*0.08}}>
-                  
-                  <View style={{width:screenWidth*0.25}}>
-                    <Text style={{color:'#101010',fontSize:screenWidth*0.045}}>东方财富</Text>
-                    <Text>600600</Text>
-                  </View>
-                  <View style={{width:screenWidth*0.15,alignItems:'flex-end'}}>
-                    <Icon style ={{marginRight:20}} as={<AntDesign name="right" />} size={screenWidth*0.06} ml="2" color="#101010" />
-                  </View>
-                </HStack>
-              </TouchableOpacity>
-              <HStack style={{width:screenWidth*0.35,alignItems:'center',height:screenHeight*0.08}}>
-                <View style={{width:screenWidth*0.25}}>
-                  <Text style={{color:'#101010',fontSize:screenWidth*0.045}}>东方财富</Text>
-                  <Text>600600</Text>
-                </View>
-                <View style={{width:screenWidth*0.15,alignItems:'flex-end'}}>
-                  <Icon style ={{marginRight:20}} as={<AntDesign name="right" />} size={screenWidth*0.06} ml="2" color="#101010" />
-                </View>
-              </HStack>
-              <HStack style={{width:screenWidth*0.35,alignItems:'center',height:screenHeight*0.08}}>
-                <View style={{width:screenWidth*0.25}}>
-                  <Text style={{color:'#101010',fontSize:screenWidth*0.045}}>东方财富</Text>
-                  <Text>600600</Text>
-                </View>
-                <View style={{width:screenWidth*0.15,alignItems:'flex-end'}}>
-                  <Icon style ={{marginRight:20}} as={<AntDesign name="right" />} size={screenWidth*0.06} ml="2" color="#101010" />
-                </View>
-              </HStack>
-
-            </View>
-            <View style={{width:screenWidth*0.47,height:screenHeight*0.24,alignItems:'center'}}>
-              <HStack style={{width:screenWidth*0.35,alignItems:'center',height:screenHeight*0.08}}>
-                <View style={{width:screenWidth*0.25}}>
-                  <Text style={{color:'#101010',fontSize:screenWidth*0.045}}>东方财富</Text>
-                  <Text>600600</Text>
-                </View>
-                <View style={{width:screenWidth*0.15,alignItems:'flex-end'}}>
-                  <Icon style ={{marginRight:20}} as={<AntDesign name="right" />} size={screenWidth*0.06} ml="2" color="#101010" />
-                </View>
-              </HStack>
-              <HStack style={{width:screenWidth*0.35,alignItems:'center',height:screenHeight*0.08}}>
-                <View style={{width:screenWidth*0.25}}>
-                  <Text style={{color:'#101010',fontSize:screenWidth*0.045}}>东方财富</Text>
-                  <Text>600600</Text>
-                </View>
-                <View style={{width:screenWidth*0.15,alignItems:'flex-end'}}>
-                  <Icon style ={{marginRight:20}} as={<AntDesign name="right" />} size={screenWidth*0.06} ml="2" color="#101010" />
-                </View>
-              </HStack>
-              <HStack style={{width:screenWidth*0.35,alignItems:'center',height:screenHeight*0.08}}>
-                <View style={{width:screenWidth*0.25}}>
-                  <Text style={{color:'#101010',fontSize:screenWidth*0.045}}>东方财富</Text>
-                  <Text>600600</Text>
-                </View>
-                <View style={{width:screenWidth*0.15,alignItems:'flex-end'}}>
-                  <Icon style ={{marginRight:20}} as={<AntDesign name="right" />} size={screenWidth*0.06} ml="2" color="#101010" />
-                </View>
-              </HStack>
-            </View>
-          </HStack>
-          <View style={{width:screenWidth*0.94,alignItems:'center'}}>
-            <TouchableOpacity>
-
-
-            <HStack style={{width:screenWidth*0.3,height:screenHeight*0.05,borderRadius:25,marginTop:20,backgroundColor:'#97A1D8'}}>
-              <View style={{height:screenHeight*0.05,justifyContent:'center'}}>
-                <Icon style ={{marginRight:20}} as={<MaterialIcons name="refresh" />} size={screenWidth*0.06} ml="2" color="#101010" />
-
+        <HStack style={{width:screenWidth*0.94,height:screenHeight*0.43,marginTop:screenHeight*0.01}}>
+          <View style={{width:screenWidth*0.46,backgroundColor:'#ffffff',marginRight:screenWidth*0.02,borderRadius:20,height:screenHeight*0.43}}>
+            <HStack style={{width:'100%',marginTop:10}}>
+              <View >
+                <Icon style={{marginLeft:screenWidth*0.04,}} size={screenWidth*0.06} color='danger.500' as={<Fontisto name="fire" />} />
               </View>
-              <View style={{height:screenHeight*0.05,justifyContent:'center'}}>
-                <Text style={{color:'#101010'}}>
-                  换一批
-                </Text>
+              <View style={{width:'60%',alignItems:'center',marginLeft:10}}>
+                <Text style={{color:'#101010',fontSize:screenWidth*0.045,fontWeight:'600'}}>热门搜索</Text>
               </View>
             </HStack>
-            </TouchableOpacity>
+            <View style={{width:'100%',alignItems:'center'}}>
+              <HStack style={{width:'90%',justifyContent:'space-around',height:screenHeight*0.04,alignItems:'center',marginTop:10}}>
+                <Text style={{fontSize:screenWidth*0.05,color:'#000000'}}  >东方财富</Text>
+                <Text style={{fontSize:screenWidth*0.04,color:'#9A9A9A'}}>600600</Text>
+              </HStack>
+              <HStack style={{width:'90%',justifyContent:'space-around',height:screenHeight*0.04,alignItems:'center',marginTop:10}}>
+                <Text style={{fontSize:screenWidth*0.05,color:'#000000'}}  >东方财富</Text>
+                <Text style={{fontSize:screenWidth*0.04,color:'#9A9A9A'}}>600600</Text>
+              </HStack>
+              <HStack style={{width:'90%',justifyContent:'space-around',height:screenHeight*0.04,alignItems:'center',marginTop:10}}>
+                <Text style={{fontSize:screenWidth*0.05,color:'#000000'}}  >东方财富</Text>
+                <Text style={{fontSize:screenWidth*0.04,color:'#9A9A9A'}}>600600</Text>
+              </HStack>
+              <HStack style={{width:'90%',justifyContent:'space-around',height:screenHeight*0.04,alignItems:'center',marginTop:10}}>
+                <Text style={{fontSize:screenWidth*0.05,color:'#000000'}}  >东方财富</Text>
+                <Text style={{fontSize:screenWidth*0.04,color:'#9A9A9A'}}>600600</Text>
+              </HStack>
+              <HStack style={{width:'90%',justifyContent:'space-around',height:screenHeight*0.04,alignItems:'center',marginTop:10}}>
+                <Text style={{fontSize:screenWidth*0.05,color:'#000000'}}  >东方财富</Text>
+                <Text style={{fontSize:screenWidth*0.04,color:'#9A9A9A'}}>600600</Text>
+              </HStack>
+              <HStack style={{width:'90%',justifyContent:'space-around',height:screenHeight*0.04,alignItems:'center',marginTop:10}}>
+                <Text style={{fontSize:screenWidth*0.05,color:'#000000'}}  >东方财富</Text>
+                <Text style={{fontSize:screenWidth*0.04,color:'#9A9A9A'}}>600600</Text>
+              </HStack>
+              <HStack style={{width:'90%',justifyContent:'space-around',height:screenHeight*0.04,alignItems:'center',marginTop:10}}>
+                <Text style={{fontSize:screenWidth*0.05,color:'#000000'}}  >东方财富</Text>
+                <Text style={{fontSize:screenWidth*0.04,color:'#9A9A9A'}}>600600</Text>
+              </HStack>
+            </View>
+
+          </View>
+          <View style={{width:screenWidth*0.46,backgroundColor:'#ffffff',borderRadius:20,height:screenHeight*0.43}}>
+            <HStack style={{width:'100%',marginTop:10}}>
+              <View >
+                <Icon style={{marginLeft:screenWidth*0.04,}} size={screenWidth*0.06} color='#0371C7' as={<MaterialIcons name="fiber-new" />} />
+              </View>
+              <View style={{width:'60%',alignItems:'center',marginLeft:10}}>
+                <Text style={{color:'#101010',fontSize:screenWidth*0.045,fontWeight:'600'}}>最新研报</Text>
+              </View>
+            </HStack>
+            <View style={{width:'100%',alignItems:'center'}}>
+              <HStack style={{width:'90%',justifyContent:'space-around',height:screenHeight*0.04,alignItems:'center',marginTop:10}}>
+                <Text style={{fontSize:screenWidth*0.05,color:'#000000'}}  >东方财富</Text>
+                <Text style={{fontSize:screenWidth*0.04,color:'#9A9A9A'}}>一季报</Text>
+              </HStack>
+              <HStack style={{width:'90%',justifyContent:'space-around',height:screenHeight*0.04,alignItems:'center',marginTop:10}}>
+                <Text style={{fontSize:screenWidth*0.05,color:'#000000'}}  >东方财富</Text>
+                <Text style={{fontSize:screenWidth*0.04,color:'#9A9A9A'}}>一季报</Text>
+              </HStack>
+              <HStack style={{width:'90%',justifyContent:'space-around',height:screenHeight*0.04,alignItems:'center',marginTop:10}}>
+                <Text style={{fontSize:screenWidth*0.05,color:'#000000'}}  >东方财富</Text>
+                <Text style={{fontSize:screenWidth*0.04,color:'#9A9A9A'}}>一季报</Text>
+              </HStack>
+              <HStack style={{width:'90%',justifyContent:'space-around',height:screenHeight*0.04,alignItems:'center',marginTop:10}}>
+                <Text style={{fontSize:screenWidth*0.05,color:'#000000'}}  >东方财富</Text>
+                <Text style={{fontSize:screenWidth*0.04,color:'#9A9A9A'}}>一季报</Text>
+              </HStack>
+              <HStack style={{width:'90%',justifyContent:'space-around',height:screenHeight*0.04,alignItems:'center',marginTop:10}}>
+                <Text style={{fontSize:screenWidth*0.05,color:'#000000'}}  >东方财富</Text>
+                <Text style={{fontSize:screenWidth*0.04,color:'#9A9A9A'}}>一季报</Text>
+              </HStack>
+              <HStack style={{width:'90%',justifyContent:'space-around',height:screenHeight*0.04,alignItems:'center',marginTop:10}}>
+                <Text style={{fontSize:screenWidth*0.05,color:'#000000'}}  >东方财富</Text>
+                <Text style={{fontSize:screenWidth*0.04,color:'#9A9A9A'}}>一季报</Text>
+              </HStack>
+              <HStack style={{width:'90%',justifyContent:'space-around',height:screenHeight*0.04,alignItems:'center',marginTop:10}}>
+                <Text style={{fontSize:screenWidth*0.05,color:'#000000'}}  >东方财富</Text>
+                <Text style={{fontSize:screenWidth*0.04,color:'#9A9A9A'}}>一季报</Text>
+              </HStack>
+            </View>
+
           </View>
 
-        </View>
+        </HStack>
 
       </View>
     </View>

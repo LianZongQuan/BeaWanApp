@@ -77,10 +77,11 @@ const Login = ({navigation}) => {
           //   <Icon as={<AntDesign name="lock" />} size={screenWidth*0.07} ml="2" marginRight={'2'} color="muted.400" />
           // }
           InputRightElement={<Pressable onPress={() => setShow(!show)}>
-            <Icon as={<MaterialIcons name={show ? "visibility" : "visibility-off"} />} size={screenWidth*0.07} mr="2" color="muted.400" /></Pressable>
+            <Icon as={<MaterialIcons name={show ? "visibility" : "visibility-off"} />} size={screenWidth*0.06} mr="2" color="muted.400" /></Pressable>
           }
-          fontSize = {screenWidth*0.055} 
-          variant='outline' borderColor={'blueGray.300'} placeholder=" 密码" 
+          fontSize = {screenWidth*0.045} 
+          borderRadius={25}
+          variant='unstyled' borderColor={'blueGray.300'} placeholder="请输入密码" backgroundColor={'#efefef'}
           onChangeText={(password)=>setpassword(password)}>
         </Input>
       )
@@ -90,15 +91,25 @@ const Login = ({navigation}) => {
           <View style={{height:screenHeight*0.1,justifyContent:'center'}}>
             <Input 
               type={"text"}
-              fontSize = {screenWidth*0.055} 
-              w={screenWidth*0.55}
-              
-              variant='outline' borderColor={'blueGray.300'} placeholder=" 验证码" >
+              fontSize = {screenWidth*0.045} 
+              w={screenWidth*0.6}
+              h={screenHeight*0.06}
+              borderTopRightRadius={0}
+              borderBottomRightRadius={0}
+              borderTopLeftRadius={25}
+              borderBottomLeftRadius={25}
+              variant='unstyled' borderColor={'blueGray.300'}  backgroundColor={'#efefef'} placeholder="请输入验证码" >
             </Input>  
           </View>
          
-          <View style={{height:screenHeight*0.1,justifyContent:'center',marginLeft:10}}>
-            <Button disabled={msgKey} _text={{fontSize:screenWidth*0.035,color:'#ffffff'} }  backgroundColor={'blueGray.400'} onPress={sendCode} borderRadius={5} w={screenWidth*0.33} height={screenHeight*0.06}>
+          <View style={{height:screenHeight*0.1,justifyContent:'center'}}>
+            <Button disabled={msgKey}
+              borderTopRightRadius={25}
+              borderBottomRightRadius={25}
+              borderTopLeftRadius={0}
+              borderBottomLeftRadius={0}
+              // borderLeftWidth={1}
+              _text={{fontSize:screenWidth*0.035,color:'#666666'} }  backgroundColor={'#efefef'} onPress={sendCode} borderRadius={0} w={screenWidth*0.3} height={screenHeight*0.06}>
               { msgText }
             </Button>
           </View>
@@ -372,46 +383,44 @@ const Login = ({navigation}) => {
           </Modal.Body>
         </Modal.Content>
       </Modal>
-      {/* <TouchableOpacity  onPress={jumpRegister} style={{marginTop:15,marginRight:15}}>
-        <Text style={{alignSelf:'flex-end',fontSize:18}}>注册</Text>
-      </TouchableOpacity> */}
+      <HStack width={'full'} backgroundColor={'#5461C9'} h={screenHeight*0.07} alignItems={'center'}  >
+        <TouchableOpacity  onPress={()=>{navigation.goBack()}} style={{height:screenHeight*0.07,justifyContent:'center',width:screenWidth*0.2,alignItems:'center'}}>
+          <Icon style ={{marginRight:20}} as={<AntDesign name="left" />} size={screenWidth*0.06} ml="2" color="#ffffff" />
+        </TouchableOpacity>
+        {/* <View  style={{height:screenHeight*0.08,justifyContent:'center',width:screenWidth*0.4,alignItems:'center'}}> */}
+          <Text style={{fontSize:screenWidth*0.055,textAlignVertical:'center',height:screenHeight*0.07,marginTop:5,fontWeight:'500',width:screenWidth*0.6,textAlign:'center',color:'#ffffff'}}>
+            登录
+          </Text>
+        {/* </View> */}
+      </HStack>
       <Center style={{marginTop:screenHeight*0.04}}>
         <Image alt='1' style={{width:screenWidth*0.3,height:screenWidth*0.3}} source={require('../HomeScreen/images/logo.png')}></Image>
-        <Image alt='2' style={{width:screenWidth*0.5,height:screenHeight*0.06}}  source={require('../HomeScreen/images/beawan.png')}></Image>
-
-         {/* <Icon as={<FontAwesome5 name="user-circle" />} size={24}  color="muted.400" /> */}
+        {/* <Image alt='2' style={{width:screenWidth*0.5,height:screenHeight*0.06}}  source={require('../HomeScreen/images/beawan.png')}></Image> */}
       </Center >
-
       <Center style = {{marginTop:"7%"}} >
         <Stack space={4} w="90%" maxW="450px" mx="auto">
           <Input  
-            // InputLeftElement={
-            //   <Icon as={<Feather name="phone" />} size={screenWidth*0.07} ml="2" marginRight={'2'} color="muted.400" />
-            // }
-            fontSize = {screenWidth*0.055}
+            InputLeftElement={
+              // <Icon as={<Feather name="phone" />} size={screenWidth*0.07} ml="2" marginRight={'2'} color="muted.400" />
+              <Text style={{fontSize:screenWidth*0.05,marginLeft:8,paddingRight:8,borderRightWidth:1}}>+86</Text>
+            }
+            InputRightElement={
+              <Icon style ={{marginRight:20}} as={<AntDesign name="right" />} size={screenWidth*0.06} color="#bebebe" />
+            }
+            borderRadius={25}
+            fontSize = {screenWidth*0.045}
             onChangeText={(mobile)=>setmobile(mobile)} 
-            variant='outline' borderColor={'blueGray.300'} placeholder={'手机号'}>
+            variant='unstyled' borderColor={'blueGray.300'}  backgroundColor={'#efefef'} placeholder={'请输入手机号'}>
           </Input>
           {passwordOrCode()}
-          <Box alignSelf="flex-end">
-            <Flex direction="row">
-              <TouchableOpacity onPress={changeLoginType}>
-                <Text underline={true} color={'blueGray.500'} fontSize={screenWidth*0.045}>{loginMode}</Text>
-              </TouchableOpacity>
-            </Flex>
-         </Box> 
+
         </Stack>
       </Center>
-      <Center style = {{marginTop:"4%"}}>
-      
-      <Stack  alignItems={'center'} w={'full'} >
-          <Button _text={{fontSize:screenWidth*0.055} }  bgColor={'blueGray.400'} onPress={loginMode=='验证码登录'? loginByPhone:loginByCode}  style={{ width:"86%", height:screenWidth*0.13 ,alignItems:'center',borderRadius:5}} >
-            {passwordLogin==true?'登录':'登录/注册'}
-          </Button>
-
-          <HStack style={{height:screenHeight*0.06}}>
+      <Center style = {{marginTop:"3%"}}>
+        <Stack  alignItems={'center'} w={'full'} >
+          <HStack style={{height:screenHeight*0.06,alignSelf:'flex-start',marginLeft:screenWidth*0.05}}>
             <View style={{height:screenHeight*0.06,justifyContent:'center',marginRight:10}} >
-              <Checkbox  colorScheme='blue' boxSize={screenWidth*0.05} style={{borderRadius:50}} value="test" accessibilityLabel="This is a dummy checkbox"></Checkbox>
+              <Checkbox  colorScheme='blue' boxSize={screenWidth*0.05} borderWidth={1} style={{borderRadius:50}} value="test" accessibilityLabel="This is a dummy checkbox"></Checkbox>
             </View>
             <View style={{height:screenHeight*0.06,justifyContent:'center'}}>
               <Text style={{fontSize:screenWidth*0.035}}>已阅读并同意</Text>
@@ -426,9 +435,21 @@ const Login = ({navigation}) => {
               <Text style={{fontSize:screenWidth*0.035}}>服务协议</Text>
             </View>
           </HStack>
+          <Button _text={{fontSize:screenWidth*0.055,color:'black'} } mt={screenHeight*0.01} bgColor={'#EFEFEF'} onPress={loginMode=='验证码登录'? loginByPhone:loginByCode}  
+            style={{ width:"86%", height:screenWidth*0.13 ,alignItems:'center',borderRadius:25}} >
+            {passwordLogin==true?'登录':'登录/注册'}
+          </Button>
 
-            <Text style={{fontSize:screenWidth*0.03,color:'#666666',marginTop:screenHeight*0.04}}>
-              其它登录方式
+          <Box alignSelf='center'>
+            <Flex direction="row">
+              <TouchableOpacity onPress={changeLoginType} style={{marginTop:screenHeight*0.02}}>
+                <Text color={'#0256C3'} fontSize={screenWidth*0.04}>{loginMode}</Text>
+              </TouchableOpacity>
+            </Flex>
+         </Box> 
+
+            <Text style={{fontSize:screenWidth*0.03,color:'#666666',marginTop:screenHeight*0.2}}>
+              ————其它登录方式————
             </Text>
             <HStack style={{ justifyContent:'center',width:'60%', marginTop:screenHeight*0.02}}>
             {/* <Spacer></Spacer> */}

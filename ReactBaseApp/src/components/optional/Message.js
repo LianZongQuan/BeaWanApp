@@ -63,15 +63,22 @@ const Message = ({navigation}) => {
   
   const allMessageItem = (item)=>{
     return(
-      <TouchableOpacity  style={{width:screenWidth*0.9,backgroundColor:"#ffffff",borderRadius:10,height:screenHeight*0.06,elevation:0.3,marginTop:15}}>
-        <HStack style={{width:screenWidth*0.9,height:screenHeight*0.06,}}>
-          <View style={{width:screenWidth*0.4,height:screenHeight*0.06,justifyContent:'center',alignItems:'center'}}>
+      <TouchableOpacity  style={{width:screenWidth*0.9,backgroundColor:"#ffffff",borderRadius:10,height:screenHeight*0.08,marginTop:15}}>
+        <HStack style={{width:screenWidth*0.9,height:screenHeight*0.08,}}>
+        <View style={{width:screenWidth*0.1,height:screenHeight*0.08,justifyContent:'center',alignItems:'center'}}>
+          <Text>
+            {item.item.status == '0'?'未读':'已读'}
+          </Text>
+            {/* <Icon style ={{marginRight:20}} as={<AntDesign name="right" />} size={screenWidth*0.06} ml="2" color="#999999" /> */}
+          </View>
+          <View style={{width:screenWidth*0.6,height:screenHeight*0.08,justifyContent:'center',alignItems:'center'}}>
+            
             <Text style={{fontSize:22,color:"#333333"}}>
-            {item.item.comCode+item.item.message}
+            {item.item.message}
             </Text>
           </View>
-          <View style={{width:screenWidth*0.2,height:screenHeight*0.06,justifyContent:'center',alignItems:'flex-end'}}>
-          <Icon style ={{marginRight:20}} as={<AntDesign name="right" />} size={screenWidth*0.06} ml="2" color="#999999" />
+          <View style={{width:screenWidth*0.2,height:screenHeight*0.08,justifyContent:'center',alignItems:'flex-end'}}>
+            <Icon style ={{marginRight:20}} as={<AntDesign name="right" />} size={screenWidth*0.06} ml="2" color="#999999" />
           </View>
         </HStack>
       </TouchableOpacity>
@@ -80,15 +87,25 @@ const Message = ({navigation}) => {
 
   return(
     <View style={{alignItems:'center',backgroundColor:"#f5f5f5"}}>
-      <HStack w={screenWidth*0.9} height={screenHeight*0.06} style={{borderWidth:1,borderColor:'#E9C5C5',borderRadius:25}}>
+      <HStack width={'full'} backgroundColor={'#5461C9'} h={screenHeight*0.07} alignItems={'center'}  >
+        <TouchableOpacity  onPress={()=>{navigation.goBack()}} style={{height:screenHeight*0.07,justifyContent:'center',width:screenWidth*0.2,alignItems:'center'}}>
+          <Icon style ={{marginRight:20}} as={<AntDesign name="left" />} size={screenWidth*0.06} ml="2" color="#ffffff" />
+        </TouchableOpacity>
+        {/* <View  style={{height:screenHeight*0.08,justifyContent:'center',width:screenWidth*0.4,alignItems:'center'}}> */}
+          <Text style={{fontSize:screenWidth*0.055,textAlignVertical:'center',height:screenHeight*0.07,fontWeight:'500',width:screenWidth*0.6,textAlign:'center',color:'#ffffff'}}>
+            消息
+          </Text>
+        {/* </View> */}
+      </HStack>
+      <HStack w={screenWidth*1} height={screenHeight*0.06} style={{backgroundColor:'#ffffff'}}>
         <TouchableOpacity onPress={select0} style={selectedIndex == 0 ? styles.checkSelect:styles.select} >
-          <Text style={{color:selectedIndex == 0 ? "#FFFFFF":"#E4463B",  fontSize:selectedIndex == 0 ? screenWidth*0.05:screenWidth*0.05}}>全部</Text>
+          <Text style={{color:selectedIndex == 0 ? "#0256c3":"#6c6c6c", borderBottomWidth:selectedIndex == 0 ? 1:0, fontSize:selectedIndex == 0 ? screenWidth*0.05:screenWidth*0.05}}>全部</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={select1} style={selectedIndex == 1 ? styles.checkSelect:styles.select}>
-          <Text style={{color:selectedIndex == 1 ? "#FFFFFF":"#E4463B", fontSize:selectedIndex == 1 ? screenWidth*0.05:screenWidth*0.05}}>未读</Text>
+          <Text style={{color:selectedIndex == 1 ? "#0256c3":"#6c6c6c", borderBottomWidth:selectedIndex == 1 ? 1:0, fontSize:selectedIndex == 1 ? screenWidth*0.05:screenWidth*0.05}}>未读</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={select2}  style={selectedIndex == 2 ? styles.checkSelect:styles.select}>
-          <Text style={{color:selectedIndex == 2 ? "#FFFFFF":"#E4463B",fontSize:selectedIndex == 2 ? screenWidth*0.05:screenWidth*0.05}}>已读</Text>
+          <Text style={{color:selectedIndex == 2 ? "#0256c3":"#6c6c6c", borderBottomWidth:selectedIndex == 2 ? 1:0,fontSize:selectedIndex == 2 ? screenWidth*0.05:screenWidth*0.05}}>已读</Text>
         </TouchableOpacity>
         </HStack>
         <FlatList
@@ -96,7 +113,6 @@ const Message = ({navigation}) => {
           renderItem={allMessageItem}
           showsVerticalScrollIndicator={false}
           data={selectedIndex == 0?allList:selectedIndex == 1?unReadList:readList}>
-
         </FlatList>
     </View>
   )
@@ -129,17 +145,18 @@ const styles = StyleSheet.create({
     fontSize:screenWidth*0.055,
     width:screenWidth*0.73,
     marginLeft:10
-  },checkSelect:{
-    // elevation:1,
-    backgroundColor:'#E4463B',
-    width:screenWidth*0.3,
+  },
+  checkSelect:{
+    // backgroundColor:'#E4463B',
+    width:screenWidth*0.33,
     alignItems:'center',
     borderRadius:25,
     height:screenHeight*0.06,
     justifyContent:'center',
+    
   },
   select:{
-    width:screenWidth*0.3,
+    width:screenWidth*0.33,
     alignItems:'center',
     justifyContent:'center',
     height:screenHeight*0.06

@@ -193,20 +193,20 @@ function wxpay(){
         </View>
 
       </HStack> */}
-      <HStack width={'full'} h={screenHeight*0.08} alignItems={'center'}  >
+      <HStack width={'full'} h={screenHeight*0.07} alignItems={'center'} backgroundColor={'#5461C9'} >
         <TouchableOpacity onPress={jumpOptionalInfo} style={{height:screenHeight*0.08,justifyContent:'center',width:screenWidth*0.2,alignItems:'center'}}>
-          <Icon style ={{marginRight:20}} as={<AntDesign name="left" />} size={screenWidth*0.06} ml="2" color="#333333" />
+          <Icon style ={{marginRight:20}} as={<AntDesign name="left" />} size={screenWidth*0.06} ml="2" color="#ffffff" />
         </TouchableOpacity>
         {/* <View  style={{height:screenHeight*0.08,justifyContent:'center',width:screenWidth*0.4,alignItems:'center'}}> */}
-          <Text style={{fontSize:screenWidth*0.047,fontWeight:'600',width:screenWidth*0.4}}>
+          <Text style={{fontSize:screenWidth*0.047,fontWeight:'600',width:screenWidth*0.4,color:'#ffffff'}}>
             冰山冷热研报
           </Text>
         {/* </View> */}
         <TouchableOpacity  onPress={wx} style={{width:screenWidth*0.2,height:screenHeight*0.08,justifyContent:'center',alignItems:'center'}}>
-          <Icon  as={<AntDesign name="wechat" />} size={screenWidth*0.07} color="#81B337" />
+          <Icon  as={<AntDesign name="wechat" />} size={screenWidth*0.07} color="#ffffff" />
         </TouchableOpacity>
         <TouchableOpacity  onPress={wx} style={{width:screenWidth*0.2,height:screenHeight*0.08,justifyContent:'center',alignItems:'center'}}>
-        <Icon  as={<AntDesign name="download" />} size={screenWidth*0.07} ml="2" color="#215476" />
+        <Icon  as={<AntDesign name="download" />} size={screenWidth*0.07} ml="2" color="#ffffff" />
         </TouchableOpacity>
       </HStack>
       <View style={{width:screenWidth*0.96,height:screenHeight*0.9}}>

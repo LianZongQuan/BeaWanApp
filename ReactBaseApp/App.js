@@ -121,16 +121,14 @@ function App() {
         <Stack.Screen name="收银台" component={PrivacyPolicy} options={{headerTitleAlign:'center'}}/>
         <Stack.Screen name="搜索" component={Search} options={{headerShown:false}}/>
 
-        <Stack.Screen name="消息" component={Message} options={{headerTitleAlign:'center'}}/>
+        <Stack.Screen name="消息" component={Message} options={{headerShown:false}} />
 
         <Stack.Screen name="关于" component={AboutApp} options={{headerTitleAlign:'center'}}/>
         <Stack.Screen name="添加自选" component={AddOptional} options={{headerTitleAlign:'center'}}/>
 
-        <Stack.Screen name="自选详情" component={OptionalInfo} options={{headerTitleAlign:'center'}}/>
+        <Stack.Screen name="自选详情" component={OptionalInfo} options={{headerShown:false}}/>
         <Stack.Screen name="报告" component={Report} options={{headerShown:false}}/>
-        <Stack.Screen name="登录" component={Login}  options={{headerTitleAlign:'center'
-      
-          }}/>
+        <Stack.Screen name="登录" component={Login}  options={{headerShown:false}}/>
         <Stack.Screen name="注册" component={Register} options={{headerTitleAlign:'center'}} />
       </Stack.Navigator>
     </NavigationContainer>
