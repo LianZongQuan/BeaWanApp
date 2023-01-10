@@ -18,7 +18,7 @@ import { Path } from 'react-native-svg';
 // const pdf2html = require('pdf2html')
 
 
-const name = encodeURI('file://E:/VScode/react-base-app/ReactBaseApp/src/components/user/查重报告.pdf')
+// const name = encodeURI('file://E:/VScode/react-base-app/ReactBaseApp/src/components/user/查重报告.pdf')
 const PrivacyPolicy = ({navigation}) => {
 
   function test(){

@@ -44,7 +44,7 @@ nonce_str： ibuaiVcKdpRxkhJF
 
 const Report = ({route,navigation}) => {
   // const list = data.data
-  const {comCode,year,stage} = route.params;
+  const {comCode,year,stage,name} = route.params;
 
   const [list,setList] = React.useState([]);
 
@@ -115,7 +115,7 @@ const Report = ({route,navigation}) => {
       <Item type={item.type} data={item.data} ></Item>
     )
   }
-function wxpay(){
+function wxpay(){ 
   WeChat.isWXAppInstalled()
   .then((isInstalled) => {
       console.log('是否安装微信', isInstalled);
@@ -198,8 +198,8 @@ function wxpay(){
           <Icon style ={{marginRight:20}} as={<AntDesign name="left" />} size={screenWidth*0.06} ml="2" color="#ffffff" />
         </TouchableOpacity>
         {/* <View  style={{height:screenHeight*0.08,justifyContent:'center',width:screenWidth*0.4,alignItems:'center'}}> */}
-          <Text style={{fontSize:screenWidth*0.047,fontWeight:'600',width:screenWidth*0.4,color:'#ffffff'}}>
-            冰山冷热研报
+          <Text style={{fontSize:screenWidth*0.046,fontWeight:'600',width:screenWidth*0.4,color:'#ffffff'}}>
+            {name+'研报'}
           </Text>
         {/* </View> */}
         <TouchableOpacity  onPress={wx} style={{width:screenWidth*0.2,height:screenHeight*0.08,justifyContent:'center',alignItems:'center'}}>
@@ -230,7 +230,6 @@ const styles = StyleSheet.create({
     width:'100%',
     height:'100%',
     alignItems:'center',
-
   },
   t1:{
     // width:screenWidth*0.9,
@@ -250,7 +249,6 @@ const styles = StyleSheet.create({
     color:'#215476',
     alignSelf:'center',
     fontWeight:'600'
-    
   },
   h1:{
     fontSize:screenWidth*0.05,
@@ -268,7 +266,6 @@ const styles = StyleSheet.create({
     marginBottom:15,
     color:'#333333',
     fontWeight:'600'
-    
   },
   h3:{
     fontSize:screenWidth*0.04,

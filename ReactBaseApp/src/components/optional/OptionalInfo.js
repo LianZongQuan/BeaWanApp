@@ -91,7 +91,7 @@ const OptionalInfo = ({route,navigation}) => {
             }
             return (
               <TouchableOpacity key={index}  onPress={()=>{
-                navigation.navigate('报告',{comCode:item.comCode,year:item.year,stage:item.stage});
+                navigation.navigate('报告',{comCode:item.comCode,year:item.year,stage:item.stage,name});
                 }} style={{width:screenWidth*0.9,backgroundColor:"#efefef",borderRadius:25,height:screenHeight*0.06,elevation:0.3,marginTop:15}}>
                 <HStack style={{width:screenWidth*0.9,height:screenHeight*0.06,}}>
                   <View style={{width:screenWidth*0.4,height:screenHeight*0.06,justifyContent:'center',alignItems:'center'}}>

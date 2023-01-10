@@ -67,7 +67,7 @@ const User = ({navigation}) => {
     if(user === null){
       customAlter(id,status,title);
     }else{
-      navigation.navigate('个人信息',{name:JSON.parse(user).name,phone:JSON.parse(user).phone});
+      navigation.navigate('个人信息',{name:JSON.parse(user).userNickName,phone:JSON.parse(user).phone});
     }
   }
   function jumpWallet(){
@@ -97,7 +97,7 @@ const User = ({navigation}) => {
     navigation.navigate('关于');
   }
   function jumpPrivacyPolicy(){
-    navigation.navigate('报告');
+    navigation.navigate('收银台');
   }
   async function getUser(){
     try {
@@ -193,13 +193,13 @@ const User = ({navigation}) => {
             <Icon style ={{marginRight:20}} as={<AntDesign name="right" />} size={screenWidth*0.06} ml="2" color="#666666" />
           </HStack>     
         </TouchableOpacity>
-        <TouchableOpacity style={styles.list} onPress={jumpPrivacyPolicy}>
+        {/* <TouchableOpacity style={styles.list} onPress={jumpPrivacyPolicy}>
           <HStack style = {{marginLeft:"3%"}}>
             <Icon as={<MaterialCommunityIcons name="eye-off-outline" />} size={screenWidth*0.07} ml="2" color="#666666" />
             <Text style = {styles.listText}>隐私政策</Text>
             <Icon style ={{marginRight:20}} as={<AntDesign name="right" />} size={screenWidth*0.06} ml="2" color="#666666" />
           </HStack>     
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <TouchableOpacity onPress={jumpAboutApp} style={styles.list}>
           <HStack style = {{marginLeft:"3%"}}>
             <Icon as={<AntDesign name="exclamationcircleo" />} size={screenWidth*0.07} ml="2" color="#666666" />

@@ -8,6 +8,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import MaterialCommunityIcons  from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import AntDesign from 'react-native-vector-icons/AntDesign'
+
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
+
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { Text } from 'react-native';
 // import HttpUtil from '../../utils/http';
@@ -15,246 +18,83 @@ const Tab = createMaterialTopTabNavigator();
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
+
+
+const Item = () =>{
+  return(
+    <TouchableOpacity style={{marginTop:20,width:screenWidth*0.96,backgroundColor:'#ffffff',alignItems:'center',borderRadius:10}}>
+      <HStack style={{width:screenWidth*0.96,backgroundColor:'#ffffff',height:screenHeight*0.04,alignItems:'center',justifyContent:'center'}}>
+        <Text style={{width:screenWidth*0.6,fontSize:screenWidth*0.037,color:'#333333'}}>
+          订单编号：548255865
+        </Text>
+        <Text style={{width:screenWidth*0.3,textAlign:'right',fontSize:screenWidth*0.037,color:'rgba(154, 154, 154, 1)'}}>
+          已完成
+        </Text>
+      </HStack>
+      <HStack style={{width:screenWidth*0.96,backgroundColor:'#ffffff',height:screenHeight*0.04,alignItems:'center',justifyContent:'center'}}>
+        <Text style={{width:screenWidth*0.6,fontSize:screenWidth*0.045,height:screenHeight*0.04,color:'#333333'}}>
+          青岛啤酒2021年第一季度报告
+        </Text>
+        <HStack style={{width:screenWidth*0.3,justifyContent:'flex-end',height:screenHeight*0.04,alignItems:'center'}}>
+          <Icon   as={<MaterialCommunityIcons name="currency-cny" />} size={screenWidth*0.05} color="#333333" />
+          <Text style={{fontSize:screenWidth*0.045,color:'#333333'}}>
+            12
+          </Text>
+        </HStack>
+      </HStack>
+      <HStack style={{width:screenWidth*0.96,backgroundColor:'#ffffff',height:screenHeight*0.04,alignItems:'center',justifyContent:'center'}}>
+        <Text style={{width:screenWidth*0.6,color:'rgba(154, 154, 154, 1)',fontSize:screenWidth*0.04}}>
+        订单类型：购买报告
+        </Text>
+        <Text style={{width:screenWidth*0.3,textAlign:'right',color:'rgba(154, 154, 154, 1)',fontSize:screenWidth*0.04}}>
+          X1
+        </Text>
+      </HStack>
+      <HStack style={{borderTopWidth:1,borderColor:'#efefef',width:screenWidth*0.9,justifyContent:'center',height:screenHeight*0.055,alignItems:'center',}}>
+        <Icon   as={<FontAwesome5 name="file-pdf" />} size={screenWidth*0.05} color="#C5884C" />
+        <Text >
+          详情报告原文
+        </Text>
+      </HStack>
+    </TouchableOpacity>
+  )
+}
+
 //已完成订单
 const CompleteOrder = () =>{
   return(
-    <View style={{width:'100%',backgroundColor:"#ffffff",marginTop:20}}>
-      <HStack style={{width:"96%",height:40,borderBottomWidth:0.5,borderColor:"#f5f5f5"}}>
-        <View style={{width:"35%",alignItems:'center',justifyContent:'center'}}>
-          <Text style={{fontSize:screenWidth*0.05,color:"#6C6C6C"}} >订单编号</Text>
-        </View>
-        <View style={{width:"25%",alignItems:'center',justifyContent:'center'}}>
-          <Text style={{fontSize:screenWidth*0.05,color:"#6C6C6C"}} >订单类型</Text>
-        </View>
-        <View style={{width:"20%",alignItems:'center',justifyContent:'center'}}>
-          <Text style={{fontSize:screenWidth*0.05,color:"#6C6C6C"}} >金额</Text>
-        </View>
-        <View style={{width:"20%",alignItems:'center',justifyContent:'center'}}>
-          <Text style={{fontSize:screenWidth*0.05,color:"#6C6C6C"}} >详情</Text>
-        </View>
-      </HStack>
-      <HStack style={{width:"96%",height:60,borderBottomWidth:0.5,borderColor:"#f5f5f5"}}>
-        <View style={{width:"35%",alignItems:'center',justifyContent:'center'}}>
-          <Text style={{fontSize:screenWidth*0.05,color:"#101010"}} >5001180209</Text>
-        </View>
-        <View style={{width:"25%",alignItems:'center',justifyContent:'center'}}>
-          <Text style={{fontSize:screenWidth*0.05,color:"#101010"}} >购买报告</Text>
-        </View>
-        <View style={{width:"20%",alignItems:'center',justifyContent:'center'}}>
-          <Text style={{fontSize:screenWidth*0.05,color:"#101010"}} >12</Text>
-        </View>
-        <TouchableOpacity style={{width:"20%",alignItems:'center',justifyContent:'center'}}>
-          <Icon as={<MaterialIcons name="description" />} size={screenWidth*0.08} ml="2" color="#F4CE98" />
-        </TouchableOpacity>
-      </HStack>
-      <HStack style={{width:"96%",height:60,borderBottomWidth:0.5,borderColor:"#f5f5f5"}}>
-        <View style={{width:"35%",alignItems:'center',justifyContent:'center'}}>
-          <Text style={{fontSize:screenWidth*0.05,color:"#101010"}} >5001180209</Text>
-        </View>
-        <View style={{width:"25%",alignItems:'center',justifyContent:'center'}}>
-          <Text style={{fontSize:screenWidth*0.05,color:"#101010"}} >购买报告</Text>
-        </View>
-        <View style={{width:"20%",alignItems:'center',justifyContent:'center'}}>
-          <Text style={{fontSize:screenWidth*0.05,color:"#101010"}} >12</Text>
-        </View>
-        <TouchableOpacity style={{width:"20%",alignItems:'center',justifyContent:'center'}}>
-          <Icon as={<MaterialIcons name="description" />} size={screenWidth*0.08} ml="2" color="#F4CE98" />
-        </TouchableOpacity>
-      </HStack>
-      <HStack style={{width:"96%",height:60,borderBottomWidth:0.5,borderColor:"#f5f5f5"}}>
-        <View style={{width:"35%",alignItems:'center',justifyContent:'center'}}>
-          <Text style={{fontSize:screenWidth*0.05,color:"#101010"}} >5001180209</Text>
-        </View>
-        <View style={{width:"25%",alignItems:'center',justifyContent:'center'}}>
-          <Text style={{fontSize:screenWidth*0.05,color:"#101010"}} >购买报告</Text>
-        </View>
-        <View style={{width:"20%",alignItems:'center',justifyContent:'center'}}>
-          <Text style={{fontSize:screenWidth*0.05,color:"#101010"}} >12</Text>
-        </View>
-        <TouchableOpacity style={{width:"20%",alignItems:'center',justifyContent:'center'}}>
-          <Icon as={<MaterialIcons name="description" />} size={screenWidth*0.08} ml="2" color="#F4CE98" />
-        </TouchableOpacity>
-      </HStack>
-      <HStack style={{width:"96%",height:60,borderBottomWidth:0.5,borderColor:"#f5f5f5"}}>
-        <View style={{width:"35%",alignItems:'center',justifyContent:'center'}}>
-          <Text style={{fontSize:screenWidth*0.05,color:"#101010"}} >5001180209</Text>
-        </View>
-        <View style={{width:"25%",alignItems:'center',justifyContent:'center'}}>
-          <Text style={{fontSize:screenWidth*0.05,color:"#101010"}} >购买报告</Text>
-        </View>
-        <View style={{width:"20%",alignItems:'center',justifyContent:'center'}}>
-          <Text style={{fontSize:screenWidth*0.05,color:"#101010"}} >12</Text>
-        </View>
-        <TouchableOpacity style={{width:"20%",alignItems:'center',justifyContent:'center'}}>
-          <Icon as={<MaterialIcons name="description" />} size={screenWidth*0.08} ml="2" color="#F4CE98" />
-        </TouchableOpacity>
-      </HStack>
-
+    <View style={{width:'100%',backgroundColor:"#efefef",alignItems:'center'}}>
+      <Item></Item>
+      <Item></Item>
+      <Item></Item>
     </View>
   )
 }
 const PayOrder = () =>{
   return(
-    <View style={{width:'100%',backgroundColor:"#ffffff",marginTop:20}}>
-      <HStack style={{width:"96%",height:40,borderBottomWidth:0.5,borderColor:"#f5f5f5"}}>
-        <View style={{width:"35%",alignItems:'center',justifyContent:'center'}}>
-          <Text style={{fontSize:screenWidth*0.05,color:"#6C6C6C"}} >订单编号</Text>
-        </View>
-        <View style={{width:"25%",alignItems:'center',justifyContent:'center'}}>
-          <Text style={{fontSize:screenWidth*0.05,color:"#6C6C6C"}} >订单类型</Text>
-        </View>
-        <View style={{width:"20%",alignItems:'center',justifyContent:'center'}}>
-          <Text style={{fontSize:screenWidth*0.05,color:"#6C6C6C"}} >金额</Text>
-        </View>
-        <View style={{width:"20%",alignItems:'center',justifyContent:'center'}}>
-          <Text style={{fontSize:screenWidth*0.05,color:"#6C6C6C"}} >详情</Text>
-        </View>
-      </HStack>
-      <HStack style={{width:"96%",height:60,borderBottomWidth:0.5,borderColor:"#f5f5f5"}}>
-        <View style={{width:"35%",alignItems:'center',justifyContent:'center'}}>
-          <Text style={{fontSize:screenWidth*0.05,color:"#101010"}} >5001180209</Text>
-        </View>
-        <View style={{width:"25%",alignItems:'center',justifyContent:'center'}}>
-          <Text style={{fontSize:screenWidth*0.05,color:"#101010"}} >购买报告</Text>
-        </View>
-        <View style={{width:"20%",alignItems:'center',justifyContent:'center'}}>
-          <Text style={{fontSize:screenWidth*0.05,color:"#101010"}} >12</Text>
-        </View>
-        <TouchableOpacity style={{width:"20%",alignItems:'center',justifyContent:'center'}}>
-          <Icon as={<MaterialIcons name="description" />} size={screenWidth*0.08} ml="2" color="#F4CE98" />
-        </TouchableOpacity>
-      </HStack>
-      <HStack style={{width:"96%",height:60,borderBottomWidth:0.5,borderColor:"#f5f5f5"}}>
-        <View style={{width:"35%",alignItems:'center',justifyContent:'center'}}>
-          <Text style={{fontSize:screenWidth*0.05,color:"#101010"}} >5001180209</Text>
-        </View>
-        <View style={{width:"25%",alignItems:'center',justifyContent:'center'}}>
-          <Text style={{fontSize:screenWidth*0.05,color:"#101010"}} >购买报告</Text>
-        </View>
-        <View style={{width:"20%",alignItems:'center',justifyContent:'center'}}>
-          <Text style={{fontSize:screenWidth*0.05,color:"#101010"}} >12</Text>
-        </View>
-        <TouchableOpacity style={{width:"20%",alignItems:'center',justifyContent:'center'}}>
-          <Icon as={<MaterialIcons name="description" />} size={screenWidth*0.08} ml="2" color="#F4CE98" />
-        </TouchableOpacity>
-      </HStack>
-      <HStack style={{width:"96%",height:60,borderBottomWidth:0.5,borderColor:"#f5f5f5"}}>
-        <View style={{width:"35%",alignItems:'center',justifyContent:'center'}}>
-          <Text style={{fontSize:screenWidth*0.05,color:"#101010"}} >5001180209</Text>
-        </View>
-        <View style={{width:"25%",alignItems:'center',justifyContent:'center'}}>
-          <Text style={{fontSize:screenWidth*0.05,color:"#101010"}} >购买报告</Text>
-        </View>
-        <View style={{width:"20%",alignItems:'center',justifyContent:'center'}}>
-          <Text style={{fontSize:screenWidth*0.05,color:"#101010"}} >12</Text>
-        </View>
-        <TouchableOpacity style={{width:"20%",alignItems:'center',justifyContent:'center'}}>
-          <Icon as={<MaterialIcons name="description" />} size={screenWidth*0.08} ml="2" color="#F4CE98" />
-        </TouchableOpacity>
-      </HStack>
-      <HStack style={{width:"96%",height:60,borderBottomWidth:0.5,borderColor:"#f5f5f5"}}>
-        <View style={{width:"35%",alignItems:'center',justifyContent:'center'}}>
-          <Text style={{fontSize:screenWidth*0.05,color:"#101010"}} >5001180209</Text>
-        </View>
-        <View style={{width:"25%",alignItems:'center',justifyContent:'center'}}>
-          <Text style={{fontSize:screenWidth*0.05,color:"#101010"}} >购买报告</Text>
-        </View>
-        <View style={{width:"20%",alignItems:'center',justifyContent:'center'}}>
-          <Text style={{fontSize:screenWidth*0.05,color:"#101010"}} >12</Text>
-        </View>
-        <TouchableOpacity style={{width:"20%",alignItems:'center',justifyContent:'center'}}>
-          <Icon as={<MaterialIcons name="description" />} size={screenWidth*0.08} ml="2" color="#F4CE98" />
-        </TouchableOpacity>
-      </HStack>
-
+    <View style={{width:'100%',backgroundColor:"#efefef",alignItems:'center'}}>
+      <Item></Item>
+      <Item></Item>
+      <Item></Item>
     </View>
   )
 }
 const AllOrder = () =>{
   return(
-    <View style={{width:'100%',backgroundColor:"#ffffff",marginTop:20}}>
-      <HStack style={{width:"96%",height:40,borderBottomWidth:0.5,borderColor:"#f5f5f5"}}>
-        <View style={{width:"35%",alignItems:'center',justifyContent:'center'}}>
-          <Text style={{fontSize:screenWidth*0.05,color:"#6C6C6C"}} >订单编号</Text>
-        </View>
-        <View style={{width:"25%",alignItems:'center',justifyContent:'center'}}>
-          <Text style={{fontSize:screenWidth*0.05,color:"#6C6C6C"}} >订单类型</Text>
-        </View>
-        <View style={{width:"20%",alignItems:'center',justifyContent:'center'}}>
-          <Text style={{fontSize:screenWidth*0.05,color:"#6C6C6C"}} >金额</Text>
-        </View>
-        <View style={{width:"20%",alignItems:'center',justifyContent:'center'}}>
-          <Text style={{fontSize:screenWidth*0.05,color:"#6C6C6C"}} >详情</Text>
-        </View>
-      </HStack>
-      <HStack style={{width:"96%",height:60,borderBottomWidth:0.5,borderColor:"#f5f5f5"}}>
-        <View style={{width:"35%",alignItems:'center',justifyContent:'center'}}>
-          <Text style={{fontSize:screenWidth*0.05,color:"#101010"}} >5001180209</Text>
-        </View>
-        <View style={{width:"25%",alignItems:'center',justifyContent:'center'}}>
-          <Text style={{fontSize:screenWidth*0.05,color:"#101010"}} >购买报告</Text>
-        </View>
-        <View style={{width:"20%",alignItems:'center',justifyContent:'center'}}>
-          <Text style={{fontSize:screenWidth*0.05,color:"#101010"}} >12</Text>
-        </View>
-        <TouchableOpacity style={{width:"20%",alignItems:'center',justifyContent:'center'}}>
-          <Icon as={<MaterialIcons name="description" />} size={screenWidth*0.08} ml="2" color="#F4CE98" />
-        </TouchableOpacity>
-      </HStack>
-      <HStack style={{width:"96%",height:60,borderBottomWidth:0.5,borderColor:"#f5f5f5"}}>
-        <View style={{width:"35%",alignItems:'center',justifyContent:'center'}}>
-          <Text style={{fontSize:screenWidth*0.05,color:"#101010"}} >5001180209</Text>
-        </View>
-        <View style={{width:"25%",alignItems:'center',justifyContent:'center'}}>
-          <Text style={{fontSize:screenWidth*0.05,color:"#101010"}} >购买报告</Text>
-        </View>
-        <View style={{width:"20%",alignItems:'center',justifyContent:'center'}}>
-          <Text style={{fontSize:screenWidth*0.05,color:"#101010"}} >12</Text>
-        </View>
-        <TouchableOpacity style={{width:"20%",alignItems:'center',justifyContent:'center'}}>
-          <Icon as={<MaterialIcons name="description" />} size={screenWidth*0.08} ml="2" color="#F4CE98" />
-        </TouchableOpacity>
-      </HStack>
-      <HStack style={{width:"96%",height:60,borderBottomWidth:0.5,borderColor:"#f5f5f5"}}>
-        <View style={{width:"35%",alignItems:'center',justifyContent:'center'}}>
-          <Text style={{fontSize:screenWidth*0.05,color:"#101010"}} >5001180209</Text>
-        </View>
-        <View style={{width:"25%",alignItems:'center',justifyContent:'center'}}>
-          <Text style={{fontSize:screenWidth*0.05,color:"#101010"}} >购买报告</Text>
-        </View>
-        <View style={{width:"20%",alignItems:'center',justifyContent:'center'}}>
-          <Text style={{fontSize:screenWidth*0.05,color:"#101010"}} >12</Text>
-        </View>
-        <TouchableOpacity style={{width:"20%",alignItems:'center',justifyContent:'center'}}>
-          <Icon as={<MaterialIcons name="description" />} size={screenWidth*0.08} ml="2" color="#F4CE98" />
-        </TouchableOpacity>
-      </HStack>
-      <HStack style={{width:"96%",height:60,borderBottomWidth:0.5,borderColor:"#f5f5f5"}}>
-        <View style={{width:"35%",alignItems:'center',justifyContent:'center'}}>
-          <Text style={{fontSize:screenWidth*0.05,color:"#101010"}} >5001180209</Text>
-        </View>
-        <View style={{width:"25%",alignItems:'center',justifyContent:'center'}}>
-          <Text style={{fontSize:screenWidth*0.05,color:"#101010"}} >购买报告</Text>
-        </View>
-        <View style={{width:"20%",alignItems:'center',justifyContent:'center'}}>
-          <Text style={{fontSize:screenWidth*0.05,color:"#101010"}} >12</Text>
-        </View>
-        <TouchableOpacity style={{width:"20%",alignItems:'center',justifyContent:'center'}}>
-          <Icon as={<MaterialIcons name="description" />} size={screenWidth*0.08} ml="2" color="#F4CE98" />
-        </TouchableOpacity>
-      </HStack>
-
+    <View style={{width:'100%',backgroundColor:"#efefef",alignItems:'center'}}>
+      <Item></Item>
+      <Item></Item>
+      <Item></Item>
     </View>
   )
 }
 const OrderInfo = ({navigation}) => {
 
   return (
-    <Tab.Navigator     
-    >
-        <Tab.Screen name="已完成" component={CompleteOrder} />
-        <Tab.Screen name="待付款" component={PayOrder} />
-        <Tab.Screen name="全部" component={AllOrder} />
+    <Tab.Navigator     >
+      <Tab.Screen name="已完成" component={CompleteOrder} />
+      <Tab.Screen name="待付款" component={PayOrder} />
+      <Tab.Screen name="全部" component={AllOrder} />
     </Tab.Navigator>
 );
   

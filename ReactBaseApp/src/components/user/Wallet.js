@@ -44,7 +44,16 @@ const Wallet = ({navigation}) => {
   return(
     <ScrollView>
     <View style = {styles.background}>
-       
+      <HStack width={'full'} backgroundColor={'#F3BB3A'} h={screenHeight*0.07} alignItems={'center'}  >
+        <TouchableOpacity  onPress={()=>{navigation.goBack()}} style={{height:screenHeight*0.07,justifyContent:'center',width:screenWidth*0.2,alignItems:'center'}}>
+          <Icon style ={{marginRight:20}} as={<AntDesign name="left" />} size={screenWidth*0.06} ml="2" color="#ffffff" />
+        </TouchableOpacity>
+        {/* <View  style={{height:screenHeight*0.08,justifyContent:'center',width:screenWidth*0.4,alignItems:'center'}}> */}
+          <Text style={{fontSize:screenWidth*0.055,textAlignVertical:'center',height:screenHeight*0.07,fontWeight:'500',width:screenWidth*0.6,textAlign:'center',color:'#ffffff'}}>
+            会员中心
+          </Text>
+        {/* </View> */}
+      </HStack>
       <View style = {styles.header}>
         <HStack style={{marginLeft:"3%",height:screenHeight*0.15}}>
           <View style={{height:screenHeight*0.15,justifyContent:'center'}}>

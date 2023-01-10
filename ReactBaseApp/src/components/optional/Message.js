@@ -45,6 +45,16 @@ const Message = ({navigation}) => {
     setSelectedIndex(2);
 
   }
+  //将未读消息变成已读消息
+  function changeMessageStatus(id,status){
+    let url = HttpUtil.localUrl+'company/message/deleteOne/'+id;
+    console.log(id+status)
+    // let header = {};
+    // HttpUtil.get(url,null,header,function(response){
+    //   console.log(response.data)
+    // })
+
+  }
   function getMessage(){
     let url = HttpUtil.localUrl+'company/message/allList';
     let header = {};
@@ -63,17 +73,27 @@ const Message = ({navigation}) => {
   
   const allMessageItem = (item)=>{
     return(
-      <TouchableOpacity  style={{width:screenWidth*0.9,backgroundColor:"#ffffff",borderRadius:10,height:screenHeight*0.08,marginTop:15}}>
+      <TouchableOpacity onPress={ () =>{
+        let url = HttpUtil.localUrl+'company/message/deleteOne/'+item.item.id;
+        // console.log(item.item.id+'000'+item.item.status)
+        let header = {};
+        HttpUtil.get(url,null,header,function(response){
+          // console.log(response.data)
+          getMessage()
+        })
+      } }  
+      
+        style={{width:screenWidth*0.9,backgroundColor:"#ffffff",borderRadius:10,height:screenHeight*0.08,marginTop:15}}>
         <HStack style={{width:screenWidth*0.9,height:screenHeight*0.08,}}>
-        <View style={{width:screenWidth*0.1,height:screenHeight*0.08,justifyContent:'center',alignItems:'center'}}>
-          <Text>
+        <View style={{width:screenWidth*0.2,height:screenHeight*0.08,justifyContent:'center',alignItems:'center'}}>
+          <Text style={{marginLeft:1}}>
             {item.item.status == '0'?'未读':'已读'}
           </Text>
             {/* <Icon style ={{marginRight:20}} as={<AntDesign name="right" />} size={screenWidth*0.06} ml="2" color="#999999" /> */}
           </View>
-          <View style={{width:screenWidth*0.6,height:screenHeight*0.08,justifyContent:'center',alignItems:'center'}}>
+          <View style={{width:screenWidth*0.5,height:screenHeight*0.08,justifyContent:'center',alignItems:'center'}}>
             
-            <Text style={{fontSize:22,color:"#333333"}}>
+            <Text style={{fontSize:screenWidth*0.045,color:"#333333"}}>
             {item.item.message}
             </Text>
           </View>

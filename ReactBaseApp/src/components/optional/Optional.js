@@ -8,6 +8,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import  {DeviceEventEmitter} from 'react-native';
 import MaterialCommunityIcons  from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
+
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
+
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import WebView from "react-native-webview";
 
@@ -59,6 +62,7 @@ const Optional = ({navigation}) => {
       setListReportName(title2)
       // console.log(listReportName)
       getData();
+
     }) 
 
   },[navigation]);
@@ -90,24 +94,31 @@ const Optional = ({navigation}) => {
     let url = HttpUtil.localUrl+'company/message/unreadList';
     let header = {};
     HttpUtil.get(url,null,header,function(response){
-      console.log(response.data.data)
-      if(response.data.data.length===0 ||response.data.data.length===null){
+      // console.log(response.data)
+      // console.log(response.data.data)
+      if(response.data.data == null){
+        setHasMessage(false);
+      }else if(response.data.data.length==0){
         setHasMessage(false);
       }else{
         setHasMessage(true)    
+
       }
     })
   }
   const messageItem =() =>{
+    // console.log('22'+hasMessage)
     if(hasMessage == true){
       return(
-        // <Image alt='newmessage'  ml={'2'} w={screenWidth*0.08} h={screenWidth*0.08}  source={require('../HomeScreen/images/newMessage.png')}></Image> 
-        <Icon color={'#ffffff'} as={<AntDesign name="search1" />} size={screenWidth*0.06}  />
+        // <Image alt='me1'  ml={'2'} w={screenWidth*0.065} h={screenWidth*0.065}  source={require('../HomeScreen/images/me.png')}></Image> 
+      
+        <Icon color={'error.500'} as={<MaterialCommunityIcons name="message-badge-outline" />} size={screenWidth*0.06}  />
+        
 
       )
     }else if(hasMessage == false){
       return(
-        // <Image alt='message'  ml={'2'} w={screenWidth*0.08} h={screenWidth*0.08}  source={require('../HomeScreen/images/message.png')}></Image>  
+        // <Image alt='me'  ml={'2'} w={screenWidth*0.065} h={screenWidth*0.065}  source={require('../HomeScreen/images/me1.png')}></Image>  
         <Icon color={'#ffffff'} as={<MaterialCommunityIcons name="message-processing-outline" />} size={screenWidth*0.06}  />
 
       )
@@ -197,7 +208,7 @@ const Optional = ({navigation}) => {
           }
       }
       if(j == reportlist.length){
-        list.push({"comCode": "0", "id": 0, "score": "0", "stage": "0", "year": "0"})
+        list.push({"comCode": "0", "id": 0, "score": "未出", "stage": "0", "year": "0"})
       }
     }
     return list;  
@@ -319,6 +330,9 @@ const Optional = ({navigation}) => {
             }else if(item.score<=80)
             {
               circleColor = '#E99D42';
+            }else if(item.score=='未出'){
+              circleColor = '#bebebe';
+
             }else{
               circleColor = '#5ac4ad';
             }
@@ -332,7 +346,7 @@ const Optional = ({navigation}) => {
                   </Text>
                 </View>
                 </CircleProgressView> */}
-                <Text style={{fontSize:22,color:circleColor}}>
+                <Text style={{fontSize:item.score=='未出'? screenWidth*0.045:screenWidth*0.055,color:circleColor}}>
                   {item.score}
                 </Text>
               </View>
@@ -435,7 +449,7 @@ const Optional = ({navigation}) => {
           <Text style={{color:selectedIndex == 3 ? "#566CBE":"#666666",borderColor:'#2C49B4', borderBottomWidth:selectedIndex == 3 ? 1:0,fontSize:screenWidth*0.05}}>季报</Text>
         </TouchableOpacity>
       </HStack>
-      <View w={'full'} height={screenHeight*0.02} style={{backgroundColor:'#697DC7'}}></View>            
+      <View w={'full'} height={screenHeight*0.02} style={{backgroundColor:'rgba(186,193,217,0.4)'}}></View>            
       <HStack style={{width:'100%',marginTop:1,flex:1,alignItems:'center', backgroundColor:'#efefef'}}>
         <FlatList
           ListHeaderComponent={head}

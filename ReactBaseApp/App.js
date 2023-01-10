@@ -69,16 +69,16 @@ function App() {
                   let iconName;
                   size = screenWidth*0.055;
                   if (route.name === '首页') {
-                    iconName = focused
-                      ? 'home'
-                      : 'home-outline';
-                    return <Ionicons name={iconName} size={size} color={color} />;
+                    // iconName = focused
+                    //   ? 'home'
+                    //   : 'home-outline';
+                    return <Ionicons name={'home'} size={size} color={color} />;
                   } else if (route.name === '自选') {
-                    iconName = focused ? 'pluscircle' : 'pluscircleo';
-                    return <AntDesign name={iconName} size={size} color={color} />;
+                    // iconName = focused ? 'pluscircle' : 'pluscircleo';
+                    return <AntDesign name={'pluscircle'} size={size} color={color} />;
                   }else if (route.name === '我的') {
-                    iconName = focused ? 'user-circle-o' : 'user-circle';
-                    return <FontAwesome name={iconName} size={size} color={color} />;
+                    // iconName = focused ? 'user-circle-o' : 'user-circle';
+                    return <FontAwesome name={'user-circle-o'} size={size} color={color} />;
                   }
                 },
                 //标签属性
@@ -110,20 +110,20 @@ function App() {
         
         
         <Stack.Screen name="测试" component={Test} /> */}
-                <Stack.Screen name="个人信息" component={UserInfo} options={{headerTitleAlign:'center'}}/>
+                <Stack.Screen name="个人信息" component={UserInfo} options={{headerShown:false}}/>
         <Stack.Screen name="修改昵称" component={ModifyNickname} options={{headerTitleAlign:'center'}}/>
         <Stack.Screen name="个人简介" component={UserProfile} options={{headerTitleAlign:'center'}}/>
         <Stack.Screen name="修改手机号" component={ModifyPhone} options={{headerTitleAlign:'center'}}/>
         <Stack.Screen name="修改密码" component={ModifyPassword} options={{headerTitleAlign:'center'}}/>
-        <Stack.Screen name="钱包" component={Wallet} options={{headerTitleAlign:'center'}}/>
+        <Stack.Screen name="钱包" component={Wallet} options={{headerShown:false}}/>
         <Stack.Screen name="订单信息" component={OrderInfo} options={{headerTitleAlign:'center'}}/>
-        <Stack.Screen name="意见反馈" component={FeedBack} options={{headerTitleAlign:'center'}}/>
+        <Stack.Screen name="意见反馈" component={FeedBack} options={{headerShown:false}}/>
         <Stack.Screen name="收银台" component={PrivacyPolicy} options={{headerTitleAlign:'center'}}/>
         <Stack.Screen name="搜索" component={Search} options={{headerShown:false}}/>
 
         <Stack.Screen name="消息" component={Message} options={{headerShown:false}} />
 
-        <Stack.Screen name="关于" component={AboutApp} options={{headerTitleAlign:'center'}}/>
+        <Stack.Screen name="关于" component={AboutApp} options={{headerShown:false}}/>
         <Stack.Screen name="添加自选" component={AddOptional} options={{headerTitleAlign:'center'}}/>
 
         <Stack.Screen name="自选详情" component={OptionalInfo} options={{headerShown:false}}/>

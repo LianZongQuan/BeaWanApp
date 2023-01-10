@@ -168,7 +168,7 @@ const Search = ({navigation}) => {
               </HStack>
             </View>
           </HStack>
-          <View style={{width:screenWidth*0.94,alignItems:'center'}}>
+          {/* <View style={{width:screenWidth*0.94,alignItems:'center'}}>
             <TouchableOpacity>
 
 
@@ -184,7 +184,7 @@ const Search = ({navigation}) => {
               </View>
             </HStack>
             </TouchableOpacity>
-          </View>
+          </View> */}
 
         </View>
         </View>
@@ -263,7 +263,7 @@ const Search = ({navigation}) => {
 
         </TouchableOpacity>
         <View style={{width:'92%',alignItems:'flex-start',height:screenHeight*0.08,justifyContent:'center'}}>
-          <Input ref={'lian'} isFocused={true} borderWidth={'0'} onChangeText={(text)=>search(text)} ml={'3'} placeholderTextColor={'#707070'} placeholder="请输入股票代码或者公司名称" height={screenHeight*0.055} backgroundColor={'#F5F5F5'} width={screenWidth*0.85} borderRadius="24"  fontSize={screenWidth*0.035} 
+          <Input isFocused={true} borderWidth={'0'} onChangeText={(text)=>search(text)} ml={'3'} placeholderTextColor={'#707070'} placeholder="请输入股票代码或者公司名称" height={screenHeight*0.055} backgroundColor={'#F5F5F5'} width={screenWidth*0.85} borderRadius="24"  fontSize={screenWidth*0.035} 
             InputLeftElement={<Icon m="2" ml="3" size={screenWidth*0.07} color="gray.400" as={<MaterialIcons name="search" />} />} InputRightElement = {<Icon m="2" ml="3"  size={screenWidth*0.06} color="gray.400" as={<MaterialIcons name="cancel" />} />}>
           </Input>
         </View>
