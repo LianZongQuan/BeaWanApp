@@ -351,35 +351,46 @@ const Login = ({navigation}) => {
       <Modal size={'lg'} style={{alignItems:'center',alignSelf:'center'}} isOpen={modalVisible} onClose={() => setModalVisible(false)} initialFocusRef={initialRef} finalFocusRef={finalRef}>
         <Modal.Content>
           <Modal.Body>
-            <View alignItems={'center'} mt={'2'}>
-              <Text style={{fontSize:screenWidth*0.035}}>请绑定手机号</Text>
+            <View alignItems={'center'} mt={'4'}>
+              <Text style={{fontSize:screenWidth*0.045}}>请绑定手机号</Text>
             </View>
-            <View  mt={'6'}>
+            <View  mt={'4'}>
               <Input  
                 style={{width:'100%'}}
                 fontSize = {screenWidth*0.03}
+                h={screenHeight*0.06}
+                backgroundColor={'gray.50'}
+                borderColor={'#efefef'}
                 onChangeText={(mobile)=>setmobile(mobile)} 
                 variant='rounded' placeholder={'手机号'}>
               </Input>
             </View>
-            <HStack width={'full'} mt={'6'} >
+            <HStack width={'full'} mt={'4'} >
               <View width={'1/2'}>
                 <Input  
                   style={{width:'100%'}}
                   fontSize = {screenWidth*0.03}
+                  h={screenHeight*0.06}
+                  borderTopRightRadius={0}
+                  borderBottomRightRadius={0}
+                  borderColor={'#efefef'}
                   onChangeText={(inputCode)=>setinputCode(inputCode)} 
+                  borderRightWidth={0}
                   variant='rounded' placeholder={'验证码'}>
                 </Input>
               </View>
-              <View width={'1/3'} marginLeft={'4'} >
-                <Button disabled={msgKey}  onPress={sendCode}>
+              <View width={'1/2'} >
+                
+                <Button disabled={msgKey} h={screenHeight*0.06} borderRightWidth={1} borderTopWidth={1} borderTopRightRadius={25}
+                  borderBottomRightRadius={25} borderBottomWidth={1} borderColor={'#efefef'} borderRadius={0}
+                   backgroundColor={'gray.50'}  onPress={sendCode}>
                   { msgText }
                 </Button>
               </View>
             </HStack>
-            <Button mt={'6'} onPress={bindMobile} colorScheme="blueGray">确认 </Button>
-            <Button mt={'6'} colorScheme="blueGray" onPress={() => {
-              setModalVisible(false)}}>取消 </Button>
+            <Button mt={'4'} onPress={bindMobile} backgroundColor={'#0371c7'} colorScheme="blueGray">确认 </Button>
+            {/* <Button mt={'6'} colorScheme="blueGray" onPress={() => {
+              setModalVisible(false)}}>取消 </Button> */}
           </Modal.Body>
         </Modal.Content>
       </Modal>
@@ -448,12 +459,12 @@ const Login = ({navigation}) => {
             </Flex>
          </Box> 
 
-            <Text style={{fontSize:screenWidth*0.03,color:'#666666',marginTop:screenHeight*0.2}}>
+            <Text style={{fontSize:screenWidth*0.03,color:'#666666',marginTop:screenHeight*0.15}}>
               ————其它登录方式————
             </Text>
             <HStack style={{ justifyContent:'center',width:'60%', marginTop:screenHeight*0.02}}>
             {/* <Spacer></Spacer> */}
-              <TouchableOpacity onPress={loginWx} style={{ borderRadius:50, backgroundColor:'#f5f5f5',alignItems:'center',justifyContent:'center',width:screenHeight*0.05,height:screenHeight*0.05}}>
+              <TouchableOpacity onPress={onPressTest} style={{ borderRadius:50, backgroundColor:'#f5f5f5',alignItems:'center',justifyContent:'center',width:screenHeight*0.05,height:screenHeight*0.05}}>
                 <Icon as={<AntDesign name="wechat" />} size={screenWidth*0.06}  color="#81B337"  />
 
               </TouchableOpacity>
